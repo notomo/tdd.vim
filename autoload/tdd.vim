@@ -1,5 +1,9 @@
 
-let s:cycle = tdd#model#cycle#new()
+function! tdd#reset() abort
+    let s:cycle = tdd#model#cycle#new()
+endfunction
+
+call tdd#reset()
 
 function! tdd#start_test(test_command_factory) abort
     let test_command = a:test_command_factory()

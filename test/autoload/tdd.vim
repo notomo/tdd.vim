@@ -16,11 +16,6 @@ function! s:test_command_factory(command) abort
     return {-> tdd#model#test_command#new(a:command)}
 endfunction
 
-
-function! s:suite.test_unknown()
-    call s:assert.equals(tdd#status(), s:STATUS.UNKNOWN)
-endfunction
-
 function! s:suite.test_error()
     let Test_command_factory = s:test_command_factory(['hoge'])
 
@@ -46,4 +41,8 @@ function! s:suite.test_success()
     call TddWait(test, s:assert)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+endfunction
+
+function! s:suite.test_unknown()
+    call s:assert.equals(tdd#status(), s:STATUS.UNKNOWN)
 endfunction
