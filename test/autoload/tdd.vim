@@ -1,5 +1,5 @@
 
-let s:suite = themis#suite('tdd')
+let s:suite = themis#suite('autoload.tdd')
 let s:assert = themis#helper('assert')
 
 function! s:suite.before_each()

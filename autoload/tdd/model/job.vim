@@ -34,6 +34,7 @@ function! tdd#model#job#new(test_command) abort
     function! job.start() abort
         let options = {
             \ 'on_exit': function('s:handle_exit'),
+            \ 'on_stdout': function('s:handle_stdout'),
             \ 'job': self,
         \ }
         let self.status = s:STATUS.RUNNING
@@ -52,6 +53,9 @@ function! tdd#model#job#new(test_command) abort
     endfunction
 
     return job
+endfunction
+
+function! s:handle_stdout(job_id, data, event) abort dict
 endfunction
 
 function! s:handle_exit(job_id, exit_code, event) abort dict
