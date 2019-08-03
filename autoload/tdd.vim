@@ -25,6 +25,6 @@ function! tdd#status() abort
     return s:cycle.status()
 endfunction
 
-function! tdd#all_cycle_status() abort
+function! tdd#all_status() abort
     return s:cycle.STATUS
 endfunction

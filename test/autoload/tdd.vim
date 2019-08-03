@@ -10,7 +10,7 @@ function! s:suite.after_each()
     call TddTestAfterEach()
 endfunction
 
-let s:STATUS = tdd#all_cycle_status()
+let s:STATUS = tdd#all_status()
 
 function! s:test_command_factory(command) abort
     return {-> tdd#model#test_command#new(a:command)}

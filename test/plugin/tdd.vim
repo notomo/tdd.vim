@@ -9,7 +9,7 @@ function! s:suite.after_each()
     call TddTestAfterEach()
 endfunction
 
-let s:STATUS = tdd#all_cycle_status()
+let s:STATUS = tdd#all_status()
 
 function! s:suite.test_green()
     edit ./test/plugin/_test_data/green.vim
