@@ -9,6 +9,37 @@ function! TddTestAfterEach() abort
     silent! %bwipeout!
 endfunction
 
+function! TddTestMock() abort
+    let mock = {'__mock': {}}
+
+    function! mock.add_fn(key) abort
+        let mock_fn = s:mock_fn(a:key)
+        let self['__mock'][a:key] = mock_fn
+        let self[a:key] = {... -> self['__mock'][a:key].call(a:000)}
+        return mock_fn
+    endfunction
+
+    function! mock.called(key) abort
+        return has_key(self['__mock'], a:key) && self['__mock'][a:key].called()
+    endfunction
+
+    return mock
+endfunction
+
+function! s:mock_fn(key) abort
+    let fn = {}
+
+    function! fn.call(args) abort
+        let self.args = a:args
+    endfunction
+
+    function! fn.called() abort
+        return has_key(self, 'args')
+    endfunction
+
+    return fn
+endfunction
+
 function! TddWait(test, assert, ...) abort
     if empty(a:000)
         let timeout_msec = 150
@@ -16,12 +47,11 @@ function! TddWait(test, assert, ...) abort
         let timeout_msec = a:000[0]
     endif
 
-    for _ in range(timeout_msec - 1)
-        if a:test.has_done()
-            return
-        endif
-        sleep 1 m
-    endfor
+    let result = jobwait([a:test.job.internal_job_id], timeout_msec)
+    if result[0] != -1
+        call tdd#event#emitter().finish_job(a:test.job.id)
+        return
+    endif
 
     let message = printf('has not done in %d ms.', timeout_msec)
     call a:assert.fail(message)
