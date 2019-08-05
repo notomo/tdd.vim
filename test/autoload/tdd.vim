@@ -52,6 +52,7 @@ function! s:suite.test_fail()
     call TddWait(test, s:assert)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
+    call s:assert.true(presenter.status.called('echo'))
 endfunction
 
 function! s:suite.test_success()
@@ -64,6 +65,7 @@ function! s:suite.test_success()
     call TddWait(test, s:assert)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.true(presenter.status.called('echo'))
 endfunction
 
 function! s:suite.test_unknown()
