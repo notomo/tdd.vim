@@ -49,7 +49,6 @@ function! TddWait(test, assert, ...) abort
 
     let result = jobwait([a:test.job.internal_job_id], timeout_msec)
     if result[0] != -1
-        call tdd#event#emitter().finish_job(a:test.job.id)
         return
     endif
 

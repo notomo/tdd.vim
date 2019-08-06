@@ -23,19 +23,12 @@ function! s:test_presenter() abort
     return presenter
 endfunction
 
-function! s:test_emitter() abort
-    let emitter = TddTestMock()
-    call emitter.add_fn('finish_job')
-    return emitter
-endfunction
-
 function! s:suite.test_error()
     let Test_command_factory = s:test_command_factory(['hoge'])
 
-    let emitter = s:test_emitter()
     let presenter = s:test_presenter()
 
-    let test = tdd#start_test(Test_command_factory, emitter, presenter)
+    let test = tdd#start_test(Test_command_factory, presenter)
     call TddWait(test, s:assert)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -45,10 +38,9 @@ endfunction
 function! s:suite.test_fail()
     let Test_command_factory = s:test_command_factory(['test', '-e', 'hoge'])
 
-    let emitter = s:test_emitter()
     let presenter = s:test_presenter()
 
-    let test = tdd#start_test(Test_command_factory, emitter, presenter)
+    let test = tdd#start_test(Test_command_factory, presenter)
     call TddWait(test, s:assert)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -58,10 +50,9 @@ endfunction
 function! s:suite.test_success()
     let Test_command_factory = s:test_command_factory(['echo'])
 
-    let emitter = s:test_emitter()
     let presenter = s:test_presenter()
 
-    let test = tdd#start_test(Test_command_factory, emitter, presenter)
+    let test = tdd#start_test(Test_command_factory, presenter)
     call TddWait(test, s:assert)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

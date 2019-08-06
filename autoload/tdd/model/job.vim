@@ -18,7 +18,6 @@ let s:STAGE = {
 \ }
 
 let s:id = 0
-let s:jobs = {}
 
 function! tdd#model#job#new(test_command, presenter) abort
     let s:id += 1
@@ -30,34 +29,34 @@ function! tdd#model#job#new(test_command, presenter) abort
        \ 'presenter': a:presenter,
        \ 'STATUS': s:STATUS,
        \ 'STAGE': s:STAGE,
-       \ 'exit_code': v:null,
     \ }
 
-    function! job.change_status() abort
-        if !has_key(s:STATUS_MAPPER, self.exit_code)
+    function! job.change_status(exit_code) abort
+        if !has_key(s:STATUS_MAPPER, a:exit_code)
             let self.status = s:STATUS.ERROR
             return
         endif
-        let self.status = s:STATUS_MAPPER[self.exit_code]
+        let self.status = s:STATUS_MAPPER[a:exit_code]
     endfunction
 
-    function! job.start(event_emitter) abort
+    function! job.on_finished(exit_code) abort
+        call self.change_status(a:exit_code)
+        let self.stage = s:STAGE.FINISHED
+        call self.presenter.echo_status(self.status)
+    endfunction
+
+    function! job.start() abort
         let options = {
             \ 'on_exit': function('s:handle_exit'),
             \ 'on_stdout': function('s:handle_stdout'),
-            \ 'event_emitter': a:event_emitter,
             \ 'job': self,
         \ }
 
-        augroup tdd
-            execute 'autocmd User TDDJobFinished:' . self.id '++once call s:on_finished(expand("<amatch>"))'
-        augroup END
-
         let self.stage = s:STAGE.RUNNING
-        let s:jobs[self.id] = self
         let self.internal_job_id = jobstart(self.command, options)
         if self.internal_job_id <= 0
             let self.status = s:STATUS.ERROR
+            call self.on_finished(v:null)
         endif
     endfunction
 
@@ -68,22 +67,9 @@ function! tdd#model#job#new(test_command, presenter) abort
     return job
 endfunction
 
-function! s:on_finished(match) abort
-    let id = split(a:match, ':')[1]
-    let job = s:jobs[id]
-
-    call job.change_status()
-    let job.stage = s:STAGE.FINISHED
-
-    call job.presenter.echo_status(job.status)
-
-    call remove(s:jobs, id)
-endfunction
-
 function! s:handle_stdout(job_id, data, event) abort dict
 endfunction
 
 function! s:handle_exit(job_id, exit_code, event) abort dict
-    let self.job.exit_code = a:exit_code
-    call self.event_emitter.finish_job(self.job.id)
+    call self.job.on_finished(a:exit_code)
 endfunction

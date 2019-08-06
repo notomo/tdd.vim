@@ -9,8 +9,8 @@ function! tdd#model#test#new(test_command, presenter) abort
        \ 'job': tdd#model#job#new(a:test_command, a:presenter),
     \ }
 
-    function! test.start(event_emitter) abort
-        call self.job.start(a:event_emitter)
+    function! test.start() abort
+        call self.job.start()
     endfunction
 
     function! test.has_successed() abort
