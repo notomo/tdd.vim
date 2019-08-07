@@ -25,7 +25,7 @@ function! tdd#model#job#new(test_command, presenter) abort
        \ 'id': s:id,
        \ 'status': s:STATUS.UNKNOWN,
        \ 'stage': s:STAGE.WAITING,
-       \ 'command': a:test_command.command,
+       \ 'test_command': a:test_command,
        \ 'presenter': a:presenter,
        \ 'STATUS': s:STATUS,
        \ 'STAGE': s:STAGE,
@@ -49,11 +49,12 @@ function! tdd#model#job#new(test_command, presenter) abort
         let options = {
             \ 'on_exit': function('s:handle_exit'),
             \ 'on_stdout': function('s:handle_stdout'),
+            \ 'cwd': self.test_command.cd,
             \ 'job': self,
         \ }
 
         let self.stage = s:STAGE.RUNNING
-        let self.internal_job_id = jobstart(self.command, options)
+        let self.internal_job_id = jobstart(self.test_command.command, options)
         if self.internal_job_id <= 0
             let self.status = s:STATUS.ERROR
             call self.on_finished(v:null)

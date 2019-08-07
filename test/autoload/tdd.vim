@@ -12,8 +12,8 @@ endfunction
 
 let s:STATUS = tdd#all_status()
 
-function! s:test_command_factory(command) abort
-    return {-> tdd#model#test_command#new(a:command)}
+function! s:test_command_factory(command, cd) abort
+    return {-> tdd#model#test_command#new(a:command, a:cd)}
 endfunction
 
 function! s:test_presenter() abort
@@ -24,7 +24,7 @@ function! s:test_presenter() abort
 endfunction
 
 function! s:suite.test_error()
-    let Test_command_factory = s:test_command_factory(['hoge'])
+    let Test_command_factory = s:test_command_factory(['hoge'], '.')
 
     let presenter = s:test_presenter()
 
@@ -36,7 +36,7 @@ function! s:suite.test_error()
 endfunction
 
 function! s:suite.test_fail()
-    let Test_command_factory = s:test_command_factory(['test', '-e', 'hoge'])
+    let Test_command_factory = s:test_command_factory(['test', '-e', 'hoge'], '.')
 
     let presenter = s:test_presenter()
 
@@ -48,7 +48,19 @@ function! s:suite.test_fail()
 endfunction
 
 function! s:suite.test_success()
-    let Test_command_factory = s:test_command_factory(['echo'])
+    let Test_command_factory = s:test_command_factory(['echo'], '.')
+
+    let presenter = s:test_presenter()
+
+    let test = tdd#start_test(Test_command_factory, presenter)
+    call test.wait()
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.true(presenter.status.called('echo'))
+endfunction
+
+function! s:suite.test_cd()
+    let Test_command_factory = s:test_command_factory(['test', '-e', '.themisrc'], './test')
 
     let presenter = s:test_presenter()
 
