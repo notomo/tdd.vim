@@ -15,7 +15,7 @@ function! s:suite.test_green()
     edit ./test/plugin/_test_data/green.vim
 
     let test = tdd#default_start_test()
-    call TddWait(test, s:assert, 300)
+    call test.wait(300)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
@@ -24,7 +24,7 @@ function! s:suite.test_red()
     edit ./test/plugin/_test_data/red.vim
 
     let test = tdd#default_start_test()
-    call TddWait(test, s:assert, 300)
+    call test.wait(300)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
 endfunction

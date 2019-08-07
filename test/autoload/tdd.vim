@@ -29,7 +29,7 @@ function! s:suite.test_error()
     let presenter = s:test_presenter()
 
     let test = tdd#start_test(Test_command_factory, presenter)
-    call TddWait(test, s:assert)
+    call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
     call s:assert.true(presenter.status.called('echo'))
@@ -41,7 +41,7 @@ function! s:suite.test_fail()
     let presenter = s:test_presenter()
 
     let test = tdd#start_test(Test_command_factory, presenter)
-    call TddWait(test, s:assert)
+    call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
     call s:assert.true(presenter.status.called('echo'))
@@ -53,7 +53,7 @@ function! s:suite.test_success()
     let presenter = s:test_presenter()
 
     let test = tdd#start_test(Test_command_factory, presenter)
-    call TddWait(test, s:assert)
+    call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
     call s:assert.true(presenter.status.called('echo'))

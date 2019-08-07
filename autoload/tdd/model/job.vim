@@ -60,6 +60,15 @@ function! tdd#model#job#new(test_command, presenter) abort
         endif
     endfunction
 
+    function! job.wait(timeout_msec) abort
+        let result = jobwait([self.internal_job_id], a:timeout_msec)
+        if result[0] != -1
+            return v:true
+        endif
+
+        throw printf('has not done in %d ms.', a:timeout_msec)
+    endfunction
+
     function! job.has_successed() abort
         return self.status == s:STATUS.SUCCESSED
     endfunction

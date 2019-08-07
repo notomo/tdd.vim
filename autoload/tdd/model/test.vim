@@ -13,6 +13,16 @@ function! tdd#model#test#new(test_command, presenter) abort
         call self.job.start()
     endfunction
 
+    function! test.wait(...) abort
+        if empty(a:000)
+            let timeout_msec = 150
+        else
+            let timeout_msec = a:000[0]
+        endif
+
+        return self.job.wait(timeout_msec)
+    endfunction
+
     function! test.has_successed() abort
         return self.job.has_successed()
     endfunction
