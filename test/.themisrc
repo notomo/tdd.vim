@@ -3,6 +3,7 @@ call themis#option('recursive', 1)
 
 function! TddTestBeforeEach() abort
     call tdd#reset()
+    call tdd#config#clear()
 endfunction
 
 function! TddTestAfterEach() abort

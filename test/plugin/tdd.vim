@@ -28,3 +28,14 @@ function! s:suite.test_red()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
 endfunction
+
+function! s:suite.test_make()
+    call tdd#config#command('_', 'make', '_test')
+
+    cd ./test/plugin/_test_data
+
+    let test = tdd#default_start_test()
+    call test.wait(500)
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+endfunction

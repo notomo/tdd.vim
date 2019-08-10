@@ -6,13 +6,8 @@ endfunction
 call tdd#reset()
 
 function! tdd#default_start_test() abort
-    let executable = 'themis'
-    let file_path = expand('%:p')
-    let Test_command_factory = {-> tdd#model#test_command#new([executable, file_path], '.')}
-
     let presenter = tdd#presenter#new_default()
-
-    return tdd#start_test(Test_command_factory, presenter)
+    return tdd#start_test(function('tdd#command#factory'), presenter)
 endfunction
 
 function! tdd#start_test(test_command_factory, presenter) abort
