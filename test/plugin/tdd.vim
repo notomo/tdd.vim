@@ -81,3 +81,12 @@ function! s:suite.npm()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
+
+function! s:suite.go()
+    edit ./test/plugin/_test_data/go/main_test.go
+
+    let test = tdd#default_start_test()
+    call test.wait(1500)
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+endfunction

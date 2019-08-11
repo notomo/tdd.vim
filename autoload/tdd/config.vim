@@ -13,11 +13,16 @@ function! tdd#config#clear() abort
             \ 'executable': 'npm',
             \ 'args': ['run', 'test'],
         \ },
+        \ 'go': {
+            \ 'executable': 'go',
+            \ 'args': ['test', '-v'],
+        \ },
     \ }
     let s:filetype_commands = {
         \ 'vim': ['themis'],
         \ 'javascript': ['npm'],
         \ 'typescript': ['npm'],
+        \ 'go': ['go'],
         \ '_': ['make'],
     \ }
 endfunction

@@ -19,8 +19,7 @@ endfunction
 function! s:presenter() abort
     let status_presenter = TddTestMock()
     call status_presenter.add_fn('echo')
-    let presenter = tdd#presenter#new(status_presenter)
-    return presenter
+    return tdd#presenter#new(status_presenter)
 endfunction
 
 function! s:suite.test_error()

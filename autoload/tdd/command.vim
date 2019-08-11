@@ -3,6 +3,7 @@ let s:funcs = {
     \ 'themis': {config -> s:themis(config)},
     \ 'make': {config -> s:make(config)},
     \ 'npm': {config -> s:npm(config)},
+    \ 'go': {config -> s:go(config)},
 \ }
 
 function! tdd#command#factory() abort
@@ -60,6 +61,13 @@ function! s:npm(config) abort
     endif
 
     let cd = fnamemodify(package_json_path, ':h')
+    return tdd#model#test_command#new([executable] + args, cd)
+endfunction
+
+function! s:go(config) abort
+    let executable = a:config.executable
+    let args = a:config.args
+    let cd = fnamemodify(expand('%:p'), ':h')
     return tdd#model#test_command#new([executable] + args, cd)
 endfunction
 
