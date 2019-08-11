@@ -35,5 +35,24 @@ function! s:make(options) abort
         let args = ['test']
     endif
 
-    return tdd#model#test_command#new([executable] + args, '.')
+    let makefile_path = notomo#vimrc#search_parent_recursive('Makefile', './')
+    if empty(makefile_path)
+        throw 'not found Makefile'
+    endif
+
+    let cd = fnamemodify(makefile_path, ':h')
+    return tdd#model#test_command#new([executable] + args, cd)
+endfunction
+
+function! s:search_parent_recursive(file_name_pattern, start_path) abort
+    let path = fnamemodify(a:start_path, ':p')
+    while path !=? '//'
+        let files = glob(path . a:file_name_pattern, v:false, v:true)
+        if !empty(files)
+            let file = files[0]
+            return isdirectory(file) ? file . '/' : file
+        endif
+        let path = fnamemodify(path, ':h:h') . '/'
+    endwhile
+    return ''
 endfunction

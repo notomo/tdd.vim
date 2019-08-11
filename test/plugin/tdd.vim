@@ -52,3 +52,14 @@ function! s:suite.test_make_args()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
+
+function! s:suite.test_parent_makefile()
+    call tdd#config#command('_', 'make')
+
+    cd ./test/plugin/_test_data/sub
+
+    let test = tdd#default_start_test()
+    call test.wait(500)
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+endfunction
