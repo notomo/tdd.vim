@@ -1,7 +1,10 @@
 
 call themis#option('recursive', 1)
 
+let s:root = getcwd()
+
 function! TddTestBeforeEach() abort
+    execute 'cd' s:root
     call tdd#reset()
     call tdd#config#clear()
 endfunction

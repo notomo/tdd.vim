@@ -30,10 +30,10 @@ endfunction
 
 function! s:make(options) abort
     let executable = 'make'
-    let target = 'test'
-    if !empty(a:options)
-        let target = a:options[0]
+    let args = a:options
+    if empty(args)
+        let args = ['test']
     endif
 
-    return tdd#model#test_command#new([executable, target], '.')
+    return tdd#model#test_command#new([executable] + args, '.')
 endfunction
