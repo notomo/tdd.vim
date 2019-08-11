@@ -52,7 +52,7 @@ function! s:suite.make_args()
 endfunction
 
 function! s:suite.parent_makefile()
-    cd ./test/plugin/_test_data/sub
+    cd ./test/plugin/_test_data/empty
 
     let test = tdd#default_start_test()
     call test.wait(500)
