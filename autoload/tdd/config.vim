@@ -7,7 +7,6 @@ function! tdd#config#clear() abort
             \ 'options': [],
         \ }
     \ }
-    let s:commands['_'] = s:commands['vim']
 endfunction
 
 call tdd#config#clear()

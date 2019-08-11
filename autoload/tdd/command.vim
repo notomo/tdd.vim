@@ -16,7 +16,7 @@ function! tdd#command#factory() abort
     endif
 
     if empty(config) || !has_key(s:commands, config.name)
-        return {}
+        throw printf('not found command: filetype=%s', fileytype)
     endif
 
     return s:commands[config.name](config.options)

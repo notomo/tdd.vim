@@ -3,10 +3,12 @@ let s:assert = themis#helper('assert')
 
 function! s:suite.before_each()
     call TddTestBeforeEach()
+    filetype on
 endfunction
 
 function! s:suite.after_each()
     call TddTestAfterEach()
+    filetype off
 endfunction
 
 let s:STATUS = tdd#all_status()
