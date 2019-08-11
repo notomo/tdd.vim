@@ -1,46 +1,65 @@
 
-let s:commands = {
-    \ 'themis': {options -> s:themis(options)},
-    \ 'make': {options -> s:make(options)},
+let s:funcs = {
+    \ 'themis': {config -> s:themis(config)},
+    \ 'make': {config -> s:make(config)},
+    \ 'npm': {config -> s:npm(config)},
 \ }
 
 function! tdd#command#factory() abort
+    let filetype_commands = tdd#config#get_filetype_commands()
     let configs = tdd#config#get_commands()
 
-    let config = {}
-    let fileytype = &filetype
-    if has_key(configs, fileytype)
-        let config = configs[fileytype]
-    elseif has_key(configs, '_')
-        let config = configs['_']
+    let filetype = &filetype
+    if has_key(filetype_commands, filetype)
+        let names = filetype_commands[filetype]
+    else
+        let names = filetype_commands['_']
     endif
 
-    if empty(config) || !has_key(s:commands, config.name)
-        throw printf('not found command: filetype=%s', fileytype)
-    endif
+    for name in names
+        if !has_key(s:funcs, name)
+            throw printf('not found command: %s', name)
+        endif
+        let config = configs[name]
+        let result = s:funcs[name](config)
+        if !empty(result)
+            return result
+        endif
+    endfor
 
-    return s:commands[config.name](config.options)
+    throw printf('not found available command: filetype=%s', filetype)
 endfunction
 
-function! s:themis(options) abort
-    let executable = 'themis'
+function! s:themis(config) abort
+    let executable = a:config.executable
+    let args = a:config.args
     let file_path = expand('%:p')
-    return tdd#model#test_command#new([executable, file_path], '.')
+    return tdd#model#test_command#new([executable, file_path] + args, '.')
 endfunction
 
-function! s:make(options) abort
-    let executable = 'make'
-    let args = a:options
-    if empty(args)
-        let args = ['test']
-    endif
+function! s:make(config) abort
+    let executable = a:config.executable
+    let args = a:config.args
 
     let makefile_path = notomo#vimrc#search_parent_recursive('Makefile', './')
     if empty(makefile_path)
-        throw 'not found Makefile'
+        return v:null
     endif
 
     let cd = fnamemodify(makefile_path, ':h')
+    return tdd#model#test_command#new([executable] + args, cd)
+endfunction
+
+function! s:npm(config) abort
+    let executable = a:config.executable
+    let args = a:config.args
+
+    let package_json_path = notomo#vimrc#search_parent_recursive('package.json', './')
+    if empty(package_json_path)
+        return v:null
+    endif
+
+    let cd = fnamemodify(package_json_path, ':h')
     return tdd#model#test_command#new([executable] + args, cd)
 endfunction
 
