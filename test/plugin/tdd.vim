@@ -67,3 +67,16 @@ function! s:suite.command_args()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
+
+function! s:suite.open_command()
+    call tdd#config#option('open', 'vsplit')
+
+    cd ./test/plugin/_test_data
+
+    let test = tdd#default_start_test()
+    call test.wait()
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.equals(tabpagenr('$'), 1)
+    call s:assert.equals(tabpagewinnr(tabpagenr(), '$'), 2)
+endfunction

@@ -30,7 +30,8 @@ function! tdd#config#clear() abort
         \ '_': ['make'],
     \ }
     let s:options = {
-        \ 'buffer': 'terminal'
+        \ 'buffer': 'terminal',
+        \ 'open': 'tabedit',
     \ }
 endfunction
 

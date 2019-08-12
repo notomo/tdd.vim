@@ -1,11 +1,11 @@
 
-function! tdd#presenter#new_default(buffer_type) abort
+function! tdd#presenter#new_default(buffer_type, open_command) abort
     let status_presenter = {}
     function! status_presenter.echo(status) abort
         echomsg a:status
     endfunction
 
-    let buffer_presenter = tdd#presenter#buffer(a:buffer_type)
+    let buffer_presenter = tdd#presenter#buffer(a:buffer_type, a:open_command)
 
     return tdd#presenter#new(status_presenter, buffer_presenter)
 endfunction
@@ -27,14 +27,15 @@ function! tdd#presenter#new(status_presenter, buffer_presenter) abort
     return presenter
 endfunction
 
-function! tdd#presenter#buffer(buffer_type) abort
+function! tdd#presenter#buffer(buffer_type, open_command) abort
     let buffer_presenter = {
         \ 'type': a:buffer_type,
+        \ 'open_command': a:open_command,
     \ }
 
     function! buffer_presenter.show(cmd, options) abort
         if self.type ==# 'terminal'
-            tabedit
+            execute self.open_command
             return termopen(a:cmd, a:options)
         endif
         return jobstart(a:cmd, a:options)

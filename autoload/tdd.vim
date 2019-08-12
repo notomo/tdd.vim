@@ -8,7 +8,8 @@ call tdd#reset()
 function! tdd#default_start_test(...) abort
     let options = tdd#config#get_options()
     let buffer_type = options['buffer']
-    let presenter = tdd#presenter#new_default(buffer_type)
+    let open = options['open']
+    let presenter = tdd#presenter#new_default(buffer_type, open)
 
     let names = a:000
     let Test_command_factory = { -> tdd#command#factory(names)}
