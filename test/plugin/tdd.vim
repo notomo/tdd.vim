@@ -44,7 +44,7 @@ function! s:suite.commands()
 endfunction
 
 function! s:suite.command_alias()
-    call tdd#config#command_alias('make', 'make_lint')
+    call tdd#config#command_alias('make_lint', 'make')
     call tdd#config#command('make_lint', ['lint'])
     call tdd#config#filetype_commands('_', ['make_lint'])
 
@@ -57,7 +57,7 @@ function! s:suite.command_alias()
 endfunction
 
 function! s:suite.command_args()
-    call tdd#config#command_alias('make', 'make_lint')
+    call tdd#config#command_alias('make_lint', 'make')
     call tdd#config#command('make_lint', ['lint'])
 
     cd ./test/plugin/_test_data

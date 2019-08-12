@@ -50,7 +50,7 @@ function! tdd#config#command(name, args) abort
     let s:commands[a:name]['args'] = a:args
 endfunction
 
-function! tdd#config#command_alias(base_name, name) abort
+function! tdd#config#command_alias(name, base_name) abort
     if !has_key(s:commands, a:base_name)
         throw printf('not found command: %s', a:base_name)
     endif
