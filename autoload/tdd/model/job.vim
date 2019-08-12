@@ -54,7 +54,7 @@ function! tdd#model#job#new(test_command, presenter) abort
         \ }
 
         let self.stage = s:STAGE.RUNNING
-        let self.internal_job_id = jobstart(self.test_command.command, options)
+        let self.internal_job_id = self.presenter.show_buffer(self.test_command.command, options)
         if self.internal_job_id <= 0
             let self.status = s:STATUS.ERROR
             call self.on_finished(v:null)

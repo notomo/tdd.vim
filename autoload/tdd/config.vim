@@ -25,6 +25,9 @@ function! tdd#config#clear() abort
         \ 'go': ['go'],
         \ '_': ['make'],
     \ }
+    let s:options = {
+        \ 'buffer': 'terminal'
+    \ }
 endfunction
 
 call tdd#config#clear()
@@ -43,10 +46,18 @@ function! tdd#config#command(name, args) abort
     let s:commands[a:name]['args'] = a:args
 endfunction
 
+function! tdd#config#option(name, value) abort
+    let s:options[a:name] = a:value
+endfunction
+
 function! tdd#config#get_filetype_commands() abort
     return s:filetype_commands
 endfunction
 
 function! tdd#config#get_commands() abort
     return s:commands
+endfunction
+
+function! tdd#config#get_options() abort
+    return s:options
 endfunction

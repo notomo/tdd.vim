@@ -17,6 +17,7 @@ function! s:suite.test_green()
     edit ./test/plugin/_test_data/green.vim
 
     let test = tdd#default_start_test()
+    call s:assert.equals(&buftype, 'terminal')
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
