@@ -6,12 +6,13 @@ endfunction
 call tdd#reset()
 
 function! tdd#default_test(...) abort
-    let options = tdd#config#get_options()
+    let [names, options] = s:parse_args(a:000)
+    call extend(options, tdd#config#get_options(), 'keep')
+
     let buffer_type = options['buffer']
     let open = options['open']
     let presenter = tdd#presenter#new_default(buffer_type, open)
 
-    let names = a:000
     let Test_command_factory = { -> tdd#command#factory(names)}
 
     return tdd#test(Test_command_factory, presenter)
@@ -33,4 +34,23 @@ endfunction
 
 function! tdd#all_status() abort
     return s:cycle.STATUS
+endfunction
+
+function! s:parse_args(args) abort
+    let names = []
+    let options = {}
+    for arg in a:args
+        if arg[0] !=# '-'
+            call add(names, arg)
+            continue
+        endif
+
+        let key_value = split(arg[1:], '=', v:true)
+        if len(key_value) == 2
+            let [key, value] = key_value
+            let options[key] = value
+        endif
+    endfor
+
+    return [names, options]
 endfunction

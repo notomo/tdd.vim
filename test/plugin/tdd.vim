@@ -80,3 +80,15 @@ function! s:suite.open_command()
     call s:assert.equals(tabpagenr('$'), 1)
     call s:assert.equals(tabpagewinnr(tabpagenr(), '$'), 2)
 endfunction
+
+function! s:suite.open_command_override()
+    call tdd#config#option('open', 'vsplit')
+
+    cd ./test/plugin/_test_data
+
+    let test = tdd#default_test('-open=tabedit')
+    call test.wait()
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.equals(tabpagenr('$'), 2)
+endfunction
