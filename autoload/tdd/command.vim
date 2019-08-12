@@ -6,12 +6,14 @@ let s:funcs = {
     \ 'go': {config -> s:go(config)},
 \ }
 
-function! tdd#command#factory() abort
+function! tdd#command#factory(names) abort
     let filetype_commands = tdd#config#get_filetype_commands()
     let configs = tdd#config#get_commands()
 
     let filetype = &filetype
-    if has_key(filetype_commands, filetype)
+    if !empty(a:names)
+        let names = a:names
+    elseif has_key(filetype_commands, filetype)
         let names = filetype_commands[filetype]
     else
         let names = filetype_commands['_']

@@ -5,11 +5,15 @@ endfunction
 
 call tdd#reset()
 
-function! tdd#default_start_test() abort
+function! tdd#default_start_test(...) abort
     let options = tdd#config#get_options()
     let buffer_type = options['buffer']
     let presenter = tdd#presenter#new_default(buffer_type)
-    return tdd#start_test(function('tdd#command#factory'), presenter)
+
+    let names = a:000
+    let Test_command_factory = { -> tdd#command#factory(names)}
+
+    return tdd#start_test(Test_command_factory, presenter)
 endfunction
 
 function! tdd#start_test(test_command_factory, presenter) abort

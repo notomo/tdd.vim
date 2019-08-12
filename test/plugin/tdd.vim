@@ -55,3 +55,15 @@ function! s:suite.command_alias()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
+
+function! s:suite.command_args()
+    call tdd#config#command_alias('make', 'make_lint')
+    call tdd#config#command('make_lint', ['lint'])
+
+    cd ./test/plugin/_test_data
+
+    let test = tdd#default_start_test('make_lint')
+    call test.wait()
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+endfunction
