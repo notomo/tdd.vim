@@ -2,18 +2,22 @@
 function! tdd#config#clear() abort
     let s:commands = {
         \ 'themis': {
+            \ 'name': 'themis',
             \ 'executable': 'themis',
             \ 'args': [],
         \ },
         \ 'make': {
+            \ 'name': 'make',
             \ 'executable': 'make',
             \ 'args': ['test'],
         \ },
         \ 'npm': {
+            \ 'name': 'npm',
             \ 'executable': 'npm',
             \ 'args': ['run', 'test'],
         \ },
         \ 'go': {
+            \ 'name': 'go',
             \ 'executable': 'go',
             \ 'args': ['test', '-v'],
         \ },
@@ -44,6 +48,13 @@ function! tdd#config#command(name, args) abort
         throw printf('args must be a list, but actual: %s', a:args)
     endif
     let s:commands[a:name]['args'] = a:args
+endfunction
+
+function! tdd#config#command_alias(base_name, name) abort
+    if !has_key(s:commands, a:base_name)
+        throw printf('not found command: %s', a:base_name)
+    endif
+    let s:commands[a:name] = copy(s:commands[a:base_name])
 endfunction
 
 function! tdd#config#option(name, value) abort

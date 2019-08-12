@@ -18,11 +18,11 @@ function! tdd#command#factory() abort
     endif
 
     for name in names
-        if !has_key(s:funcs, name)
+        let config = configs[name]
+        if !has_key(s:funcs, config.name)
             throw printf('not found command: %s', name)
         endif
-        let config = configs[name]
-        let result = s:funcs[name](config)
+        let result = s:funcs[config.name](config)
         if !empty(result)
             return result
         endif
