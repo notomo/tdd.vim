@@ -24,9 +24,9 @@ function! tdd#command#factory(names) abort
         if !has_key(s:funcs, config.name)
             throw printf('not found command: %s', name)
         endif
-        let result = s:funcs[config.name](config)
-        if !empty(result)
-            return result
+        let command = s:funcs[config.name](config)
+        if !empty(command)
+            return command
         endif
     endfor
 

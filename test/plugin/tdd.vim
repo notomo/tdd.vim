@@ -16,7 +16,7 @@ let s:STATUS = tdd#all_status()
 function! s:suite.test_green()
     edit ./test/plugin/_test_data/green.vim
 
-    let test = tdd#default_start_test()
+    let test = tdd#default_test()
     call s:assert.equals(&buftype, 'terminal')
     call test.wait(500)
 
@@ -26,7 +26,7 @@ endfunction
 function! s:suite.test_red()
     edit ./test/plugin/_test_data/red.vim
 
-    let test = tdd#default_start_test()
+    let test = tdd#default_test()
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -37,7 +37,7 @@ function! s:suite.commands()
 
     cd ./test/plugin/_test_data
 
-    let test = tdd#default_start_test()
+    let test = tdd#default_test()
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -50,7 +50,7 @@ function! s:suite.command_alias()
 
     cd ./test/plugin/_test_data
 
-    let test = tdd#default_start_test()
+    let test = tdd#default_test()
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -62,7 +62,7 @@ function! s:suite.command_args()
 
     cd ./test/plugin/_test_data
 
-    let test = tdd#default_start_test('make_lint')
+    let test = tdd#default_test('make_lint')
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -73,7 +73,7 @@ function! s:suite.open_command()
 
     cd ./test/plugin/_test_data
 
-    let test = tdd#default_start_test()
+    let test = tdd#default_test()
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

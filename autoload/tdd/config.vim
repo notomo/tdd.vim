@@ -22,6 +22,7 @@ function! tdd#config#clear() abort
             \ 'args': ['test', '-v'],
         \ },
     \ }
+
     let s:filetype_commands = {
         \ 'vim': ['themis'],
         \ 'javascript': ['npm'],
@@ -29,6 +30,7 @@ function! tdd#config#clear() abort
         \ 'go': ['go'],
         \ '_': ['make'],
     \ }
+
     let s:options = {
         \ 'buffer': 'terminal',
         \ 'open': 'tabedit',
@@ -48,6 +50,7 @@ function! tdd#config#command(name, args) abort
     if type(a:args) != v:t_list
         throw printf('args must be a list, but actual: %s', a:args)
     endif
+
     let s:commands[a:name]['args'] = a:args
 endfunction
 
@@ -55,6 +58,7 @@ function! tdd#config#command_alias(name, base_name) abort
     if !has_key(s:commands, a:base_name)
         throw printf('not found command: %s', a:base_name)
     endif
+
     let s:commands[a:name] = copy(s:commands[a:base_name])
 endfunction
 

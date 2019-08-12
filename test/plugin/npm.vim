@@ -18,7 +18,7 @@ function! s:suite.npm()
 
     cd ./test/plugin/_test_data/npm
 
-    let test = tdd#default_start_test()
+    let test = tdd#default_test()
     call test.wait(1000)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

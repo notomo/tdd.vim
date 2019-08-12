@@ -16,7 +16,7 @@ let s:STATUS = tdd#all_status()
 function! s:suite.go()
     edit ./test/plugin/_test_data/go/main_test.go
 
-    let test = tdd#default_start_test()
+    let test = tdd#default_test()
     call test.wait(1500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
