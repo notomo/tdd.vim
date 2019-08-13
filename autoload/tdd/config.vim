@@ -34,6 +34,7 @@ function! tdd#config#clear() abort
     let s:options = {
         \ 'buffer': 'terminal',
         \ 'open': 'tabedit',
+        \ 'target': 'project',
     \ }
 endfunction
 

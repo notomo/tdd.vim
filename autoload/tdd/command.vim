@@ -1,12 +1,12 @@
 
 let s:funcs = {
-    \ 'themis': {config -> s:themis(config)},
-    \ 'make': {config -> s:make(config)},
-    \ 'npm': {config -> s:npm(config)},
-    \ 'go': {config -> s:go(config)},
+    \ 'themis': {target, config -> s:themis(target, config)},
+    \ 'make': {target, config -> s:make(target, config)},
+    \ 'npm': {target, config -> s:npm(target, config)},
+    \ 'go': {target, config -> s:go(target, config)},
 \ }
 
-function! tdd#command#factory(names) abort
+function! tdd#command#factory(target, names) abort
     let filetype_commands = tdd#config#get_filetype_commands()
     let configs = tdd#config#get_commands()
 
@@ -24,7 +24,7 @@ function! tdd#command#factory(names) abort
         if !has_key(s:funcs, config.name)
             throw printf('not found command: %s', name)
         endif
-        let command = s:funcs[config.name](config)
+        let command = s:funcs[config.name](a:target, config)
         if !empty(command)
             return command
         endif
@@ -33,14 +33,24 @@ function! tdd#command#factory(names) abort
     throw printf('not found available command: filetype=%s', filetype)
 endfunction
 
-function! s:themis(config) abort
+function! s:themis(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
-    let file_path = expand('%:p')
-    return tdd#model#test_command#new([executable, file_path] + args, '.')
+
+    let themisrc_path = notomo#vimrc#search_parent_recursive('\.themisrc', './')
+    if empty(themisrc_path)
+        return v:null
+    endif
+    let cd = fnamemodify(themisrc_path, ':h:h')
+
+    let cmd = [executable] + args
+    if a:target ==# 'file'
+        call add(cmd, expand('%:p'))
+    endif
+    return tdd#model#test_command#new(cmd, cd)
 endfunction
 
-function! s:make(config) abort
+function! s:make(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
 
@@ -53,7 +63,7 @@ function! s:make(config) abort
     return tdd#model#test_command#new([executable] + args, cd)
 endfunction
 
-function! s:npm(config) abort
+function! s:npm(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
 
@@ -66,7 +76,7 @@ function! s:npm(config) abort
     return tdd#model#test_command#new([executable] + args, cd)
 endfunction
 
-function! s:go(config) abort
+function! s:go(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
     let cd = fnamemodify(expand('%:p'), ':h')

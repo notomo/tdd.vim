@@ -15,8 +15,9 @@ let s:STATUS = tdd#all_status()
 
 function! s:suite.test_green()
     edit ./test/plugin/_test_data/green.vim
+    cd ./test/plugin/_test_data/
 
-    let test = tdd#default_test()
+    let test = tdd#default_test('-target=file')
     call s:assert.equals(&buftype, 'terminal')
     call test.wait(500)
 
@@ -25,8 +26,9 @@ endfunction
 
 function! s:suite.test_red()
     edit ./test/plugin/_test_data/red.vim
+    cd ./test/plugin/_test_data/
 
-    let test = tdd#default_test()
+    let test = tdd#default_test('-target=file')
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)

@@ -13,7 +13,8 @@ function! tdd#default_test(...) abort
     let open = options['open']
     let presenter = tdd#presenter#new_default(buffer_type, open)
 
-    let Test_command_factory = { -> tdd#command#factory(names)}
+    let target = options['target']
+    let Test_command_factory = { -> tdd#command#factory(target, names)}
 
     return tdd#test(Test_command_factory, presenter)
 endfunction
