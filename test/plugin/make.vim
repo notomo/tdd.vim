@@ -14,7 +14,7 @@ endfunction
 let s:STATUS = tdd#all_status()
 
 function! s:suite.make()
-    cd ./test/plugin/_test_data
+    cd ./test/plugin/_test_data/make
 
     let test = tdd#default_test()
     call test.wait(500)
@@ -25,7 +25,7 @@ endfunction
 function! s:suite.args()
     call tdd#config#command('make', ['-f', 'test.mk', '_test'])
 
-    cd ./test/plugin/_test_data
+    cd ./test/plugin/_test_data/make
 
     let test = tdd#default_test()
     call test.wait(500)
@@ -34,7 +34,7 @@ function! s:suite.args()
 endfunction
 
 function! s:suite.parent_file()
-    cd ./test/plugin/_test_data/empty
+    cd ./test/plugin/_test_data/make/empty
 
     let test = tdd#default_test()
     call test.wait(500)

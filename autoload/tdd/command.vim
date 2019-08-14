@@ -37,15 +37,20 @@ function! s:themis(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
 
-    let themisrc_path = notomo#vimrc#search_parent_recursive('\.themisrc', './')
-    if empty(themisrc_path)
-        return v:null
-    endif
-    let cd = fnamemodify(themisrc_path, ':h:h')
-
+    let cd = '.'
     let cmd = [executable] + args
     if a:target ==# 'file'
         call add(cmd, expand('%:p'))
+    elseif a:target ==# 'project'
+        let themisrc_path = notomo#vimrc#search_parent_recursive('\.themisrc', './')
+        if empty(themisrc_path)
+            return v:null
+        endif
+        let cd = fnamemodify(themisrc_path, ':h:h')
+        call add(cmd, '.')
+    else
+        " target ==# directory
+        call add(cmd, expand('%:p:h'))
     endif
     return tdd#model#test_command#new(cmd, cd)
 endfunction
