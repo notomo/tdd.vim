@@ -67,6 +67,7 @@ function! tdd#model#job#new(test_command, presenter) abort
             return v:true
         endif
 
+        call jobstop(self.internal_job_id)
         throw printf('has not done in %d ms.', a:timeout_msec)
     endfunction
 
