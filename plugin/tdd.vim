@@ -3,4 +3,4 @@ if exists('g:loaded_tdd')
 endif
 let g:loaded_tdd = 1
 
-command! -nargs=* TDDTest call tdd#default_test(<f-args>)
+command! -nargs=* -complete=custom,tdd#complete#get TDDTest call tdd#default_test(<f-args>)
