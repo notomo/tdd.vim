@@ -7,10 +7,13 @@ function! TddTestBeforeEach() abort
     execute 'cd' s:root
     call tdd#reset()
     call tdd#config#clear()
+    call tdd#config#option('log', 'themis')
+    call themis#log('')
 endfunction
 
 function! TddTestAfterEach() abort
     silent! %bwipeout!
+    call tdd#config#clear()
 endfunction
 
 function! TddTestMock() abort

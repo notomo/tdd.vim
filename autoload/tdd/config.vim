@@ -35,6 +35,7 @@ function! tdd#config#clear() abort
         \ 'output': 'terminal',
         \ 'open': 'tabedit',
         \ 'target': 'project',
+        \ 'log': '',
     \ }
 endfunction
 

@@ -11,7 +11,8 @@ function! tdd#default_test(...) abort
 
     let output_type = options['output']
     let open = options['open']
-    let presenter = tdd#presenter#new_default(output_type, open)
+    let log_type = options['log']
+    let presenter = tdd#presenter#new_default(output_type, open, log_type)
 
     let target = options['target']
     let Test_command_factory = { -> tdd#command#factory(target, names)}

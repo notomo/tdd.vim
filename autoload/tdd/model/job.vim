@@ -49,6 +49,7 @@ function! tdd#model#job#new(test_command, presenter) abort
         let options = {
             \ 'on_exit': function('s:handle_exit'),
             \ 'on_stdout': function('s:handle_stdout'),
+            \ 'on_stderr': function('s:handle_stderr'),
             \ 'cwd': self.test_command.cd,
             \ 'job': self,
         \ }
@@ -78,7 +79,12 @@ function! tdd#model#job#new(test_command, presenter) abort
     return job
 endfunction
 
+function! s:handle_stderr(job_id, data, event) abort dict
+    call self.job.presenter.log('stderr', a:data)
+endfunction
+
 function! s:handle_stdout(job_id, data, event) abort dict
+    call self.job.presenter.log('stdout', a:data)
 endfunction
 
 function! s:handle_exit(job_id, exit_code, event) abort dict
