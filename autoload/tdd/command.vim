@@ -42,7 +42,7 @@ function! s:themis(target, config) abort
     if a:target ==# 'file'
         call add(cmd, expand('%:p'))
     elseif a:target ==# 'project'
-        let themisrc_path = notomo#vimrc#search_parent_recursive('\.themisrc', './')
+        let themisrc_path = s:search_parent_recursive('\.themisrc', './')
         if empty(themisrc_path)
             return v:null
         endif
@@ -59,7 +59,7 @@ function! s:make(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
 
-    let makefile_path = notomo#vimrc#search_parent_recursive('Makefile', './')
+    let makefile_path = s:search_parent_recursive('Makefile', './')
     if empty(makefile_path)
         return v:null
     endif
@@ -72,7 +72,7 @@ function! s:npm(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
 
-    let package_json_path = notomo#vimrc#search_parent_recursive('package.json', './')
+    let package_json_path = s:search_parent_recursive('package.json', './')
     if empty(package_json_path)
         return v:null
     endif
