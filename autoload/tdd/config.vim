@@ -41,6 +41,13 @@ endfunction
 
 call tdd#config#clear()
 
+let s:OPTIONS = {
+    \ 'output': ['terminal'],
+    \ 'open': ['tabedit', 'edit', 'vsplit', 'split'],
+    \ 'target': ['project', 'file', 'directory'],
+    \ 'log': ['themis'],
+\ }
+
 function! tdd#config#filetype_commands(filetype, commands) abort
     let s:filetype_commands[a:filetype] = a:commands
 endfunction
@@ -78,4 +85,12 @@ endfunction
 
 function! tdd#config#get_options() abort
     return s:options
+endfunction
+
+function! tdd#config#all_options(name) abort
+    if !has_key(s:OPTIONS, a:name)
+        throw printf('not found option: %s', a:name)
+    endif
+
+    return s:OPTIONS[a:name]
 endfunction
