@@ -11,7 +11,7 @@ function! s:suite.after_each()
 endfunction
 
 function! s:suite.get()
-    let got = tdd#complete#get('', 'TDDStart ', 10)
+    let got = tdd#complete#get('', 'TDDTest ', 8)
     let names = split(got, "\n")
 
     call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
