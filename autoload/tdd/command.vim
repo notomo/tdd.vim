@@ -4,6 +4,7 @@ let s:funcs = {
     \ 'make': {target, config -> s:make(target, config)},
     \ 'npm': {target, config -> s:npm(target, config)},
     \ 'go': {target, config -> s:go(target, config)},
+    \ 'pytest': {target, config -> s:pytest(target, config)},
 \ }
 
 function! tdd#command#factory(target, names) abort
@@ -86,6 +87,17 @@ function! s:go(target, config) abort
     let args = a:config.args
     let cd = fnamemodify(expand('%:p'), ':h')
     return tdd#model#test_command#new([executable] + args, cd)
+endfunction
+
+function! s:pytest(target, config) abort
+    let executable = a:config.executable
+    let args = a:config.args
+    let cd = fnamemodify(expand('%:p'), ':h')
+
+    let cmd = [executable] + args
+    call add(cmd, expand('%:p'))
+
+    return tdd#model#test_command#new(cmd, cd)
 endfunction
 
 function! s:search_parent_recursive(file_name_pattern, start_path) abort

@@ -21,6 +21,11 @@ function! tdd#config#clear() abort
             \ 'executable': 'go',
             \ 'args': ['test', '-v'],
         \ },
+        \ 'pytest': {
+            \ 'name': 'pytest',
+            \ 'executable': 'pytest',
+            \ 'args': [],
+        \ },
     \ }
 
     let s:filetype_commands = {
@@ -28,6 +33,7 @@ function! tdd#config#clear() abort
         \ 'javascript': ['npm'],
         \ 'typescript': ['npm'],
         \ 'go': ['go'],
+        \ 'python': ['pytest'],
         \ '_': ['make'],
     \ }
 
