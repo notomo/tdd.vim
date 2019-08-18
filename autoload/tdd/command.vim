@@ -96,7 +96,14 @@ endfunction
 function! s:pytest(target, config) abort
     let executable = a:config.executable
     let args = a:config.args
+
     let cd = fnamemodify(expand('%:p'), ':h')
+    if a:target ==# 'file'
+        let ini_path = s:search_parent_recursive('pytest\.ini', './')
+        if !empty(ini_path)
+            let cd = fnamemodify(ini_path, ':h')
+        endif
+    endif
 
     let cmd = [executable] + args
     call add(cmd, expand('%:p'))
