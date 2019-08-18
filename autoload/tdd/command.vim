@@ -41,6 +41,10 @@ function! s:themis(target, config) abort
     let cd = '.'
     let cmd = [executable] + args
     if a:target ==# 'file'
+        let themisrc_path = s:search_parent_recursive('\.themisrc', './')
+        if !empty(themisrc_path)
+            let cd = fnamemodify(themisrc_path, ':h:h')
+        endif
         call add(cmd, expand('%:p'))
     elseif a:target ==# 'project'
         let themisrc_path = s:search_parent_recursive('\.themisrc', './')
