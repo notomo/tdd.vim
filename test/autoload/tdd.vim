@@ -19,7 +19,7 @@ endfunction
 function! s:presenter() abort
     let status_presenter = TddTestMock()
     call status_presenter.add_fn('echo')
-    let output_presenter = tdd#presenter#output('', 'edit', 'themis')
+    let output_presenter = tdd#presenter#output('', '', 'themis')
     return tdd#presenter#new(status_presenter, output_presenter)
 endfunction
 

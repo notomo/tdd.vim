@@ -39,7 +39,7 @@ function! tdd#config#clear() abort
 
     let s:options = {
         \ 'output': 'terminal',
-        \ 'open': 'tabedit',
+        \ 'open': 'tab',
         \ 'target': 'project',
         \ 'log': '',
     \ }
@@ -49,7 +49,7 @@ call tdd#config#clear()
 
 let s:OPTIONS = {
     \ 'output': ['terminal'],
-    \ 'open': ['tabedit', 'edit', 'vsplit', 'split'],
+    \ 'open': ['tab', 'nosplit' ,'vertical', 'horizontal'],
     \ 'target': ['project', 'file', 'directory'],
     \ 'log': ['themis'],
 \ }

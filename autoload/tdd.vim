@@ -10,9 +10,9 @@ function! tdd#default_test(...) abort
     call extend(options, tdd#config#get_options(), 'keep')
 
     let output_type = options['output']
-    let open = options['open']
+    let open_type = options['open']
     let log_type = options['log']
-    let presenter = tdd#presenter#new_default(output_type, open, log_type)
+    let presenter = tdd#presenter#new_default(output_type, open_type, log_type)
 
     let target = options['target']
     let Test_command_factory = { -> tdd#command#factory(target, names)}

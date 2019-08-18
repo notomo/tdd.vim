@@ -22,6 +22,7 @@ function! s:suite.commands()
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.equals(tabpagenr('$'), 2)
 endfunction
 
 function! s:suite.command_alias()
@@ -50,9 +51,10 @@ function! s:suite.command_args()
 endfunction
 
 function! s:suite.open_command()
-    call tdd#config#option('open', 'vsplit')
+    call tdd#config#option('open', 'vertical')
 
     cd ./test/plugin/_test_data/make
+    edit test.mk
 
     let test = tdd#default_test()
     call test.wait()
@@ -60,14 +62,17 @@ function! s:suite.open_command()
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
     call s:assert.equals(tabpagenr('$'), 1)
     call s:assert.equals(tabpagewinnr(tabpagenr(), '$'), 2)
+
+    wincmd w
+    call s:assert.equals(expand('%'), 'test.mk')
 endfunction
 
 function! s:suite.open_command_override()
-    call tdd#config#option('open', 'vsplit')
+    call tdd#config#option('open', 'vertical')
 
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test('-open=tabedit')
+    let test = tdd#default_test('-open=tab')
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
