@@ -17,6 +17,31 @@ let s:filetype_commands = {
 \ }
 
 function! tdd#command#factory(target, names) abort
+    let [command, args] = s:get_command_and_args(a:target, a:names)
+
+    if type(args) == v:t_list
+        " use config args
+    elseif a:target ==# 'file' && has_key(command, 'args_for_file')
+        let args = command.args_for_file()
+    elseif a:target ==# 'project'  && has_key(command, 'args_for_project')
+        let args = command.args_for_project()
+    else
+        let args = command.args()
+    endif
+    let cmd = [command.executable()] + args
+
+    if a:target ==# 'file' && has_key(command, 'cd_for_file')
+        let cd = command.cd_for_file()
+    elseif a:target ==# 'project'  && has_key(command, 'cd_for_project')
+        let cd = command.cd_for_project()
+    else
+        let cd = command.cd()
+    endif
+
+    return tdd#model#test_command#new(cmd, cd)
+endfunction
+
+function! s:get_command_and_args(target, names) abort
     let filetype_commands = tdd#config#get_filetype_commands()
     call extend(filetype_commands, s:filetype_commands, 'keep')
 
@@ -31,7 +56,6 @@ function! tdd#command#factory(target, names) abort
 
     let config_commands = tdd#config#get_commands()
 
-    let command = v:null
     let args = v:null
     for name in names
         if has_key(config_commands, name) && has_key(s:funcs, config_commands[name].name)
@@ -43,36 +67,13 @@ function! tdd#command#factory(target, names) abort
         else
             throw printf('not found command: %s', name)
         endif
+
         if !empty(command)
-            break
+            return [command, args]
         endif
     endfor
 
-    if empty(command)
-        throw printf('not found available command: filetype=%s', filetype)
-    endif
-
-    let executable = command.executable() 
-    if type(args) == v:t_list
-        " use config args
-    elseif a:target ==# 'file' && has_key(command, 'args_for_file')
-        let args = command.args_for_file()
-    elseif a:target ==# 'project'  && has_key(command, 'args_for_project')
-        let args = command.args_for_project()
-    else
-        let args = command.args()
-    endif
-    let cmd = [executable] + args
-
-    if a:target ==# 'file' && has_key(command, 'cd_for_file')
-        let cd = command.cd_for_file()
-    elseif a:target ==# 'project'  && has_key(command, 'cd_for_project')
-        let cd = command.cd_for_project()
-    else
-        let cd = command.cd()
-    endif
-
-    return tdd#model#test_command#new(cmd, cd)
+    throw printf('not found available command: filetype=%s', filetype)
 endfunction
 
 function! tdd#command#names() abort
