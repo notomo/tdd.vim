@@ -17,7 +17,7 @@ function! s:suite.pytest()
     edit ./test/plugin/_test_data/pytest/test/test_main.py
 
     let test = tdd#default_test()
-    call test.wait(2000)
+    call test.wait(2500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
