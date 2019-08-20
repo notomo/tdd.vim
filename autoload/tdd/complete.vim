@@ -7,8 +7,7 @@ function! tdd#complete#get(current_arg, line, cursor_position) abort
         return join(option_key_values, "\n")
     endif
 
-    let commands = tdd#config#get_commands()
-    let command_names = keys(commands)
+    let command_names = tdd#command#names() + keys(tdd#config#get_commands())
 
     let current_options = []
     for factor in split(a:line, '\v\s+')

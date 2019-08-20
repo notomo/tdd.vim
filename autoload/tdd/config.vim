@@ -1,41 +1,7 @@
 
 function! tdd#config#clear() abort
-    let s:commands = {
-        \ 'themis': {
-            \ 'name': 'themis',
-            \ 'executable': 'themis',
-            \ 'args': [],
-        \ },
-        \ 'make': {
-            \ 'name': 'make',
-            \ 'executable': 'make',
-            \ 'args': ['test'],
-        \ },
-        \ 'npm': {
-            \ 'name': 'npm',
-            \ 'executable': 'npm',
-            \ 'args': ['run', 'test'],
-        \ },
-        \ 'go': {
-            \ 'name': 'go',
-            \ 'executable': 'go',
-            \ 'args': ['test', '-v'],
-        \ },
-        \ 'pytest': {
-            \ 'name': 'pytest',
-            \ 'executable': 'pytest',
-            \ 'args': [],
-        \ },
-    \ }
-
-    let s:filetype_commands = {
-        \ 'vim': ['themis'],
-        \ 'javascript': ['npm'],
-        \ 'typescript': ['npm'],
-        \ 'go': ['go'],
-        \ 'python': ['pytest'],
-        \ '_': ['make'],
-    \ }
+    let s:commands = {}
+    let s:filetype_commands = {}
 
     let s:options = {
         \ 'output': 'terminal',
@@ -59,22 +25,19 @@ function! tdd#config#filetype_commands(filetype, commands) abort
 endfunction
 
 function! tdd#config#command(name, args) abort
-    if !has_key(s:commands, a:name)
-        throw printf('not found command: %s', a:name)
-    endif
     if type(a:args) != v:t_list
         throw printf('args must be a list, but actual: %s', a:args)
     endif
 
+    if !has_key(s:commands, a:name)
+        let s:commands[a:name] = {}
+        let s:commands[a:name]['name'] = a:name
+    endif
     let s:commands[a:name]['args'] = a:args
 endfunction
 
 function! tdd#config#command_alias(name, base_name) abort
-    if !has_key(s:commands, a:base_name)
-        throw printf('not found command: %s', a:base_name)
-    endif
-
-    let s:commands[a:name] = copy(s:commands[a:base_name])
+    let s:commands[a:name] = {'name': a:base_name}
 endfunction
 
 function! tdd#config#option(name, value) abort

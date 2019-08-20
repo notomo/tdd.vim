@@ -1,15 +1,24 @@
 
 let s:funcs = {
-    \ 'themis': {target, config -> s:themis(target, config)},
-    \ 'make': {target, config -> s:make(target, config)},
-    \ 'npm': {target, config -> s:npm(target, config)},
-    \ 'go': {target, config -> s:go(target, config)},
-    \ 'pytest': {target, config -> s:pytest(target, config)},
+    \ 'themis': { params -> tdd#command#vim#themis#new(params) },
+    \ 'make': { params -> tdd#command#make#new(params) },
+    \ 'npm': { params -> tdd#command#npm#new(params) },
+    \ 'go': { params -> tdd#command#go#go#new(params) },
+    \ 'pytest': { params -> tdd#command#python#pytest#new(params) },
+\ }
+
+let s:filetype_commands = {
+    \ 'vim': ['themis'],
+    \ 'javascript': ['npm'],
+    \ 'typescript': ['npm'],
+    \ 'go': ['go'],
+    \ 'python': ['pytest'],
+    \ '_': ['make'],
 \ }
 
 function! tdd#command#factory(target, names) abort
     let filetype_commands = tdd#config#get_filetype_commands()
-    let configs = tdd#config#get_commands()
+    call extend(filetype_commands, s:filetype_commands, 'keep')
 
     let filetype = &filetype
     if !empty(a:names)
@@ -20,106 +29,52 @@ function! tdd#command#factory(target, names) abort
         let names = filetype_commands['_']
     endif
 
+    let config_commands = tdd#config#get_commands()
+
+    let command = v:null
+    let args = v:null
     for name in names
-        let config = configs[name]
-        if !has_key(s:funcs, config.name)
+        if has_key(config_commands, name) && has_key(s:funcs, config_commands[name].name)
+            let config = config_commands[name]
+            let command = s:funcs[config.name]({})
+            let args = config.args
+        elseif has_key(s:funcs, name)
+            let command = s:funcs[name]({})
+        else
             throw printf('not found command: %s', name)
         endif
-        let command = s:funcs[config.name](a:target, config)
         if !empty(command)
-            return command
+            break
         endif
     endfor
 
-    throw printf('not found available command: filetype=%s', filetype)
-endfunction
+    if empty(command)
+        throw printf('not found available command: filetype=%s', filetype)
+    endif
 
-function! s:themis(target, config) abort
-    let executable = a:config.executable
-    let args = a:config.args
-
-    let cd = '.'
-    let cmd = [executable] + args
-    if a:target ==# 'file'
-        let themisrc_path = s:search_parent_recursive('\.themisrc', './')
-        if !empty(themisrc_path)
-            let cd = fnamemodify(themisrc_path, ':h:h')
-        endif
-        call add(cmd, expand('%:p'))
-    elseif a:target ==# 'project'
-        let themisrc_path = s:search_parent_recursive('\.themisrc', './')
-        if empty(themisrc_path)
-            return v:null
-        endif
-        let cd = fnamemodify(themisrc_path, ':h:h')
-        call add(cmd, '.')
+    let executable = command.executable() 
+    if type(args) == v:t_list
+        " use config args
+    elseif a:target ==# 'file' && has_key(command, 'args_for_file')
+        let args = command.args_for_file()
+    elseif a:target ==# 'project'  && has_key(command, 'args_for_project')
+        let args = command.args_for_project()
     else
-        " target ==# directory
-        call add(cmd, expand('%:p:h'))
+        let args = command.args()
     endif
-    return tdd#model#test_command#new(cmd, cd)
-endfunction
-
-function! s:make(target, config) abort
-    let executable = a:config.executable
-    let args = a:config.args
-
-    let makefile_path = s:search_parent_recursive('Makefile', './')
-    if empty(makefile_path)
-        return v:null
-    endif
-
-    let cd = fnamemodify(makefile_path, ':h')
-    return tdd#model#test_command#new([executable] + args, cd)
-endfunction
-
-function! s:npm(target, config) abort
-    let executable = a:config.executable
-    let args = a:config.args
-
-    let package_json_path = s:search_parent_recursive('package.json', './')
-    if empty(package_json_path)
-        return v:null
-    endif
-
-    let cd = fnamemodify(package_json_path, ':h')
-    return tdd#model#test_command#new([executable] + args, cd)
-endfunction
-
-function! s:go(target, config) abort
-    let executable = a:config.executable
-    let args = a:config.args
-    let cd = fnamemodify(expand('%:p'), ':h')
-    return tdd#model#test_command#new([executable] + args, cd)
-endfunction
-
-function! s:pytest(target, config) abort
-    let executable = a:config.executable
-    let args = a:config.args
-
-    let cd = fnamemodify(expand('%:p'), ':h')
-    if a:target ==# 'file'
-        let ini_path = s:search_parent_recursive('pytest\.ini', './')
-        if !empty(ini_path)
-            let cd = fnamemodify(ini_path, ':h')
-        endif
-    endif
-
     let cmd = [executable] + args
-    call add(cmd, expand('%:p'))
+
+    if a:target ==# 'file' && has_key(command, 'cd_for_file')
+        let cd = command.cd_for_file()
+    elseif a:target ==# 'project'  && has_key(command, 'cd_for_project')
+        let cd = command.cd_for_project()
+    else
+        let cd = command.cd()
+    endif
 
     return tdd#model#test_command#new(cmd, cd)
 endfunction
 
-function! s:search_parent_recursive(file_name_pattern, start_path) abort
-    let path = fnamemodify(a:start_path, ':p')
-    while path !=? '//'
-        let files = glob(path . a:file_name_pattern, v:false, v:true)
-        if !empty(files)
-            let file = files[0]
-            return isdirectory(file) ? file . '/' : file
-        endif
-        let path = fnamemodify(path, ':h:h') . '/'
-    endwhile
-    return ''
+function! tdd#command#names() abort
+    return keys(s:funcs)
 endfunction
