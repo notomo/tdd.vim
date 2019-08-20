@@ -9,10 +9,14 @@ function! tdd#default_test(...) abort
     let [names, options] = s:parse_args(a:000)
     call extend(options, tdd#config#get_options(), 'keep')
 
+    let status_presenter = tdd#presenter#status()
+
     let output_type = options['output']
     let open_type = options['open']
     let log_type = options['log']
-    let presenter = tdd#presenter#new_default(output_type, open_type, log_type)
+    let output_presenter = tdd#presenter#output(output_type, open_type, log_type)
+
+    let presenter = tdd#presenter#new(status_presenter, output_presenter)
 
     let target = options['target']
     let Test_command_factory = { -> tdd#command#factory(target, names)}

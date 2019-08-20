@@ -1,15 +1,4 @@
 
-function! tdd#presenter#new_default(output_type, open_type, log_type) abort
-    let status_presenter = {}
-    function! status_presenter.echo(status) abort
-        echomsg a:status
-    endfunction
-
-    let output_presenter = tdd#presenter#output(a:output_type, a:open_type, a:log_type)
-
-    return tdd#presenter#new(status_presenter, output_presenter)
-endfunction
-
 function! tdd#presenter#new(status_presenter, output_presenter) abort
     let presenter = {
         \ 'status': a:status_presenter,
@@ -29,6 +18,16 @@ function! tdd#presenter#new(status_presenter, output_presenter) abort
     endfunction
 
     return presenter
+endfunction
+
+function! tdd#presenter#status() abort
+    let status_presenter = {}
+
+    function! status_presenter.echo(status) abort
+        echomsg a:status
+    endfunction
+
+    return status_presenter
 endfunction
 
 function! tdd#presenter#output(output_type, open_type, log_type) abort
