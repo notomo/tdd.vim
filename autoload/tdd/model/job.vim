@@ -19,13 +19,13 @@ let s:STAGE = {
 
 let s:id = 0
 
-function! tdd#model#job#new(test_command, presenter) abort
+function! tdd#model#job#new(execution, presenter) abort
     let s:id += 1
     let job = {
        \ 'id': s:id,
        \ 'status': s:STATUS.UNKNOWN,
        \ 'stage': s:STAGE.WAITING,
-       \ 'test_command': a:test_command,
+       \ 'execution': a:execution,
        \ 'presenter': a:presenter,
        \ 'STATUS': s:STATUS,
        \ 'STAGE': s:STAGE,
@@ -50,12 +50,12 @@ function! tdd#model#job#new(test_command, presenter) abort
             \ 'on_exit': function('s:handle_exit'),
             \ 'on_stdout': function('s:handle_stdout'),
             \ 'on_stderr': function('s:handle_stderr'),
-            \ 'cwd': self.test_command.cd,
+            \ 'cwd': self.execution.cd,
             \ 'job': self,
         \ }
 
         let self.stage = s:STAGE.RUNNING
-        let self.internal_job_id = self.presenter.show_output(self.test_command.command, options)
+        let self.internal_job_id = self.presenter.show_output(self.execution.command, options)
         if self.internal_job_id <= 0
             let self.status = s:STATUS.ERROR
             call self.on_finished(v:null)

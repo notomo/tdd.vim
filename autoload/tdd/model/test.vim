@@ -1,12 +1,11 @@
 
 let s:id = 0
 
-function! tdd#model#test#new(test_command, presenter) abort
+function! tdd#model#test#new(execution, presenter) abort
     let s:id += 1
     let test = {
        \ 'id': s:id,
-       \ 'test_command': a:test_command,
-       \ 'job': tdd#model#job#new(a:test_command, a:presenter),
+       \ 'job': tdd#model#job#new(a:execution, a:presenter),
     \ }
 
     function! test.start() abort

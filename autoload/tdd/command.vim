@@ -16,32 +16,7 @@ let s:filetype_commands = {
     \ '_': ['make'],
 \ }
 
-function! tdd#command#factory(target, names) abort
-    let [command, args] = s:get_command_and_args(a:target, a:names)
-
-    if type(args) == v:t_list
-        " use config args
-    elseif a:target ==# 'file' && has_key(command, 'args_for_file')
-        let args = command.args_for_file()
-    elseif a:target ==# 'project'  && has_key(command, 'args_for_project')
-        let args = command.args_for_project()
-    else
-        let args = command.args()
-    endif
-    let cmd = [command.executable()] + args
-
-    if a:target ==# 'file' && has_key(command, 'cd_for_file')
-        let cd = command.cd_for_file()
-    elseif a:target ==# 'project'  && has_key(command, 'cd_for_project')
-        let cd = command.cd_for_project()
-    else
-        let cd = command.cd()
-    endif
-
-    return tdd#model#test_command#new(cmd, cd)
-endfunction
-
-function! s:get_command_and_args(target, names) abort
+function! tdd#command#factory(names) abort
     let filetype_commands = tdd#config#get_filetype_commands()
     call extend(filetype_commands, s:filetype_commands, 'keep')
 

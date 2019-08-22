@@ -12,8 +12,8 @@ endfunction
 
 let s:STATUS = tdd#all_status()
 
-function! s:command(command, cd) abort
-    return tdd#model#test_command#new(a:command, a:cd)
+function! s:execution(cmd, cd) abort
+    return tdd#model#execution#new(a:cmd, a:cd)
 endfunction
 
 function! s:presenter() abort
@@ -24,11 +24,11 @@ function! s:presenter() abort
 endfunction
 
 function! s:suite.test_error()
-    let command = s:command(['hoge'], '.')
+    let execution = s:execution(['hoge'], '.')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(command, presenter)
+    let test = tdd#test(execution, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -36,11 +36,11 @@ function! s:suite.test_error()
 endfunction
 
 function! s:suite.test_fail()
-    let command = s:command(['test', '-e', 'hoge'], '.')
+    let execution = s:execution(['test', '-e', 'hoge'], '.')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(command, presenter)
+    let test = tdd#test(execution, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -48,11 +48,11 @@ function! s:suite.test_fail()
 endfunction
 
 function! s:suite.test_success()
-    let command = s:command(['echo'], '.')
+    let execution = s:execution(['echo'], '.')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(command, presenter)
+    let test = tdd#test(execution, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -60,11 +60,11 @@ function! s:suite.test_success()
 endfunction
 
 function! s:suite.test_cd()
-    let command = s:command(['test', '-e', '.themisrc'], './test')
+    let execution = s:execution(['test', '-e', '.themisrc'], './test')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(command, presenter)
+    let test = tdd#test(execution, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
