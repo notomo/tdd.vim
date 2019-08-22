@@ -19,14 +19,13 @@ function! tdd#default_test(...) abort
     let presenter = tdd#presenter#new(status_presenter, output_presenter)
 
     let target = options['target']
-    let Test_command_factory = { -> tdd#command#factory(target, names)}
+    let command = tdd#command#factory(target, names)
 
-    return tdd#test(Test_command_factory, presenter)
+    return tdd#test(command, presenter)
 endfunction
 
-function! tdd#test(test_command_factory, presenter) abort
-    let test_command = a:test_command_factory()
-    let test = tdd#model#test#new(test_command, a:presenter)
+function! tdd#test(command, presenter) abort
+    let test = tdd#model#test#new(a:command, a:presenter)
     call test.start()
 
     call s:cycle.apply(test)

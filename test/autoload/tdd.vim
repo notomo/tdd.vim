@@ -12,8 +12,8 @@ endfunction
 
 let s:STATUS = tdd#all_status()
 
-function! s:test_command_factory(command, cd) abort
-    return {-> tdd#model#test_command#new(a:command, a:cd)}
+function! s:command(command, cd) abort
+    return tdd#model#test_command#new(a:command, a:cd)
 endfunction
 
 function! s:presenter() abort
@@ -24,11 +24,11 @@ function! s:presenter() abort
 endfunction
 
 function! s:suite.test_error()
-    let Test_command_factory = s:test_command_factory(['hoge'], '.')
+    let command = s:command(['hoge'], '.')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(Test_command_factory, presenter)
+    let test = tdd#test(command, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -36,11 +36,11 @@ function! s:suite.test_error()
 endfunction
 
 function! s:suite.test_fail()
-    let Test_command_factory = s:test_command_factory(['test', '-e', 'hoge'], '.')
+    let command = s:command(['test', '-e', 'hoge'], '.')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(Test_command_factory, presenter)
+    let test = tdd#test(command, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -48,11 +48,11 @@ function! s:suite.test_fail()
 endfunction
 
 function! s:suite.test_success()
-    let Test_command_factory = s:test_command_factory(['echo'], '.')
+    let command = s:command(['echo'], '.')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(Test_command_factory, presenter)
+    let test = tdd#test(command, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -60,11 +60,11 @@ function! s:suite.test_success()
 endfunction
 
 function! s:suite.test_cd()
-    let Test_command_factory = s:test_command_factory(['test', '-e', '.themisrc'], './test')
+    let command = s:command(['test', '-e', '.themisrc'], './test')
 
     let presenter = s:presenter()
 
-    let test = tdd#test(Test_command_factory, presenter)
+    let test = tdd#test(command, presenter)
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
