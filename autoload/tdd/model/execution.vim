@@ -1,8 +1,6 @@
 
-function! tdd#model#execution#from_command(command, args, target) abort
-    if type(a:args) == v:t_list
-        let args = a:args
-    elseif a:target ==# 'file' && has_key(a:command, 'args_for_file')
+function! tdd#model#execution#from_command(command, target) abort
+    if a:target ==# 'file' && has_key(a:command, 'args_for_file')
         let args = a:command.args_for_file()
     elseif a:target ==# 'project'  && has_key(a:command, 'args_for_project')
         let args = a:command.args_for_project()

@@ -31,12 +31,15 @@ function! tdd#command#factory(names) abort
 
     let config_commands = tdd#config#get_commands()
 
-    let args = v:null
     for name in names
         if has_key(config_commands, name) && has_key(s:funcs, config_commands[name].name)
             let config = config_commands[name]
-            let command = s:funcs[config.name]({})
-            let args = config.args
+            let alias = s:funcs[config.name]({})
+            let params = {
+                \ 'alias': alias,
+                \ 'args': config.args,
+            \ }
+            let command = tdd#command#alias#new(params)
         elseif has_key(s:funcs, name)
             let command = s:funcs[name]({})
         else
@@ -44,7 +47,7 @@ function! tdd#command#factory(names) abort
         endif
 
         if !empty(command)
-            return [command, args]
+            return command
         endif
     endfor
 

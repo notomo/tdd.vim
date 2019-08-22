@@ -18,8 +18,8 @@ function! tdd#default_test(...) abort
 
     let presenter = tdd#presenter#new(status_presenter, output_presenter)
 
-    let [command, args] = tdd#command#factory(names)
-    let execution = tdd#model#execution#from_command(command, args, options['target'])
+    let command = tdd#command#factory(names)
+    let execution = tdd#model#execution#from_command(command, options['target'])
 
     return tdd#test(execution, presenter)
 endfunction
