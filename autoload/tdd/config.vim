@@ -5,7 +5,7 @@ function! tdd#config#clear() abort
 
     let s:options = {
         \ 'output': 'terminal',
-        \ 'open': 'tab',
+        \ 'layout': 'tab',
         \ 'target': 'project',
         \ 'log': '',
     \ }
@@ -15,7 +15,7 @@ call tdd#config#clear()
 
 let s:OPTIONS = {
     \ 'output': ['terminal'],
-    \ 'open': ['tab', 'nosplit' ,'vertical', 'horizontal'],
+    \ 'layout': ['tab', 'nosplit' ,'vertical', 'horizontal'],
     \ 'target': ['project', 'file', 'directory'],
     \ 'log': ['themis'],
 \ }

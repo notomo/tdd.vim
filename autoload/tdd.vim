@@ -12,9 +12,9 @@ function! tdd#default_test(...) abort
     let status_presenter = tdd#presenter#status()
 
     let output_type = options['output']
-    let open_type = options['open']
+    let layout_type = options['layout']
     let log_type = options['log']
-    let output_presenter = tdd#presenter#output(output_type, open_type, log_type)
+    let output_presenter = tdd#presenter#output(output_type, layout_type, log_type)
 
     let presenter = tdd#presenter#new(status_presenter, output_presenter)
 

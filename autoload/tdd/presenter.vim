@@ -30,11 +30,10 @@ function! tdd#presenter#status() abort
     return status_presenter
 endfunction
 
-function! tdd#presenter#output(output_type, open_type, log_type) abort
+function! tdd#presenter#output(output_type, layout_type, log_type) abort
     let output_presenter = {
         \ 'output_type': a:output_type,
-        \ 'open_type': a:open_type,
-        \ 'open_command': tdd#open_command#new(a:open_type),
+        \ 'window_layout': tdd#window_layout#new(a:layout_type),
         \ 'log_type': a:log_type,
     \ }
 
@@ -43,7 +42,7 @@ function! tdd#presenter#output(output_type, open_type, log_type) abort
         call self.log('%:p', [expand('%:p')])
         call self.log('cmd', [join(a:cmd, ' ')])
         if self.output_type ==# 'terminal'
-            call self.open_command.execute()
+            call self.window_layout.execute()
             return termopen(a:cmd, a:options)
         endif
         return jobstart(a:cmd, a:options)

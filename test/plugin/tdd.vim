@@ -50,8 +50,8 @@ function! s:suite.command_args()
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
 
-function! s:suite.open_command()
-    call tdd#config#option('open', 'vertical')
+function! s:suite.layout()
+    call tdd#config#option('layout', 'vertical')
 
     cd ./test/plugin/_test_data/make
     edit test.mk
@@ -67,12 +67,12 @@ function! s:suite.open_command()
     call s:assert.equals(expand('%'), 'test.mk')
 endfunction
 
-function! s:suite.open_command_override()
-    call tdd#config#option('open', 'vertical')
+function! s:suite.layout_override()
+    call tdd#config#option('layout', 'vertical')
 
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test('-open=tab')
+    let test = tdd#default_test('-layout=tab')
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
