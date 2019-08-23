@@ -22,7 +22,7 @@ endfunction
 
 function! tdd#model#execution#new(cmd, cd) abort
     return {
-        \ 'command': a:cmd,
+        \ 'cmd': a:cmd,
         \ 'cd': a:cd,
     \ }
 endfunction
