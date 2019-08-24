@@ -69,13 +69,15 @@ function! tdd#command#alias(name, base_name) abort
     if !has_key(s:commands, a:base_name)
         throw printf('not found base command: %s', a:base_name)
     endif
-    let s:commands[a:name] = { params -> s:alias(params, a:base_name) }
-endfunction
 
-function! s:alias(params, base_name) abort
-    let params = a:params
-    let params['alias'] = s:commands[a:base_name](params)
-    return tdd#command#alias#new(params)
+    let f = {'base_name': a:base_name}
+    function! f.alias(params) abort
+        let params = a:params
+        let params['alias'] = s:commands[self.base_name](params)
+        return tdd#command#alias#new(params)
+    endfunction
+
+    let s:commands[a:name] = { params -> f.alias(params) }
 endfunction
 
 function! tdd#command#args(name, args) abort
