@@ -37,10 +37,6 @@ function! tdd#status() abort
     return s:cycle.status()
 endfunction
 
-function! tdd#all_status() abort
-    return s:cycle.STATUS
-endfunction
-
 function! s:parse_args(args) abort
     let names = []
     let options = {}

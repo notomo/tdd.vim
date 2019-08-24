@@ -8,7 +8,6 @@ let s:STATUS = {
 function! tdd#model#cycle#new() abort
     let cycle = {
         \ 'test': v:null,
-        \ 'STATUS': s:STATUS,
     \ }
 
     function! cycle.apply(test) abort
@@ -28,4 +27,8 @@ function! tdd#model#cycle#new() abort
     endfunction
 
     return cycle
+endfunction
+
+function! tdd#model#cycle#all_status() abort
+    return s:STATUS
 endfunction

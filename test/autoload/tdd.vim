@@ -10,7 +10,7 @@ function! s:suite.after_each()
     call TddTestAfterEach()
 endfunction
 
-let s:STATUS = tdd#all_status()
+let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:execution(cmd, cd) abort
     return tdd#model#execution#new(a:cmd, a:cd)

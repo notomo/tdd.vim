@@ -11,7 +11,7 @@ function! s:suite.after_each()
     filetype off
 endfunction
 
-let s:STATUS = tdd#all_status()
+let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:suite.make()
     cd ./test/plugin/_test_data/make
