@@ -17,7 +17,7 @@ function! s:suite.green()
     edit ./test/plugin/_test_data/themis/green.vim
     cd ./test/plugin/_test_data/themis
 
-    let test = tdd#default_test('-target=file')
+    let test = tdd#main('-target=file')
     call s:assert.equals(&buftype, 'terminal')
     call test.wait(500)
 
@@ -28,7 +28,7 @@ function! s:suite.red()
     edit ./test/plugin/_test_data/themis/red.vim
     cd ./test/plugin/_test_data/themis
 
-    let test = tdd#default_test('-target=file')
+    let test = tdd#main('-target=file')
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -38,7 +38,7 @@ function! s:suite.directory()
     edit ./test/plugin/_test_data/themis/green.vim
     cd ./test/plugin/_test_data/themis
 
-    let test = tdd#default_test('-target=directory')
+    let test = tdd#main('-target=directory')
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -47,7 +47,7 @@ endfunction
 function! s:suite.parent_file()
     cd ./test/plugin/_test_data/themis/another/test/empty
 
-    let test = tdd#default_test('themis')
+    let test = tdd#main('themis')
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

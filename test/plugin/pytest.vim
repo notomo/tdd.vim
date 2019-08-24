@@ -16,7 +16,7 @@ let s:STATUS = tdd#all_status()
 function! s:suite.pytest()
     edit ./test/plugin/_test_data/pytest/test/test_main.py
 
-    let test = tdd#default_test()
+    let test = tdd#main()
     call test.wait(2500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

@@ -18,7 +18,7 @@ function! s:suite.commands()
 
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test()
+    let test = tdd#main()
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -32,7 +32,7 @@ function! s:suite.command_alias()
 
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test()
+    let test = tdd#main()
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -44,7 +44,7 @@ function! s:suite.command_args()
 
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test('make_lint')
+    let test = tdd#main('make_lint')
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -56,7 +56,7 @@ function! s:suite.layout()
     cd ./test/plugin/_test_data/make
     edit test.mk
 
-    let test = tdd#default_test()
+    let test = tdd#main()
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -72,7 +72,7 @@ function! s:suite.layout_override()
 
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test('-layout=tab')
+    let test = tdd#main('-layout=tab')
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

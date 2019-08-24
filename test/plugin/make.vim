@@ -16,7 +16,7 @@ let s:STATUS = tdd#all_status()
 function! s:suite.make()
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test()
+    let test = tdd#main()
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -27,7 +27,7 @@ function! s:suite.args()
 
     cd ./test/plugin/_test_data/make
 
-    let test = tdd#default_test()
+    let test = tdd#main()
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -36,7 +36,7 @@ endfunction
 function! s:suite.parent_file()
     cd ./test/plugin/_test_data/make/empty
 
-    let test = tdd#default_test()
+    let test = tdd#main()
     call test.wait(500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

@@ -5,7 +5,7 @@ endfunction
 
 call tdd#reset()
 
-function! tdd#default_test(...) abort
+function! tdd#main(...) abort
     let [names, options] = s:parse_args(a:000)
     call extend(options, tdd#config#get_options(), 'keep')
 
