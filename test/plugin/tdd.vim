@@ -14,7 +14,7 @@ endfunction
 let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:suite.commands()
-    call tdd#config#filetype_commands('_', ['npm', 'make'])
+    call tdd#command#filetype('_', ['npm', 'make'])
 
     cd ./test/plugin/_test_data/make
 
@@ -26,9 +26,9 @@ function! s:suite.commands()
 endfunction
 
 function! s:suite.command_alias()
-    call tdd#config#command_alias('make_lint', 'make')
-    call tdd#config#command('make_lint', ['lint'])
-    call tdd#config#filetype_commands('_', ['make_lint'])
+    call tdd#command#alias('make_lint', 'make')
+    call tdd#command#args('make_lint', ['lint'])
+    call tdd#command#filetype('_', ['make_lint'])
 
     cd ./test/plugin/_test_data/make
 
@@ -39,8 +39,8 @@ function! s:suite.command_alias()
 endfunction
 
 function! s:suite.command_args()
-    call tdd#config#command_alias('make_lint', 'make')
-    call tdd#config#command('make_lint', ['lint'])
+    call tdd#command#alias('make_lint', 'make')
+    call tdd#command#args('make_lint', ['lint'])
 
     cd ./test/plugin/_test_data/make
 

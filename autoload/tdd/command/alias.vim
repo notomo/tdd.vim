@@ -3,7 +3,7 @@ function! tdd#command#alias#new(params) abort
     let alias = a:params.alias
     let command = {
         \ 'alias': alias,
-        \ 'option_args': a:params.args,
+        \ 'option_args': get(a:params, 'args', v:null),
     \ }
 
     function! command.executable() abort
@@ -11,7 +11,10 @@ function! tdd#command#alias#new(params) abort
     endfunction
 
     function! command.args() abort
-        return self.option_args
+        if type(self.option_args) == v:t_list
+            return self.option_args
+        endif
+        return self.alias.args()
     endfunction
 
     function! command.cd() abort
@@ -20,13 +23,19 @@ function! tdd#command#alias#new(params) abort
 
     if has_key(alias, 'args_for_file')
         function! command.args_for_file() abort
-            return self.option_args
+            if type(self.option_args) == v:t_list
+                return self.option_args
+            endif
+            return self.alias.args_for_file()
         endfunction
     endif
 
     if has_key(alias, 'args_for_project')
         function! command.args_for_project() abort
-            return self.option_args
+            if type(self.option_args) == v:t_list
+                return self.option_args
+            endif
+            return self.alias.args_for_project()
         endfunction
     endif
 

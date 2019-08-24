@@ -1,8 +1,5 @@
 
 function! tdd#config#clear() abort
-    let s:commands = {}
-    let s:filetype_commands = {}
-
     let s:options = {
         \ 'output': 'terminal',
         \ 'layout': 'tab',
@@ -20,36 +17,8 @@ let s:OPTIONS = {
     \ 'log': ['themis'],
 \ }
 
-function! tdd#config#filetype_commands(filetype, commands) abort
-    let s:filetype_commands[a:filetype] = a:commands
-endfunction
-
-function! tdd#config#command(name, args) abort
-    if type(a:args) != v:t_list
-        throw printf('args must be a list, but actual: %s', a:args)
-    endif
-
-    if !has_key(s:commands, a:name)
-        let s:commands[a:name] = {}
-        let s:commands[a:name]['name'] = a:name
-    endif
-    let s:commands[a:name]['args'] = a:args
-endfunction
-
-function! tdd#config#command_alias(name, base_name) abort
-    let s:commands[a:name] = {'name': a:base_name}
-endfunction
-
 function! tdd#config#option(name, value) abort
     let s:options[a:name] = a:value
-endfunction
-
-function! tdd#config#get_filetype_commands() abort
-    return s:filetype_commands
-endfunction
-
-function! tdd#config#get_commands() abort
-    return s:commands
 endfunction
 
 function! tdd#config#get_options() abort

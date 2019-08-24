@@ -23,7 +23,7 @@ function! s:suite.make()
 endfunction
 
 function! s:suite.args()
-    call tdd#config#command('make', ['-f', 'test.mk', '_test'])
+    call tdd#command#args('make', ['-f', 'test.mk', '_test'])
 
     cd ./test/plugin/_test_data/make
 

@@ -7,8 +7,6 @@ function! tdd#complete#get(current_arg, line, cursor_position) abort
         return join(option_key_values, "\n")
     endif
 
-    let command_names = tdd#command#names() + keys(tdd#config#get_commands())
-
     let current_options = []
     for factor in split(a:line, '\v\s+')
         let key = s:parse_option_name(factor)
@@ -23,7 +21,7 @@ function! tdd#complete#get(current_arg, line, cursor_position) abort
     call filter(option_names, {_, v -> count(current_options, v) == 0})
     call map(option_names, {_, v -> printf('-%s=', v)})
 
-    let candidates = command_names + option_names
+    let candidates = tdd#command#names() + option_names
     return join(candidates, "\n")
 endfunction
 

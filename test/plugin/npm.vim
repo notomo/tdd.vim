@@ -14,7 +14,7 @@ endfunction
 let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:suite.npm()
-    call tdd#config#filetype_commands('_', ['npm'])
+    call tdd#command#filetype('_', ['npm'])
 
     cd ./test/plugin/_test_data/npm
 

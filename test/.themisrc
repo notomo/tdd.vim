@@ -7,6 +7,7 @@ function! TddTestBeforeEach() abort
     execute 'cd' s:root
     call tdd#reset()
     call tdd#config#clear()
+    call tdd#command#reset()
     call tdd#config#option('log', 'themis')
     call themis#log('')
 endfunction
