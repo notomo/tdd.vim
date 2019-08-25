@@ -78,3 +78,24 @@ function! s:suite.layout_override()
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
     call s:assert.equals(tabpagenr('$'), 2)
 endfunction
+
+function! s:suite.last_test_not_found()
+    call tdd#main('-last')
+    call s:assert.equals(tdd#status(), s:STATUS.UNKNOWN)
+endfunction
+
+function! s:suite.last_test()
+    call tdd#command#filetype('_', ['make'])
+
+    cd ./test/plugin/_test_data/make
+
+    let test = tdd#main()
+    call test.wait()
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+
+    let test = tdd#main('-last')
+    call test.wait()
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+endfunction

@@ -20,6 +20,10 @@ function! tdd#model#cycle#new() abort
         return self.cycle_status
     endfunction
 
+    function! cycle.last_test() abort
+        return self.test
+    endfunction
+
     function! cycle.on_test_finished(test_id, status) abort
         if a:status ==? 'SUCCESSED'
             let self.cycle_status = s:STATUS.GREEN

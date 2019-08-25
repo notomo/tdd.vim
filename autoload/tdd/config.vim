@@ -5,6 +5,7 @@ function! tdd#config#clear() abort
         \ 'layout': 'tab',
         \ 'target': 'project',
         \ 'log': '',
+        \ 'last': v:false,
     \ }
 endfunction
 

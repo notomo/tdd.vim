@@ -17,11 +17,15 @@ function! tdd#complete#get(current_arg, line, cursor_position) abort
     endfor
 
     let options = tdd#config#get_options()
-    let option_names = keys(options)
-    call filter(option_names, {_, v -> count(current_options, v) == 0})
-    call map(option_names, {_, v -> printf('-%s=', v)})
+    let key_value_options = copy(options)
+    call filter(key_value_options, {k, v -> count(current_options, k) == 0 && type(v) != v:t_bool })
+    call map(key_value_options, {k, _ -> printf('-%s=', k)})
 
-    let candidates = tdd#command#names() + option_names
+    let key_options = copy(options)
+    call filter(key_options, {k, v -> count(current_options, k) == 0 && type(v) == v:t_bool })
+    call map(key_options, {k, _ -> printf('-%s', k)})
+
+    let candidates = tdd#command#names() + values(key_value_options) + values(key_options)
     return join(candidates, "\n")
 endfunction
 

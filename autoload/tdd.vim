@@ -18,8 +18,16 @@ function! tdd#main(...) abort
 
     let presenter = tdd#presenter#new(status_presenter, output_presenter)
 
-    let command = tdd#command#factory(names)
-    let execution = tdd#model#execution#from_command(command, options['target'])
+    if options['last']
+        let test = s:cycle.last_test()
+        if empty(test)
+            echohl ErrorMsg | echo 'last test not found' | echohl None | return
+        endif
+        let execution = test.execution
+    else
+        let command = tdd#command#factory(names)
+        let execution = tdd#model#execution#from_command(command, options['target'])
+    endif
 
     let event_service = tdd#model#event#service()
 
@@ -48,10 +56,13 @@ function! s:parse_args(args) abort
             continue
         endif
 
-        let key_value = split(arg[1:], '=', v:true)
+        let key_value = split(arg[1:], '=')
         if len(key_value) == 2
             let [key, value] = key_value
             let options[key] = value
+        else
+            let [key] = key_value
+            let options[key] = v:true
         endif
     endfor
 

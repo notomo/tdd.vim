@@ -6,6 +6,7 @@ function! tdd#model#test#new(execution, presenter, event_service) abort
     let test = {
        \ 'id': s:id,
        \ 'event_service': a:event_service,
+       \ 'execution': a:execution,
        \ 'job': tdd#model#job#new(a:execution, a:presenter, a:event_service),
     \ }
 

@@ -18,6 +18,7 @@ function! s:suite.get()
     call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
     call s:assert.not_equals(count(names, '-layout='), 0, '`-layout=` must be in the candidates')
     call s:assert.equals(count(names, '-log='), 0, '`-log=` must not be in the candidates')
+    call s:assert.not_equals(count(names, '-last'), 0, '`-last` must be in the candidates')
 endfunction
 
 function! s:suite.get_option_values()
