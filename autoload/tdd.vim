@@ -6,7 +6,7 @@ endfunction
 call tdd#reset()
 
 function! tdd#main(...) abort
-    let [names, options] = s:parse_args(a:000)
+    let [names, options] = tdd#util#parse_args(a:000)
     call extend(options, tdd#config#get_options(), 'keep')
 
     let status_presenter = tdd#presenter#status()
@@ -45,26 +45,4 @@ endfunction
 
 function! tdd#status() abort
     return s:cycle.status()
-endfunction
-
-function! s:parse_args(args) abort
-    let names = []
-    let options = {}
-    for arg in a:args
-        if arg[0] !=# '-'
-            call add(names, arg)
-            continue
-        endif
-
-        let key_value = split(arg[1:], '=')
-        if len(key_value) == 2
-            let [key, value] = key_value
-            let options[key] = value
-        else
-            let [key] = key_value
-            let options[key] = v:true
-        endif
-    endfor
-
-    return [names, options]
 endfunction
