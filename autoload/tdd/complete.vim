@@ -30,9 +30,14 @@ function! tdd#complete#get(current_arg, line, cursor_position) abort
 endfunction
 
 function! s:parse_option_name(factor) abort
-    let key_value = split(a:factor, '=', v:true)
-    if len(key_value) != 2
+    if a:factor[0] !=# '-'
         return ''
+    endif
+
+    let key_value = split(a:factor, '=')
+    if len(key_value) == 1
+        let [key] = key_value
+        return key[1:]
     endif
     let [key, _] = key_value
     return key[1:]
