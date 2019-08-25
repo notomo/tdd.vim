@@ -1,6 +1,5 @@
 
 let s:ex_commands = {
-    \ '': 'edit | enew',
     \ 'nosplit': 'edit | enew',
     \ 'horizontal': 'botright split | enew',
     \ 'vertical': 'vsplit | enew',
@@ -8,8 +7,12 @@ let s:ex_commands = {
 \ }
 
 function! tdd#window_layout#new(layout_type) abort
+    if !has_key(s:ex_commands, a:layout_type)
+        throw printf('not found layout type: %s', a:layout_type)
+    endif
+
     let window_layout = {
-        \ 'ex_command': get(s:ex_commands, a:layout_type, 'edit | enew'),
+        \ 'ex_command': s:ex_commands[a:layout_type],
     \ }
 
     function! window_layout.execute() abort

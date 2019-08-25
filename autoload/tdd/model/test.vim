@@ -1,14 +1,16 @@
 
 let s:id = 0
 
-function! tdd#model#test#new(execution, presenter) abort
+function! tdd#model#test#new(execution, presenter, event_service) abort
     let s:id += 1
     let test = {
        \ 'id': s:id,
-       \ 'job': tdd#model#job#new(a:execution, a:presenter),
+       \ 'event_service': a:event_service,
+       \ 'job': tdd#model#job#new(a:execution, a:presenter, a:event_service),
     \ }
 
     function! test.start() abort
+        call self.event_service.on_job_finished(self.job.id, {id, status -> self.on_job_finished(id, status)})
         call self.job.start()
     endfunction
 
@@ -22,8 +24,8 @@ function! tdd#model#test#new(execution, presenter) abort
         return self.job.wait(timeout_msec)
     endfunction
 
-    function! test.has_successed() abort
-        return self.job.has_successed()
+    function! test.on_job_finished(job_id, status) abort
+        call self.event_service.test_finished(self.id, a:status)
     endfunction
 
     return test

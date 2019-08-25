@@ -8,22 +8,24 @@ let s:STATUS = {
 function! tdd#model#cycle#new() abort
     let cycle = {
         \ 'test': v:null,
+        \ 'cycle_status': s:STATUS.UNKNOWN,
     \ }
 
-    function! cycle.apply(test) abort
+    function! cycle.apply(test, event_service) abort
         let self.test = a:test
+        call a:event_service.on_test_finished(self.test.id, {id, status -> self.on_test_finished(id, status)})
     endfunction
 
     function! cycle.status() abort
-        if empty(self.test)
-            return s:STATUS.UNKNOWN
-        endif
+        return self.cycle_status
+    endfunction
 
-        if self.test.has_successed()
-            return s:STATUS.GREEN
+    function! cycle.on_test_finished(test_id, status) abort
+        if a:status ==? 'SUCCESSED'
+            let self.cycle_status = s:STATUS.GREEN
+        else
+            let self.cycle_status = s:STATUS.RED
         endif
-
-        return s:STATUS.RED
     endfunction
 
     return cycle

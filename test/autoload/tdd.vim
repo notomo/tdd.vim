@@ -19,8 +19,12 @@ endfunction
 function! s:presenter() abort
     let status_presenter = TddTestMock()
     call status_presenter.add_fn('echo')
-    let output_presenter = tdd#presenter#output('', '', 'themis')
+    let output_presenter = tdd#presenter#output('', 'nosplit', 'themis')
     return tdd#presenter#new(status_presenter, output_presenter)
+endfunction
+
+function! s:event_service() abort
+    return tdd#model#event#service()
 endfunction
 
 function! s:suite.test_error()
@@ -28,7 +32,7 @@ function! s:suite.test_error()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter)
+    let test = tdd#test(execution, presenter, s:event_service())
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -40,7 +44,7 @@ function! s:suite.test_fail()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter)
+    let test = tdd#test(execution, presenter, s:event_service())
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -52,7 +56,7 @@ function! s:suite.test_success()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter)
+    let test = tdd#test(execution, presenter, s:event_service())
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -64,7 +68,7 @@ function! s:suite.test_cd()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter)
+    let test = tdd#test(execution, presenter, s:event_service())
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

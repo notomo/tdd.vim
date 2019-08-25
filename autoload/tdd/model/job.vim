@@ -1,9 +1,9 @@
 
 let s:STATUS = {
-    \ 'SUCCESSED': 'successed',
-    \ 'FAILED': 'failed',
-    \ 'ERROR': 'error',
-    \ 'UNKNOWN': 'unknown',
+    \ 'SUCCESSED': 'SUCCESSED',
+    \ 'FAILED': 'FAILED',
+    \ 'ERROR': 'ERROR',
+    \ 'UNKNOWN': 'UNKNOWN',
 \ }
 
 let s:STATUS_MAPPER = {
@@ -11,24 +11,16 @@ let s:STATUS_MAPPER = {
     \ 1 : s:STATUS.FAILED,
 \ }
 
-let s:STAGE = {
-    \ 'WAITING': 'waiting',
-    \ 'RUNNING': 'running',
-    \ 'FINISHED': 'finished',
-\ }
-
 let s:id = 0
 
-function! tdd#model#job#new(execution, presenter) abort
+function! tdd#model#job#new(execution, presenter, event_service) abort
     let s:id += 1
     let job = {
        \ 'id': s:id,
        \ 'status': s:STATUS.UNKNOWN,
-       \ 'stage': s:STAGE.WAITING,
        \ 'execution': a:execution,
        \ 'presenter': a:presenter,
-       \ 'STATUS': s:STATUS,
-       \ 'STAGE': s:STAGE,
+       \ 'event_service': a:event_service,
     \ }
 
     function! job.change_status(exit_code) abort
@@ -41,8 +33,8 @@ function! tdd#model#job#new(execution, presenter) abort
 
     function! job.on_finished(exit_code) abort
         call self.change_status(a:exit_code)
-        let self.stage = s:STAGE.FINISHED
         call self.presenter.echo_status(self.status)
+        call self.event_service.job_finished(self.id, self.status)
     endfunction
 
     function! job.start() abort
@@ -54,7 +46,6 @@ function! tdd#model#job#new(execution, presenter) abort
             \ 'job': self,
         \ }
 
-        let self.stage = s:STAGE.RUNNING
         let self.internal_job_id = self.presenter.show_output(self.execution.cmd, options)
         if self.internal_job_id <= 0
             let self.status = s:STATUS.ERROR
@@ -70,10 +61,6 @@ function! tdd#model#job#new(execution, presenter) abort
 
         call jobstop(self.internal_job_id)
         throw printf('has not done in %d ms.', a:timeout_msec)
-    endfunction
-
-    function! job.has_successed() abort
-        return self.status == s:STATUS.SUCCESSED
     endfunction
 
     return job
