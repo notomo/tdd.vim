@@ -1,7 +1,9 @@
 
 function! tdd#complete#get(current_arg, line, cursor_position) abort
+    let options = tdd#config#get_options()
+
     let option_name = s:parse_option_name(a:current_arg)
-    if !empty(option_name)
+    if !empty(option_name) && has_key(options, option_name)
         let option_values = tdd#config#all_options(option_name)
         let option_key_values = map(option_values, {_, v -> printf('-%s=%s', option_name, v)})
         return join(option_key_values, "\n")
@@ -16,7 +18,6 @@ function! tdd#complete#get(current_arg, line, cursor_position) abort
         call add(current_options, key)
     endfor
 
-    let options = tdd#config#get_options()
     let key_value_options = copy(options)
     call filter(key_value_options, {k, v -> count(current_options, k) == 0 && type(v) != v:t_bool })
     call map(key_value_options, {k, _ -> printf('-%s=', k)})

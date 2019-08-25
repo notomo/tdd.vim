@@ -16,6 +16,7 @@ let s:OPTIONS = {
     \ 'layout': ['tab', 'nosplit' ,'vertical', 'horizontal'],
     \ 'target': ['project', 'file', 'directory'],
     \ 'log': ['themis'],
+    \ 'last': [],
 \ }
 
 function! tdd#config#option(name, value) abort

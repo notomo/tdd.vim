@@ -21,6 +21,14 @@ function! s:suite.get()
     call s:assert.not_equals(count(names, '-last'), 0, '`-last` must be in the candidates')
 endfunction
 
+function! s:suite.option_key()
+    let got = tdd#complete#get('-la', 'TDDTest -la', 20)
+    let names = split(got, "\n")
+
+    call themis#log('[log] ' . string(names))
+    call s:assert.not_equals(count(names, '-last'), 0, '`-last` must be in the candidates')
+endfunction
+
 function! s:suite.key_option_already_exists()
     let got = tdd#complete#get('', 'TDDTest -last ', 20)
     let names = split(got, "\n")
