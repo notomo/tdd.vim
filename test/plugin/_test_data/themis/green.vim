@@ -4,3 +4,7 @@ let s:assert = themis#helper('assert')
 function! s:suite.test()
     call s:assert.equals(1, 1)
 endfunction
+
+function! s:suite.near()
+    call s:assert.equals(1, 1)
+endfunction

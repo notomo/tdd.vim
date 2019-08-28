@@ -4,6 +4,8 @@ function! tdd#model#execution#from_command(command, target) abort
         let args = a:command.args_for_file()
     elseif a:target ==# 'project'  && has_key(a:command, 'args_for_project')
         let args = a:command.args_for_project()
+    elseif a:target ==# 'near'  && has_key(a:command, 'args_for_near')
+        let args = a:command.args_for_near()
     else
         let args = a:command.args()
     endif
@@ -13,6 +15,8 @@ function! tdd#model#execution#from_command(command, target) abort
         let cd = a:command.cd_for_file()
     elseif a:target ==# 'project'  && has_key(a:command, 'cd_for_project')
         let cd = a:command.cd_for_project()
+    elseif a:target ==# 'near'  && has_key(a:command, 'cd_for_near')
+        let cd = a:command.cd_for_near()
     else
         let cd = a:command.cd()
     endif

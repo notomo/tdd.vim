@@ -52,3 +52,15 @@ function! s:suite.parent_file()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
+
+function! s:suite.near()
+    edit ./test/plugin/_test_data/themis/green.vim
+    call search('s:suite.near')
+    let file_path = expand('%:p')
+
+    let test = tdd#main('themis', '-target=near')
+    call test.wait(500)
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.equals(test.execution.cmd, ['themis', '--target', 'near', file_path])
+endfunction

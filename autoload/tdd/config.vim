@@ -14,7 +14,7 @@ call tdd#config#clear()
 let s:OPTIONS = {
     \ 'output': ['terminal'],
     \ 'layout': ['tab', 'nosplit' ,'vertical', 'horizontal'],
-    \ 'target': ['project', 'file', 'directory'],
+    \ 'target': ['project', 'file', 'directory', 'near'],
     \ 'log': ['themis'],
     \ 'last': [],
 \ }
