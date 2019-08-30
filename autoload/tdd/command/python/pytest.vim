@@ -7,19 +7,19 @@ function! tdd#command#python#pytest#new(params) abort
     endfunction
 
     function! command.args() abort
+        return []
+    endfunction
+
+    function! command.args_for_file() abort
         return [expand('%:p')]
     endfunction
 
     function! command.cd() abort
-        return fnamemodify(expand('%:p'), ':h')
-    endfunction
-
-    function! command.cd_for_file() abort
         let ini_path = tdd#util#search_parent_recursive('pytest\.ini', './')
         if !empty(ini_path)
             return fnamemodify(ini_path, ':h')
         endif
-        return self.cd()
+        return '.'
     endfunction
 
     return command

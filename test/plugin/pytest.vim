@@ -13,10 +13,21 @@ endfunction
 
 let s:STATUS = tdd#model#cycle#all_status()
 
-function! s:suite.pytest()
-    edit ./test/plugin/_test_data/pytest/test/test_main.py
+function! s:suite.with_init()
+    cd ./test/plugin/_test_data/pytest/has_init/test
+    edit ./test_main.py
 
     let test = tdd#main()
+    call test.wait(2500)
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+endfunction
+
+function! s:suite.without_init()
+    cd ./test/plugin/_test_data/pytest
+    edit ./test_hoge.py
+
+    let test = tdd#main('-target=file')
     call test.wait(2500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
