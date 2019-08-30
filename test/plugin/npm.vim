@@ -19,7 +19,7 @@ function! s:suite.npm()
     cd ./test/plugin/_test_data/npm
 
     let test = tdd#main()
-    call test.wait(1000)
+    call test.wait(2000)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
