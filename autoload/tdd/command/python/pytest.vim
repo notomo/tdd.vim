@@ -7,11 +7,11 @@ function! tdd#command#python#pytest#new(params) abort
     endfunction
 
     function! command.args() abort
-        return []
+        return ['--capture=no']
     endfunction
 
     function! command.args_for_file() abort
-        return [expand('%:p')]
+        return ['--capture=no', expand('%:p')]
     endfunction
 
     function! command.cd() abort
