@@ -36,7 +36,8 @@ function! tdd#command#factory(names) abort
 
     for name in names
         if has_key(s:options, name)
-            let params = {'alias': s:commands[name]({})}
+            let alias = s:commands[name]({})
+            let params = {'alias': alias}
             call extend(params, s:options[name], 'keep')
             let command = tdd#command#alias#new(params)
         elseif has_key(s:commands, name)
@@ -75,7 +76,8 @@ function! tdd#command#alias(name, base_name) abort
     let f = {'base_name': a:base_name}
     function! f.alias(params) abort
         let params = a:params
-        let params['alias'] = s:commands[self.base_name](params)
+        let alias = s:commands[self.base_name](params)
+        let params['alias'] = alias
         return tdd#command#alias#new(params)
     endfunction
 

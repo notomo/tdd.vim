@@ -38,6 +38,22 @@ function! s:suite.command_alias()
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
 
+function! s:suite.has_null_alias()
+    call tdd#command#alias('npm_lint', 'npm')
+    call tdd#command#args('npm_lint', ['lint'])
+    call tdd#command#alias('make_lint', 'make')
+    call tdd#command#args('make_lint', ['lint'])
+    call tdd#command#filetype('_', ['make_lint'])
+
+    cd ./test/plugin/_test_data/make
+
+    let test = tdd#main('npm_lint', 'make_lint')
+    call test.wait()
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.equals(test.execution.cmd, ['make', 'lint'])
+endfunction
+
 function! s:suite.command_args()
     call tdd#command#alias('make_lint', 'make')
     call tdd#command#args('make_lint', ['lint'])

@@ -1,6 +1,9 @@
 
 function! tdd#command#alias#new(params) abort
     let alias = a:params.alias
+    if type(alias) != v:t_dict
+        return v:null
+    endif
     let command = {
         \ 'alias': alias,
         \ 'option_args': get(a:params, 'args', v:null),
