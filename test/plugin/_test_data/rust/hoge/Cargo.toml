@@ -1,0 +1,7 @@
+[package]
+name = "hoge"
+version = "0.1.0"
+authors = ["notomo"]
+edition = "2018"
+
+[dependencies]

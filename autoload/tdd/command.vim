@@ -6,6 +6,7 @@ function! tdd#command#reset() abort
         \ 'npm': { params -> tdd#command#npm#new(params) },
         \ 'go': { params -> tdd#command#go#go#new(params) },
         \ 'pytest': { params -> tdd#command#python#pytest#new(params) },
+        \ 'cargo': { params -> tdd#command#rust#cargo#new(params) },
     \ }
 
     let s:options = {}
@@ -16,6 +17,7 @@ function! tdd#command#reset() abort
         \ 'typescript': ['npm'],
         \ 'go': ['go'],
         \ 'python': ['pytest'],
+        \ 'rust': ['cargo'],
         \ '_': ['make'],
     \ }
 endfunction
