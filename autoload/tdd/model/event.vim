@@ -1,6 +1,6 @@
 
-let s:JOB_FINISHED = 'JOB_FINISHED'
-let s:TEST_FINISHED = 'TEST_FINISHED'
+let s:JOB_FINISHED = 'TddJobFinished'
+let s:TEST_FINISHED = 'TddTestFinished'
 
 function! tdd#model#event#service() abort
     let s:job_callbacks = {}
