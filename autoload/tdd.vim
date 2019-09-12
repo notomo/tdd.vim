@@ -29,7 +29,7 @@ function! tdd#main(...) abort
         let execution = tdd#model#execution#from_command(command, options['target'])
     endif
 
-    let event_service = tdd#model#event#service()
+    let event_service = tdd#model#event#service(presenter)
 
     return tdd#test(execution, presenter, event_service)
 endfunction

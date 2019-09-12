@@ -7,6 +7,7 @@ function! tdd#command#reset() abort
         \ 'go': { params -> tdd#command#go#go#new(params) },
         \ 'pytest': { params -> tdd#command#python#pytest#new(params) },
         \ 'cargo': { params -> tdd#command#rust#cargo#new(params) },
+        \ 'jest': { params -> tdd#command#javascript#jest#new(params) },
     \ }
 
     let s:options = {}

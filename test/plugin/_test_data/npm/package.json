@@ -1,5 +1,14 @@
 {
     "scripts": {
         "test": "echo ok"
+    },
+    "devDependencies": {
+        "jest": "^24.9.0"
+    },
+    "jest": {
+        "testMatch": [
+            "**/jest/**/*\\.test\\.js"
+        ],
+        "verbose": true
     }
 }

@@ -23,8 +23,8 @@ function! s:presenter() abort
     return tdd#presenter#new(status_presenter, output_presenter)
 endfunction
 
-function! s:event_service() abort
-    return tdd#model#event#service()
+function! s:event_service(presenter) abort
+    return tdd#model#event#service(a:presenter)
 endfunction
 
 function! s:suite.test_error()
@@ -32,7 +32,7 @@ function! s:suite.test_error()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter, s:event_service())
+    let test = tdd#test(execution, presenter, s:event_service(presenter))
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -44,7 +44,7 @@ function! s:suite.test_fail()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter, s:event_service())
+    let test = tdd#test(execution, presenter, s:event_service(presenter))
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.RED)
@@ -56,7 +56,7 @@ function! s:suite.test_success()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter, s:event_service())
+    let test = tdd#test(execution, presenter, s:event_service(presenter))
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
@@ -68,7 +68,7 @@ function! s:suite.test_cd()
 
     let presenter = s:presenter()
 
-    let test = tdd#test(execution, presenter, s:event_service())
+    let test = tdd#test(execution, presenter, s:event_service(presenter))
     call test.wait()
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)

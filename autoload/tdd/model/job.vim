@@ -48,6 +48,7 @@ function! tdd#model#job#new(execution, presenter, event_service) abort
 
         let self.internal_job_id = self.presenter.show_output(self.execution.cmd, options)
         if self.internal_job_id <= 0
+            call self.presenter.log('error', ['internal_job_id=' . self.internal_job_id])
             let self.status = s:STATUS.ERROR
             call self.on_finished(v:null)
         endif
