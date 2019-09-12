@@ -18,7 +18,7 @@ function! s:suite.jest()
     edit ./test_main.js
 
     let test = tdd#main('jest')
-    call test.wait(3000)
+    call test.wait(4000)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
     call s:assert.equals(test.execution.cmd, ['npx', 'jest'])
