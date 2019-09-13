@@ -15,11 +15,22 @@ let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:suite.jest()
     cd ./test/plugin/_test_data/npm/jest
-    edit ./test_main.js
+    edit ./main.test.js
 
     let test = tdd#main('jest')
-    call test.wait(4000)
+    call test.wait(8000)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
     call s:assert.equals(test.execution.cmd, ['npx', 'jest'])
+endfunction
+
+function! s:suite.file()
+    cd ./test/plugin/_test_data/npm/jest
+    edit ./main.test.js
+
+    let test = tdd#main('jest', '-target=file')
+    call test.wait(8000)
+
+    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.equals(test.execution.cmd, ['npx', 'jest', '--', 'jest/main'])
 endfunction

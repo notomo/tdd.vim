@@ -17,7 +17,7 @@ function! s:suite.go()
     edit ./test/plugin/_test_data/go/main_test.go
 
     let test = tdd#main()
-    call test.wait(2000)
+    call test.wait(5000)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
@@ -27,7 +27,7 @@ function! s:suite.near()
     call search('TestNear')
 
     let test = tdd#main('go', '-target=near')
-    call test.wait(2000)
+    call test.wait(5000)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
     call s:assert.equals(test.execution.cmd, ['go', 'test', '-v', '-run', 'TestNear'])

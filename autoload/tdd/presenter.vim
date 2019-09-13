@@ -52,7 +52,9 @@ function! tdd#presenter#output(output_type, layout_type, log_type) abort
         if self.log_type ==# 'themis'
             let label = printf('[%s] ', a:label)
             for msg in a:messages
-                call themis#log(label . msg)
+                " FIXME: REMOVE ANSI
+                let m = substitute(msg, "\<ESC>\\[\\d*[a-zA-Z]", '', 'g')
+                call themis#log(label . m)
             endfor
         endif
     endfunction

@@ -14,8 +14,8 @@ function! tdd#command#reset() abort
 
     let s:filetype_commands = {
         \ 'vim': ['themis'],
-        \ 'javascript': ['npm'],
-        \ 'typescript': ['npm'],
+        \ 'javascript': ['jest'],
+        \ 'typescript': ['jest'],
         \ 'go': ['go'],
         \ 'python': ['pytest'],
         \ 'rust': ['cargo'],
