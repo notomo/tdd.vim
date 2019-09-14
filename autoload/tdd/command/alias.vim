@@ -1,11 +1,10 @@
 
-function! tdd#command#alias#new(params) abort
-    let alias = a:params.alias
-    if type(alias) != v:t_dict
+function! tdd#command#alias#new(alias, params) abort
+    if type(a:alias) != v:t_dict
         return v:null
     endif
     let command = {
-        \ 'alias': alias,
+        \ 'alias': a:alias,
         \ 'option_args': get(a:params, 'args', v:null),
     \ }
 
@@ -24,7 +23,7 @@ function! tdd#command#alias#new(params) abort
         return self.alias.cd()
     endfunction
 
-    if has_key(alias, 'args_for_file')
+    if has_key(a:alias, 'args_for_file')
         function! command.args_for_file() abort
             if type(self.option_args) == v:t_list
                 return self.option_args
@@ -33,7 +32,7 @@ function! tdd#command#alias#new(params) abort
         endfunction
     endif
 
-    if has_key(alias, 'args_for_project')
+    if has_key(a:alias, 'args_for_project')
         function! command.args_for_project() abort
             if type(self.option_args) == v:t_list
                 return self.option_args
@@ -42,13 +41,13 @@ function! tdd#command#alias#new(params) abort
         endfunction
     endif
 
-    if has_key(alias, 'cd_for_file')
+    if has_key(a:alias, 'cd_for_file')
         function! command.cd_for_file() abort
             return self.alias.cd_for_file()
         endfunction
     endif
 
-    if has_key(alias, 'cd_for_project')
+    if has_key(a:alias, 'cd_for_project')
         function! command.cd_for_project() abort
             return self.alias.cd_for_project()
         endfunction
