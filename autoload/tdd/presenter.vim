@@ -13,8 +13,10 @@ function! tdd#presenter#new(status_presenter, output_presenter) abort
         return self.output.show(a:cmd, a:options)
     endfunction
 
-    function! presenter.log(label, messages) abort
-        return self.output.log(a:label, a:messages)
+    function! presenter.show_error(message) abort
+        echohl ErrorMsg
+        echo '[tdd] ' . a:message
+        echohl None
     endfunction
 
     return presenter

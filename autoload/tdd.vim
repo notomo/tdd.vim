@@ -25,7 +25,7 @@ function! tdd#test(names, presenter, options) abort
     if a:options['last']
         let test = s:cycle.last_test()
         if empty(test)
-            echohl ErrorMsg | echo 'last test not found' | echohl None | return
+            return a:presenter.show_error('last test not found')
         endif
         let execution = test.execution
     else
