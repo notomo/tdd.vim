@@ -61,3 +61,11 @@ function! s:suite.get_with_invalid_key_value()
     call themis#log('[log] ' . string(names))
     call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
 endfunction
+
+function! s:suite.get_with_multiple_equals()
+    let got = tdd#complete#get('-key=v=v', 'TDDTest -key=v=v', 18)
+    let names = split(got, "\n")
+
+    call themis#log('[log] ' . string(names))
+    call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
+endfunction

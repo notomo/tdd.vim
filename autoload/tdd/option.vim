@@ -50,8 +50,10 @@ function! tdd#option#parse_one(factor) abort
     endif
 
     let key_value = split(a:factor[1:], '=', v:true)
-    if len(key_value) == 2
-        return key_value
+    if len(key_value) >= 2
+        let key = key_value[0]
+        let value = join(key_value[1:], '=')
+        return [key, value]
     endif
 
     let [key] = key_value
