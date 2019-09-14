@@ -79,7 +79,7 @@ function! s:suite.command_args()
 endfunction
 
 function! s:suite.layout()
-    call tdd#config#option('layout', 'vertical')
+    call tdd#option#set('layout', 'vertical')
 
     cd ./test/plugin/_test_data/make
     edit test.mk
@@ -96,7 +96,7 @@ function! s:suite.layout()
 endfunction
 
 function! s:suite.layout_override()
-    call tdd#config#option('layout', 'vertical')
+    call tdd#option#set('layout', 'vertical')
 
     cd ./test/plugin/_test_data/make
 

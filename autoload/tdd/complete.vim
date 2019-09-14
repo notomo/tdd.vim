@@ -1,15 +1,18 @@
 
 function! tdd#complete#get(current_arg, line, cursor_position) abort
-    let options = tdd#config#get_options()
+    let options = tdd#option#all()
 
-    let [option_name, _] = tdd#util#parse_option(a:current_arg)
+    let [option_name, _] = tdd#option#parse_one(a:current_arg)
     if !empty(option_name) && has_key(options, option_name)
-        let option_values = tdd#config#all_options(option_name)
+        let option_values = tdd#option#list(option_name)
         let option_key_values = map(option_values, {_, v -> printf('-%s=%s', option_name, v)})
         return join(option_key_values, "\n")
     endif
 
-    let [_, current_options] = tdd#util#parse_args(split(a:line, '\v\s+'))
+    let [_, current_options] = tdd#option#parse(split(a:line, '\v\s+'))
+    let defaults = tdd#option#default()
+    call filter(current_options, {k, v -> !has_key(defaults, k) || defaults[k] != v})
+
     let current_option_keys = keys(current_options)
 
     let key_value_options = copy(options)

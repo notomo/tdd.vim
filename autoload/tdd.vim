@@ -6,8 +6,7 @@ endfunction
 call tdd#reset()
 
 function! tdd#main(...) abort
-    let [names, options] = tdd#util#parse_args(a:000)
-    call extend(options, tdd#config#get_options(), 'keep')
+    let [names, options] = tdd#option#parse(a:000)
 
     let status_presenter = tdd#presenter#status()
 
