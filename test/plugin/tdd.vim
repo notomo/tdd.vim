@@ -25,6 +25,18 @@ function! s:suite.commands()
     call s:assert.equals(tabpagenr('$'), 2)
 endfunction
 
+function! s:suite.error()
+    call tdd#command#filetype('_', ['make'])
+    call tdd#command#args('make', ['error'])
+
+    cd ./test/plugin/_test_data/make
+
+    let test = tdd#main()
+    call test.wait(500)
+
+    call s:assert.equals(tdd#status(), s:STATUS.RED)
+endfunction
+
 function! s:suite.command_alias()
     call tdd#command#alias('make_lint', 'make')
     call tdd#command#args('make_lint', ['lint'])
