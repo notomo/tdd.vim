@@ -2,11 +2,13 @@
 let s:JOB_FINISHED = 'TddJobFinished'
 let s:TEST_FINISHED = 'TddTestFinished'
 
-function! tdd#model#event#service(presenter) abort
+function! tdd#model#event#service() abort
     let s:job_callbacks = {}
     let s:test_callbacks = {}
 
-    let service = {'presenter': a:presenter}
+    let service = {
+        \ 'logger': tdd#logger#new().label('event'),
+    \ }
 
     function! service.on_job_finished(job_id, callback) abort
         let s:job_callbacks[a:job_id] = a:callback
@@ -20,13 +22,13 @@ function! tdd#model#event#service(presenter) abort
 
     function! service.job_finished(job_id, status) abort
         let event = printf('%s:%s:%s', s:JOB_FINISHED, a:job_id, a:status)
-        call self.presenter.log('event', [event])
+        call self.logger.log(event)
         execute printf('doautocmd User %s', event)
     endfunction
 
     function! service.test_finished(test_id, status) abort
         let event = printf('%s:%s:%s', s:TEST_FINISHED, a:test_id, a:status)
-        call self.presenter.log('event', [event])
+        call self.logger.log(event)
         execute printf('doautocmd User %s', event)
     endfunction
 

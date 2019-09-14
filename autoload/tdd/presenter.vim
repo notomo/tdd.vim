@@ -30,33 +30,23 @@ function! tdd#presenter#status() abort
     return status_presenter
 endfunction
 
-function! tdd#presenter#output(output_type, layout_type, log_type) abort
+function! tdd#presenter#output(output_type, layout_type) abort
     let output_presenter = {
         \ 'output_type': a:output_type,
         \ 'window_layout': tdd#window_layout#new(a:layout_type),
-        \ 'log_type': a:log_type,
+        \ 'logger': tdd#logger#new(),
     \ }
 
     function! output_presenter.show(cmd, options) abort
-        call self.log('cwd', [a:options.cwd])
-        call self.log('%:p', [expand('%:p')])
-        call self.log('cmd', [join(a:cmd, ' ')])
+        call self.logger.label('cwd').log(a:options.cwd)
+        call self.logger.label('%:p').log(expand('%:p'))
+        call self.logger.label('cmd').log(join(a:cmd, ' '))
+
         if self.output_type ==# 'terminal'
             call self.window_layout.execute()
             return termopen(a:cmd, a:options)
         endif
         return jobstart(a:cmd, a:options)
-    endfunction
-
-    function! output_presenter.log(label, messages) abort
-        if self.log_type ==# 'themis'
-            let label = printf('[%s] ', a:label)
-            for msg in a:messages
-                " FIXME: REMOVE ANSI
-                let m = substitute(msg, "\<ESC>\\[\\d*[a-zA-Z]", '', 'g')
-                call themis#log(label . m)
-            endfor
-        endif
     endfunction
 
     return output_presenter

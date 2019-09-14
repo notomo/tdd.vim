@@ -12,8 +12,7 @@ function! tdd#main(...) abort
 
     let output_type = options['output']
     let layout_type = options['layout']
-    let log_type = options['log']
-    let output_presenter = tdd#presenter#output(output_type, layout_type, log_type)
+    let output_presenter = tdd#presenter#output(output_type, layout_type)
 
     let presenter = tdd#presenter#new(status_presenter, output_presenter)
 
@@ -21,7 +20,7 @@ function! tdd#main(...) abort
 endfunction
 
 function! tdd#test(names, presenter, options) abort
-    call a:presenter.log('options', [string(a:options)])
+    call tdd#logger#new().label('options').log(string(a:options))
 
     if a:options['last']
         let test = s:cycle.last_test()
@@ -34,7 +33,7 @@ function! tdd#test(names, presenter, options) abort
         let execution = tdd#model#execution#from_command(command, a:options['target'])
     endif
 
-    let event_service = tdd#model#event#service(a:presenter)
+    let event_service = tdd#model#event#service()
 
     let test = tdd#model#test#new(execution, a:presenter, event_service)
     call s:cycle.apply(test, event_service)

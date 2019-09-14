@@ -2,7 +2,6 @@ let s:default_options = {
     \ 'output': 'terminal',
     \ 'layout': 'tab',
     \ 'target': 'project',
-    \ 'log': '',
     \ 'last': v:false,
 \ }
 
@@ -20,7 +19,6 @@ let s:OPTIONS = {
     \ 'output': ['terminal'],
     \ 'layout': ['tab', 'nosplit' ,'vertical', 'horizontal'],
     \ 'target': ['project', 'file', 'directory', 'near'],
-    \ 'log': ['themis'],
     \ 'last': [],
 \ }
 

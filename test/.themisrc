@@ -10,11 +10,12 @@ function! TddTestBeforeEach() abort
     call tdd#option#clear()
     call tdd#command#reset()
 
-    call tdd#option#set('log', 'themis')
+    call tdd#logger#set_func({ msg -> themis#log(msg) })
     call themis#log('')
 endfunction
 
 function! TddTestAfterEach() abort
     silent! %bwipeout!
     call tdd#option#clear()
+    call tdd#logger#clear()
 endfunction

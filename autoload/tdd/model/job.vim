@@ -21,6 +21,7 @@ function! tdd#model#job#new(execution, presenter, event_service) abort
        \ 'execution': a:execution,
        \ 'presenter': a:presenter,
        \ 'event_service': a:event_service,
+       \ 'logger': tdd#logger#new(),
     \ }
 
     function! job.change_status(exit_code) abort
@@ -68,11 +69,11 @@ function! tdd#model#job#new(execution, presenter, event_service) abort
 endfunction
 
 function! s:handle_stderr(job_id, data, event) abort dict
-    call self.job.presenter.log('stderr', a:data)
+    call self.job.logger.label('stderr').logs(a:data)
 endfunction
 
 function! s:handle_stdout(job_id, data, event) abort dict
-    call self.job.presenter.log('stdout', a:data)
+    call self.job.logger.label('stdout').logs(a:data)
 endfunction
 
 function! s:handle_exit(job_id, exit_code, event) abort dict
