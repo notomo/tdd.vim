@@ -1,4 +1,4 @@
-let s:suite = themis#suite('plugin.tdd.go')
+let s:suite = themis#suite('python.pytest')
 let s:assert = themis#helper('assert')
 
 function! s:suite.before_each()
@@ -13,22 +13,22 @@ endfunction
 
 let s:STATUS = tdd#model#cycle#all_status()
 
-function! s:suite.go()
-    edit ./test/plugin/_test_data/go/main_test.go
+function! s:suite.with_init()
+    cd ./test/plugin/_test_data/pytest/has_init/test
+    edit ./test_main.py
 
     let test = tdd#main()
-    call test.wait(5000)
+    call test.wait(2500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
 endfunction
 
-function! s:suite.near()
-    edit ./test/plugin/_test_data/go/main_test.go
-    call search('TestNear')
+function! s:suite.without_init()
+    cd ./test/plugin/_test_data/pytest
+    edit ./test_hoge.py
 
-    let test = tdd#main('go', '-target=near')
-    call test.wait(5000)
+    let test = tdd#main('-target=file')
+    call test.wait(2500)
 
     call s:assert.equals(tdd#status(), s:STATUS.GREEN)
-    call s:assert.equals(test.execution.cmd, ['go', 'test', '-v', '-run', 'TestNear'])
 endfunction

@@ -1,4 +1,4 @@
-let s:suite = themis#suite('plugin.tdd.themis')
+let s:suite = themis#suite('vim.themis')
 let s:assert = themis#helper('assert')
 
 function! s:suite.before_each()

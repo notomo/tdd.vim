@@ -1,4 +1,4 @@
-let s:suite = themis#suite('plugin.tdd.jest')
+let s:suite = themis#suite('javascript.jest')
 let s:assert = themis#helper('assert')
 
 function! s:suite.before_each()

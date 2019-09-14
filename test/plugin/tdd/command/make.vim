@@ -1,4 +1,4 @@
-let s:suite = themis#suite('plugin.tdd.make')
+let s:suite = themis#suite('make')
 let s:assert = themis#helper('assert')
 
 function! s:suite.before_each()

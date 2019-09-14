@@ -1,4 +1,4 @@
-let s:suite = themis#suite('plugin.tdd.go')
+let s:suite = themis#suite('npm')
 let s:assert = themis#helper('assert')
 
 function! s:suite.before_each()
@@ -13,9 +13,10 @@ endfunction
 
 let s:STATUS = tdd#model#cycle#all_status()
 
-function! s:suite.cargo()
-    cd ./test/plugin/_test_data/rust/hoge/src
-    edit ./main.rs
+function! s:suite.npm()
+    call tdd#command#filetype('_', ['npm'])
+
+    cd ./test/plugin/_test_data/npm
 
     let test = tdd#main()
     call test.wait(2000)
