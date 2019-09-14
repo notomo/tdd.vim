@@ -45,11 +45,11 @@ function! tdd#option#parse(args) abort
 endfunction
 
 function! tdd#option#parse_one(factor) abort
-    if a:factor[0] !=# '-'
+    if a:factor[0] !=# '-' || len(a:factor) <= 1
         return ['', a:factor]
     endif
 
-    let key_value = split(a:factor[1:], '=')
+    let key_value = split(a:factor[1:], '=', v:true)
     if len(key_value) == 2
         return key_value
     endif

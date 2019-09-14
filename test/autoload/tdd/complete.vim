@@ -44,3 +44,20 @@ function! s:suite.get_option_values()
     call themis#log('[log] ' . string(names))
     call s:assert.not_equals(count(names, '-target=file'), 0, '`-target=file` must be in the candidates')
 endfunction
+
+function! s:suite.get_with_option_prefix()
+    let got = tdd#complete#get('-', 'TDDTest -', 10)
+    let names = split(got, "\n")
+
+    call themis#log('[log] ' . string(names))
+    call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
+    call s:assert.not_equals(count(names, '-layout='), 0, '`-layout=` must be in the candidates')
+endfunction
+
+function! s:suite.get_with_invalid_key_value()
+    let got = tdd#complete#get('-=', 'TDDTest -=', 11)
+    let names = split(got, "\n")
+
+    call themis#log('[log] ' . string(names))
+    call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
+endfunction
