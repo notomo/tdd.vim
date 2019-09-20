@@ -29,7 +29,10 @@ function! tdd#test(names, presenter, options) abort
         endif
         let execution = test.execution
     else
-        let command = tdd#command#factory(a:names)
+        let [command, err] = tdd#command#factory(a:names)
+        if !empty(err)
+            return a:presenter.show_error(err)
+        endif
         let execution = tdd#model#execution#from_command(command, a:options['target'])
     endif
 

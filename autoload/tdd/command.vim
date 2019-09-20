@@ -43,15 +43,15 @@ function! tdd#command#factory(names) abort
         elseif has_key(s:commands, name)
             let command = s:commands[name]({})
         else
-            throw printf('not found command: %s', name)
+            return [v:null, printf('not found command: %s', name)]
         endif
 
         if !empty(command)
-            return command
+            return [command, '']
         endif
     endfor
 
-    throw printf('not found available command: filetype=%s', filetype)
+    return [v:null, printf('not found available command: filetype=%s', filetype)]
 endfunction
 
 function! tdd#command#names() abort
