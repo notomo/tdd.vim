@@ -5,6 +5,6 @@ function! s:suite.test()
     call s:assert.equals(1, 1)
 endfunction
 
-function! s:suite.near()
+function! s:suite.near() abort
     call s:assert.equals(1, 1)
 endfunction
