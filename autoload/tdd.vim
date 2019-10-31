@@ -1,3 +1,4 @@
+doautocmd User TDDSourceLoad
 
 function! tdd#reset() abort
     let s:cycle = tdd#model#cycle#new()
