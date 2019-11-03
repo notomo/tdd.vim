@@ -1,5 +1,5 @@
 let s:suite = themis#suite('rust.cargo')
-let s:assert = themis#helper('assert')
+let s:assert = TddTestAssert()
 
 function! s:suite.before_each()
     call TddTestBeforeEach()
@@ -11,7 +11,6 @@ function! s:suite.after_each()
     filetype off
 endfunction
 
-let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:suite.cargo()
     cd ./test/plugin/_test_data/rust/hoge/src
@@ -20,5 +19,5 @@ function! s:suite.cargo()
     let test = tdd#main()
     call test.wait(2000)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction

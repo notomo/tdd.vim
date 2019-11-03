@@ -3,6 +3,59 @@ call themis#option('recursive', 1)
 
 let s:root = getcwd()
 
+function! TddTestAssert() abort
+    let assert = themis#helper('assert')
+
+    function! assert.contains(haystack, needle) abort
+        call self.true(count(a:haystack, a:needle) != 0, a:needle . ' must be in the haystack')
+    endfunction
+
+    function! assert.not_contains(haystack, needle) abort
+        call self.false(count(a:haystack, a:needle) != 0, a:needle . ' must not be in the haystack')
+    endfunction
+
+    function! assert.status_green() abort
+        let expected = tdd#model#cycle#all_status().GREEN
+        let actual = tdd#status()
+        let message = printf('status should be %s, but actual: %s', expected, actual)
+        call self.equals(actual, expected, message)
+    endfunction
+
+    function! assert.status_red() abort
+        let expected = tdd#model#cycle#all_status().RED
+        let actual = tdd#status()
+        let message = printf('status should be %s, but actual: %s', expected, actual)
+        call self.equals(actual, expected, message)
+    endfunction
+
+    function! assert.status_unknown() abort
+        let expected = tdd#model#cycle#all_status().UNKNOWN
+        let actual = tdd#status()
+        let message = printf('status should be %s, but actual: %s', expected, actual)
+        call self.equals(actual, expected, message)
+    endfunction
+
+    function! assert.tab_count(expected) abort
+        let actual = tabpagenr('$')
+        let message = printf('tab count should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.window_count(expected) abort
+        let actual = tabpagewinnr(tabpagenr(), '$')
+        let message = printf('window count must be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.buffer_name(expected) abort
+        let actual = expand('%')
+        let message = printf('status should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    return assert
+endfunction
+
 function! TddTestBeforeEach() abort
     execute 'cd' s:root
 

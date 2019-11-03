@@ -1,5 +1,5 @@
 let s:suite = themis#suite('vim.themis')
-let s:assert = themis#helper('assert')
+let s:assert = TddTestAssert()
 
 function! s:suite.before_each()
     call TddTestBeforeEach()
@@ -11,8 +11,6 @@ function! s:suite.after_each()
     filetype off
 endfunction
 
-let s:STATUS = tdd#model#cycle#all_status()
-
 function! s:suite.green()
     edit ./test/plugin/_test_data/themis/green.vim
     cd ./test/plugin/_test_data/themis
@@ -21,7 +19,7 @@ function! s:suite.green()
     call s:assert.equals(&buftype, 'terminal')
     call test.wait(500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction
 
 function! s:suite.red()
@@ -31,7 +29,7 @@ function! s:suite.red()
     let test = tdd#main('-target=file')
     call test.wait(500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.RED)
+    call s:assert.status_red()
 endfunction
 
 function! s:suite.directory()
@@ -41,7 +39,7 @@ function! s:suite.directory()
     let test = tdd#main('-target=directory')
     call test.wait(500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.RED)
+    call s:assert.status_red()
 endfunction
 
 function! s:suite.parent_file()
@@ -50,7 +48,7 @@ function! s:suite.parent_file()
     let test = tdd#main('themis')
     call test.wait(500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction
 
 function! s:suite.near()
@@ -61,6 +59,6 @@ function! s:suite.near()
     let test = tdd#main('themis', '-target=near')
     call test.wait(500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
     call s:assert.equals(test.execution.cmd, ['themis', '--target', 'near', file_path])
 endfunction

@@ -1,6 +1,6 @@
 
 let s:suite = themis#suite('autoload.tdd.complete')
-let s:assert = themis#helper('assert')
+let s:assert = TddTestAssert()
 
 function! s:suite.before_each()
     call TddTestBeforeEach()
@@ -10,62 +10,71 @@ function! s:suite.after_each()
     call TddTestAfterEach()
 endfunction
 
+let s:_cursor_position = 8888
+
 function! s:suite.get()
-    let got = tdd#complete#get('', 'TDDTest -target=file ', 20)
+    let got = tdd#complete#get('', 'TDDTest -target=file ', s:_cursor_position)
     let names = split(got, "\n")
 
     call themis#log('[log] ' . string(names))
-    call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
-    call s:assert.not_equals(count(names, '-layout='), 0, '`-layout=` must be in the candidates')
-    call s:assert.equals(count(names, '-target=file'), 0, '`-target=file` must not be in the candidates')
-    call s:assert.not_equals(count(names, '-last'), 0, '`-last` must be in the candidates')
+
+    call s:assert.contains(names, 'make')
+    call s:assert.contains(names, '-layout=')
+    call s:assert.not_contains(names, '-target=file')
+    call s:assert.contains(names, '-last')
 endfunction
 
 function! s:suite.option_key()
-    let got = tdd#complete#get('-la', 'TDDTest -la', 20)
+    let got = tdd#complete#get('-la', 'TDDTest -la', s:_cursor_position)
     let names = split(got, "\n")
 
     call themis#log('[log] ' . string(names))
-    call s:assert.not_equals(count(names, '-last'), 0, '`-last` must be in the candidates')
+
+    call s:assert.contains(names, '-last')
 endfunction
 
 function! s:suite.key_option_already_exists()
-    let got = tdd#complete#get('', 'TDDTest -last ', 20)
+    let got = tdd#complete#get('', 'TDDTest -last ', s:_cursor_position)
     let names = split(got, "\n")
 
     call themis#log('[log] ' . string(names))
-    call s:assert.equals(count(names, '-last'), 0, '`-last` must not be in the candidates')
+
+    call s:assert.not_contains(names, '-last')
 endfunction
 
 function! s:suite.get_option_values()
-    let got = tdd#complete#get('-target=', 'TDDTest -target=', 16)
+    let got = tdd#complete#get('-target=', 'TDDTest -target=', s:_cursor_position)
     let names = split(got, "\n")
 
     call themis#log('[log] ' . string(names))
-    call s:assert.not_equals(count(names, '-target=file'), 0, '`-target=file` must be in the candidates')
+
+    call s:assert.contains(names, '-target=file')
 endfunction
 
 function! s:suite.get_with_option_prefix()
-    let got = tdd#complete#get('-', 'TDDTest -', 10)
+    let got = tdd#complete#get('-', 'TDDTest -', s:_cursor_position)
     let names = split(got, "\n")
 
     call themis#log('[log] ' . string(names))
-    call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
-    call s:assert.not_equals(count(names, '-layout='), 0, '`-layout=` must be in the candidates')
+
+    call s:assert.contains(names, 'make')
+    call s:assert.contains(names, '-layout=')
 endfunction
 
 function! s:suite.get_with_invalid_key_value()
-    let got = tdd#complete#get('-=', 'TDDTest -=', 11)
+    let got = tdd#complete#get('-=', 'TDDTest -=', s:_cursor_position)
     let names = split(got, "\n")
 
     call themis#log('[log] ' . string(names))
-    call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
+
+    call s:assert.contains(names, 'make')
 endfunction
 
 function! s:suite.get_with_multiple_equals()
-    let got = tdd#complete#get('-key=v=v', 'TDDTest -key=v=v', 18)
+    let got = tdd#complete#get('-key=v=v', 'TDDTest -key=v=v', s:_cursor_position)
     let names = split(got, "\n")
 
     call themis#log('[log] ' . string(names))
-    call s:assert.not_equals(count(names, 'make'), 0, '`make` must be in the candidates')
+
+    call s:assert.contains(names, 'make')
 endfunction

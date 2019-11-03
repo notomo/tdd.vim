@@ -1,5 +1,5 @@
 let s:suite = themis#suite('plugin.tdd')
-let s:assert = themis#helper('assert')
+let s:assert = TddTestAssert()
 
 function! s:suite.before_each()
     call TddTestBeforeEach()
@@ -11,8 +11,6 @@ function! s:suite.after_each()
     filetype off
 endfunction
 
-let s:STATUS = tdd#model#cycle#all_status()
-
 function! s:suite.commands()
     call tdd#command#filetype('_', ['npm', 'make'])
 
@@ -21,8 +19,8 @@ function! s:suite.commands()
     let test = tdd#main()
     call test.wait(500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
-    call s:assert.equals(tabpagenr('$'), 2)
+    call s:assert.status_green()
+    call s:assert.tab_count(2)
 endfunction
 
 function! s:suite.error()
@@ -34,7 +32,7 @@ function! s:suite.error()
     let test = tdd#main()
     call test.wait(500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.RED)
+    call s:assert.status_red()
 endfunction
 
 function! s:suite.command_alias()
@@ -47,7 +45,7 @@ function! s:suite.command_alias()
     let test = tdd#main()
     call test.wait()
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction
 
 function! s:suite.has_null_alias()
@@ -62,7 +60,7 @@ function! s:suite.has_null_alias()
     let test = tdd#main('npm_lint', 'make_lint')
     call test.wait()
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
     call s:assert.equals(test.execution.cmd, ['make', 'lint'])
 endfunction
 
@@ -75,7 +73,7 @@ function! s:suite.command_args()
     let test = tdd#main('make_lint')
     call test.wait()
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction
 
 function! s:suite.layout()
@@ -87,12 +85,12 @@ function! s:suite.layout()
     let test = tdd#main()
     call test.wait()
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
-    call s:assert.equals(tabpagenr('$'), 1)
-    call s:assert.equals(tabpagewinnr(tabpagenr(), '$'), 2)
+    call s:assert.status_green()
+    call s:assert.tab_count(1)
+    call s:assert.window_count(2)
 
     wincmd w
-    call s:assert.equals(expand('%'), 'test.mk')
+    call s:assert.buffer_name('test.mk')
 endfunction
 
 function! s:suite.layout_override()
@@ -103,13 +101,13 @@ function! s:suite.layout_override()
     let test = tdd#main('-layout=tab')
     call test.wait()
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
-    call s:assert.equals(tabpagenr('$'), 2)
+    call s:assert.status_green()
+    call s:assert.tab_count(2)
 endfunction
 
 function! s:suite.last_test_not_found()
     call tdd#main('-last')
-    call s:assert.equals(tdd#status(), s:STATUS.UNKNOWN)
+    call s:assert.status_unknown()
 endfunction
 
 function! s:suite.last_test()
@@ -120,10 +118,10 @@ function! s:suite.last_test()
     let test = tdd#main()
     call test.wait()
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 
     let test = tdd#main('-last')
     call test.wait()
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction

@@ -1,5 +1,5 @@
 let s:suite = themis#suite('go.go')
-let s:assert = themis#helper('assert')
+let s:assert = TddTestAssert()
 
 function! s:suite.before_each()
     call TddTestBeforeEach()
@@ -11,7 +11,6 @@ function! s:suite.after_each()
     filetype off
 endfunction
 
-let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:suite.go()
     edit ./test/plugin/_test_data/go/main_test.go
@@ -19,7 +18,7 @@ function! s:suite.go()
     let test = tdd#main()
     call test.wait(10000)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction
 
 function! s:suite.near()
@@ -29,6 +28,6 @@ function! s:suite.near()
     let test = tdd#main('go', '-target=near')
     call test.wait(10000)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
     call s:assert.equals(test.execution.cmd, ['go', 'test', '-v', '-run', 'TestNear'])
 endfunction

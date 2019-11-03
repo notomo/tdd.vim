@@ -1,5 +1,5 @@
 let s:suite = themis#suite('python.pytest')
-let s:assert = themis#helper('assert')
+let s:assert = TddTestAssert()
 
 function! s:suite.before_each()
     call TddTestBeforeEach()
@@ -11,7 +11,6 @@ function! s:suite.after_each()
     filetype off
 endfunction
 
-let s:STATUS = tdd#model#cycle#all_status()
 
 function! s:suite.with_init()
     cd ./test/plugin/_test_data/pytest/has_init/test
@@ -20,7 +19,7 @@ function! s:suite.with_init()
     let test = tdd#main()
     call test.wait(2500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction
 
 function! s:suite.without_init()
@@ -30,5 +29,5 @@ function! s:suite.without_init()
     let test = tdd#main('-target=file')
     call test.wait(2500)
 
-    call s:assert.equals(tdd#status(), s:STATUS.GREEN)
+    call s:assert.status_green()
 endfunction
