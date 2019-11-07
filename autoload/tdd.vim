@@ -50,3 +50,6 @@ endfunction
 function! tdd#status() abort
     return s:cycle.status()
 endfunction
+
+highlight default link TDDSuccessed Search
+highlight default link TDDFailed Todo

@@ -26,7 +26,13 @@ function! tdd#presenter#status() abort
     let status_presenter = {}
 
     function! status_presenter.echo(status) abort
+        if a:status ==# 'SUCCESSED'
+            echohl TDDSuccessed
+        else
+            echohl TDDFailed
+        endif
         echomsg a:status
+        echohl None
     endfunction
 
     return status_presenter
