@@ -42,7 +42,7 @@ function! tdd#presenter#output(output_type, layout_type) abort
     let output_presenter = {
         \ 'output_type': a:output_type,
         \ 'window_layout': tdd#window_layout#new(a:layout_type),
-        \ 'logger': tdd#logger#new(),
+        \ 'logger': tdd#logger#new('presenter'),
     \ }
 
     function! output_presenter.show(cmd, options) abort

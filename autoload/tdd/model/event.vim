@@ -7,7 +7,7 @@ function! tdd#model#event#service() abort
     let s:test_callbacks = {}
 
     let service = {
-        \ 'logger': tdd#logger#new().label('event'),
+        \ 'logger': tdd#logger#new('event'),
     \ }
 
     function! service.on_job_finished(job_id, callback) abort

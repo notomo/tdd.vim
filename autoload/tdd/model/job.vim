@@ -21,7 +21,7 @@ function! tdd#model#job#new(execution, presenter, event_service) abort
        \ 'execution': a:execution,
        \ 'presenter': a:presenter,
        \ 'event_service': a:event_service,
-       \ 'logger': tdd#logger#new(),
+       \ 'logger': tdd#logger#new('job'),
     \ }
 
     function! job.change_status(exit_code) abort

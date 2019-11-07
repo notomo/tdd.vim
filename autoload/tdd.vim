@@ -21,7 +21,7 @@ function! tdd#main(...) abort
 endfunction
 
 function! tdd#test(names, presenter, options) abort
-    call tdd#logger#new().label('options').log(string(a:options))
+    call tdd#logger#new('options').log(a:options)
 
     if a:options['last']
         let test = s:cycle.last_test()
