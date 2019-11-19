@@ -64,6 +64,7 @@ function! TddTestBeforeEach() abort
     call tdd#command#reset()
 
     call tdd#logger#set_func({ msg -> themis#log(msg) })
+    call tdd#messenger#set_func({ msg -> themis#log('[test messenger] ' . msg) })
     call themis#log('')
 endfunction
 

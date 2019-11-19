@@ -26,6 +26,7 @@ function! tdd#model#test#new(execution, presenter, event_service) abort
     endfunction
 
     function! test.on_job_finished(job_id, status) abort
+        call tdd#messenger#new().status(a:status)
         call self.event_service.test_finished(self.id, a:status)
     endfunction
 

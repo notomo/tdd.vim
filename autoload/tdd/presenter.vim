@@ -1,41 +1,14 @@
 
-function! tdd#presenter#new(status_presenter, output_presenter) abort
+function! tdd#presenter#new(output_presenter) abort
     let presenter = {
-        \ 'status': a:status_presenter,
         \ 'output': a:output_presenter,
     \ }
-
-    function! presenter.echo_status(status) abort
-        return self.status.echo(a:status)
-    endfunction
 
     function! presenter.show_output(cmd, options) abort
         return self.output.show(a:cmd, a:options)
     endfunction
 
-    function! presenter.show_error(message) abort
-        echohl ErrorMsg
-        echo '[tdd] ' . a:message
-        echohl None
-    endfunction
-
     return presenter
-endfunction
-
-function! tdd#presenter#status() abort
-    let status_presenter = {}
-
-    function! status_presenter.echo(status) abort
-        if a:status ==# 'SUCCESSED'
-            echohl TDDSuccessed
-        else
-            echohl TDDFailed
-        endif
-        echomsg a:status
-        echohl None
-    endfunction
-
-    return status_presenter
 endfunction
 
 function! tdd#presenter#output(output_type, layout_type) abort

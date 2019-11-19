@@ -34,7 +34,6 @@ function! tdd#model#job#new(execution, presenter, event_service) abort
 
     function! job.on_finished(exit_code) abort
         call self.change_status(a:exit_code)
-        call self.presenter.echo_status(self.status)
         call self.event_service.job_finished(self.id, self.status)
     endfunction
 
