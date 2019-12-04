@@ -38,19 +38,17 @@ function! tdd#command#vim#themis#new(params) abort
 endfunction
 
 function! s:search_pattern() abort
-    let lnum = search('s:suite\.\zs', 'nW', line('.'))
+    let lnum = search('suite\.\zs', 'nW', line('.'))
     if lnum != 0
         let line = getline(lnum)
-        let name = split(line,  '\v\s')[1]
-        return name[len('s:suite.'):-len('()') - 1]
+        return matchstr(line, '\vsuite\.\zs\k+\ze')
     endif
 
-    let lnum = search('s:suite\.\zs', 'bnW')
+    let lnum = search('suite\.\zs', 'bnW')
     if lnum == 0
         return ''
     endif
 
     let line = getline(lnum)
-    let name = split(line,  '\v\s')[1]
-    return name[len('s:suite.'):-len('()') - 1]
+    return matchstr(line, '\vsuite\.\zs\k+\ze')
 endfunction
