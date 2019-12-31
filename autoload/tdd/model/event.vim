@@ -2,10 +2,10 @@
 let s:JOB_FINISHED = 'TddJobFinished'
 let s:TEST_FINISHED = 'TddTestFinished'
 
-function! tdd#model#event#service() abort
-    let s:job_callbacks = {}
-    let s:test_callbacks = {}
+let s:job_callbacks = {}
+let s:test_callbacks = {}
 
+function! tdd#model#event#service() abort
     let service = {
         \ 'logger': tdd#logger#new('event'),
     \ }
