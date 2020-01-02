@@ -1,6 +1,6 @@
 
 function! tdd#command#javascript#jest#new(params) abort
-    let command = {}
+    let command = tdd#command#_default#new(a:params)
 
     let node_modules_path = tdd#util#search_parent_recursive('node_modules', './')
     if empty(node_modules_path)

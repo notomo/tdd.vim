@@ -1,4 +1,4 @@
-let s:suite = themis#suite('go.go')
+let s:suite = themis#suite('python.python')
 let s:assert = TddTestAssert()
 
 function! s:suite.before_each()
@@ -11,12 +11,12 @@ function! s:suite.after_each()
     filetype off
 endfunction
 
-function! s:suite.go()
-    edit ./test/plugin/_test_data/go/main.go
+function! s:suite.python()
+    edit ./test/plugin/_test_data/python/run.py
 
-    let test = tdd#main('go/go', '-target=file', '-type=run')
+    let test = tdd#main('python/python', '-target=file', '-type=run')
     call test.wait(10000)
 
     call s:assert.status_green()
-    call s:assert.equals(test.execution.cmd, ['go', 'run', 'main.go'])
+    call s:assert.equals(test.execution.cmd, ['python', 'run.py'])
 endfunction

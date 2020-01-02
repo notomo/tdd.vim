@@ -1,6 +1,6 @@
 
 function! tdd#command#npm#new(params) abort
-    let command = {}
+    let command = tdd#command#_default#new(a:params)
 
     let package_json_path = tdd#util#search_parent_recursive('package.json', './')
     if empty(package_json_path)

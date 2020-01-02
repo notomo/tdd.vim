@@ -1,6 +1,6 @@
 
 function! tdd#command#make#new(params) abort
-    let command = {}
+    let command = tdd#command#_default#new(a:params)
 
     let makefile_path = tdd#util#search_parent_recursive('Makefile', './')
     if empty(makefile_path)

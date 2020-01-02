@@ -1,4 +1,5 @@
 let s:default_options = {
+    \ 'type': 'test',
     \ 'output': 'terminal',
     \ 'layout': 'tab',
     \ 'target': 'project',
@@ -16,6 +17,7 @@ endfunction
 call tdd#option#clear()
 
 let s:OPTIONS = {
+    \ 'type': ['test', 'run'],
     \ 'output': ['terminal'],
     \ 'layout': ['tab', 'nosplit' ,'vertical', 'horizontal'],
     \ 'target': ['project', 'file', 'directory', 'near'],

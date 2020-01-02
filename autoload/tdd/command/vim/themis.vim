@@ -1,6 +1,6 @@
 
 function! tdd#command#vim#themis#new(params) abort
-    let command = {}
+    let command = tdd#command#_default#new(a:params)
 
     function! command.executable() abort
         return 'themis'

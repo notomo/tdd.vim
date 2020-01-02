@@ -3,6 +3,7 @@ function! s:load_commands() abort
     let pattern = 'autoload/tdd/command/**/**.vim'
     let paths = globpath(&runtimepath, pattern, v:true, v:true)
     call map(paths, { _, p -> fnamemodify(p, ':s?^.*\/autoload\/tdd\/command\/??:r')})
+    call filter(paths, { _, p -> !empty(p) && p[0] !=# '_' })
     let commands = {}
     for path in paths
         let f = {'name': printf('tdd#command#%s#new', substitute(path, '\/', '#', 'g'))}
@@ -16,15 +17,13 @@ endfunction
 
 function! tdd#command#reset() abort
     let s:commands = s:load_commands()
-
     let s:options = {}
-
     let s:filetype_commands = {
         \ 'vim': ['vim/themis'],
         \ 'javascript': ['javascript/jest'],
         \ 'typescript': ['javascript/jest'],
-        \ 'go': ['go/go'],
-        \ 'python': ['python/pytest'],
+        \ 'go': ['go/gotest', 'go/go'],
+        \ 'python': ['python/pytest', 'python/python'],
         \ 'rust': ['rust/cargo'],
         \ '_': ['make'],
     \ }
@@ -32,7 +31,7 @@ endfunction
 
 call tdd#command#reset()
 
-function! tdd#command#factory(names) abort
+function! tdd#command#factory(names, type) abort
     let filetype = &filetype
     if !empty(a:names)
         let names = a:names
@@ -46,14 +45,14 @@ function! tdd#command#factory(names) abort
         if has_key(s:options, name)
             let alias = s:commands[name].get({})
             let params = s:options[name]
-            let command = tdd#command#alias#new(alias, params)
+            let command = tdd#command#_alias#new(alias, params)
         elseif has_key(s:commands, name)
             let command = s:commands[name].get({})
         else
             return [v:null, printf('not found command: %s', name)]
         endif
 
-        if !empty(command)
+        if !empty(command) && command.match_type(a:type)
             return [command, '']
         endif
     endfor
@@ -83,7 +82,7 @@ function! tdd#command#alias(name, base_name) abort
     let f = {'base_name': a:base_name}
     function! f.get(params) abort
         let alias = s:commands[self.base_name].get(a:params)
-        return tdd#command#alias#new(alias, a:params)
+        return tdd#command#_alias#new(alias, a:params)
     endfunction
 
     let s:commands[a:name] = f

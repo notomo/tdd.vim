@@ -1,17 +1,13 @@
 
-function! tdd#command#go#go#new(params) abort
+function! tdd#command#python#python#new(params) abort
     let command = tdd#command#_default#new(a:params)
 
     function! command.executable() abort
-        return 'go'
-    endfunction
-
-    function! command.args() abort
-        return ['run']
+        return 'python'
     endfunction
 
     function! command.args_for_file() abort
-        return self.args() + [expand('%:t')]
+        return [expand('%:t')]
     endfunction
 
     function! command.cd() abort

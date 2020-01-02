@@ -21,6 +21,8 @@ function! s:suite.get()
     call s:assert.contains(names, 'make')
     call s:assert.contains(names, '-layout=')
     call s:assert.not_contains(names, '-target=file')
+    call s:assert.not_contains(names, '_alias')
+    call s:assert.not_contains(names, '_default')
     call s:assert.contains(names, '-last')
 endfunction
 

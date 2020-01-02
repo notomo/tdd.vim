@@ -1,12 +1,11 @@
 
-function! tdd#command#alias#new(alias, params) abort
+function! tdd#command#_alias#new(alias, params) abort
     if type(a:alias) != v:t_dict
         return v:null
     endif
-    let command = {
-        \ 'alias': a:alias,
-        \ 'option_args': get(a:params, 'args', v:null),
-    \ }
+    let command = tdd#command#_default#new(a:params)
+    let command.alias = a:alias
+    let command.option_args = get(a:params, 'args', v:null)
 
     function! command.executable() abort
         return self.alias.executable()
@@ -50,6 +49,12 @@ function! tdd#command#alias#new(alias, params) abort
     if has_key(a:alias, 'cd_for_project')
         function! command.cd_for_project() abort
             return self.alias.cd_for_project()
+        endfunction
+    endif
+
+    if has_key(a:alias, 'match_type')
+        function! command.match_type(type) abort
+            return self.alias.match_type(a:type)
         endfunction
     endif
 

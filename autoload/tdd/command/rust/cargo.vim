@@ -1,6 +1,6 @@
 
 function! tdd#command#rust#cargo#new(params) abort
-    let command = {}
+    let command = tdd#command#_default#new(a:params)
 
     let cargo_path = tdd#util#search_parent_recursive('Cargo.toml', './')
     if empty(cargo_path)

@@ -9,10 +9,7 @@ call tdd#reset()
 function! tdd#main(...) abort
     let [names, options] = tdd#option#parse(a:000)
 
-    let output_type = options['output']
-    let layout_type = options['layout']
-    let output_presenter = tdd#presenter#output(output_type, layout_type)
-
+    let output_presenter = tdd#presenter#output(options.output, options.layout)
     let presenter = tdd#presenter#new(output_presenter)
 
     return tdd#test(names, presenter, options)
@@ -28,11 +25,11 @@ function! tdd#test(names, presenter, options) abort
         endif
         let execution = test.execution
     else
-        let [command, err] = tdd#command#factory(a:names)
+        let [command, err] = tdd#command#factory(a:names, a:options.type)
         if !empty(err)
             return tdd#messenger#new().error(err)
         endif
-        let execution = tdd#model#execution#from_command(command, a:options['target'])
+        let execution = tdd#model#execution#from_command(command, a:options.target)
     endif
 
     let event_service = tdd#model#event#service()
