@@ -25,7 +25,7 @@ function! s:suite.near()
     edit ./test/plugin/_test_data/go/main_test.go
     call search('TestNear')
 
-    let test = tdd#main('go', '-target=near')
+    let test = tdd#main('go/go', '-target=near')
     call test.wait(10000)
 
     call s:assert.status_green()

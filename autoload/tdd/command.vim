@@ -1,24 +1,31 @@
 
+function! s:load_commands() abort
+    let pattern = 'autoload/tdd/command/**/**.vim'
+    let paths = globpath(&runtimepath, pattern, v:true, v:true)
+    call map(paths, { _, p -> fnamemodify(p, ':s?^.*\/autoload\/tdd\/command\/??:r')})
+    let commands = {}
+    for path in paths
+        let f = {'name': printf('tdd#command#%s#new', substitute(path, '\/', '#', 'g'))}
+        function! f.get(params) abort
+            return call(self.name, [a:params])
+        endfunction
+        let commands[path] = copy(f)
+    endfor
+    return commands
+endfunction
+
 function! tdd#command#reset() abort
-    let s:commands = {
-        \ 'themis': { params -> tdd#command#vim#themis#new(params) },
-        \ 'make': { params -> tdd#command#make#new(params) },
-        \ 'npm': { params -> tdd#command#npm#new(params) },
-        \ 'go': { params -> tdd#command#go#go#new(params) },
-        \ 'pytest': { params -> tdd#command#python#pytest#new(params) },
-        \ 'cargo': { params -> tdd#command#rust#cargo#new(params) },
-        \ 'jest': { params -> tdd#command#javascript#jest#new(params) },
-    \ }
+    let s:commands = s:load_commands()
 
     let s:options = {}
 
     let s:filetype_commands = {
-        \ 'vim': ['themis'],
-        \ 'javascript': ['jest'],
-        \ 'typescript': ['jest'],
-        \ 'go': ['go'],
-        \ 'python': ['pytest'],
-        \ 'rust': ['cargo'],
+        \ 'vim': ['vim/themis'],
+        \ 'javascript': ['javascript/jest'],
+        \ 'typescript': ['javascript/jest'],
+        \ 'go': ['go/go'],
+        \ 'python': ['python/pytest'],
+        \ 'rust': ['rust/cargo'],
         \ '_': ['make'],
     \ }
 endfunction
@@ -37,11 +44,11 @@ function! tdd#command#factory(names) abort
 
     for name in names
         if has_key(s:options, name)
-            let alias = s:commands[name]({})
+            let alias = s:commands[name].get({})
             let params = s:options[name]
             let command = tdd#command#alias#new(alias, params)
         elseif has_key(s:commands, name)
-            let command = s:commands[name]({})
+            let command = s:commands[name].get({})
         else
             return [v:null, printf('not found command: %s', name)]
         endif
@@ -74,12 +81,12 @@ function! tdd#command#alias(name, base_name) abort
     endif
 
     let f = {'base_name': a:base_name}
-    function! f.alias(params) abort
-        let alias = s:commands[self.base_name](a:params)
+    function! f.get(params) abort
+        let alias = s:commands[self.base_name].get(a:params)
         return tdd#command#alias#new(alias, a:params)
     endfunction
 
-    let s:commands[a:name] = { params -> f.alias(params) }
+    let s:commands[a:name] = f
 endfunction
 
 function! tdd#command#args(name, args) abort

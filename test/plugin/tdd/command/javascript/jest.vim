@@ -16,7 +16,7 @@ function! s:suite.jest()
     cd ./test/plugin/_test_data/npm/jest
     edit ./main.test.js
 
-    let test = tdd#main('jest')
+    let test = tdd#main('javascript/jest')
     call test.wait(8000)
 
     call s:assert.status_green()
@@ -27,7 +27,7 @@ function! s:suite.file()
     cd ./test/plugin/_test_data/npm/jest
     edit ./main.test.js
 
-    let test = tdd#main('jest', '-target=file')
+    let test = tdd#main('javascript/jest', '-target=file')
     call test.wait(8000)
 
     call s:assert.status_green()

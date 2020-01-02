@@ -45,7 +45,7 @@ endfunction
 function! s:suite.parent_file()
     cd ./test/plugin/_test_data/themis/another/test/empty
 
-    let test = tdd#main('themis')
+    let test = tdd#main('vim/themis')
     call test.wait(500)
 
     call s:assert.status_green()
@@ -56,7 +56,7 @@ function! s:suite.near()
     call search('s:suite.near')
     let file_path = expand('%:p')
 
-    let test = tdd#main('themis', '-target=near')
+    let test = tdd#main('vim/themis', '-target=near')
     call test.wait(500)
 
     call s:assert.status_green()
