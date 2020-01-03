@@ -103,6 +103,8 @@ function! tdd#model#job#new_excmd(execution, event_service) abort
 
     function! job.start(output_type, layout_type) abort
         let cmd = join(self.execution.cmd, ' ')
+        call self.logger.label('cmd').log(cmd)
+
         if a:output_type ==# 'no'
             execute cmd
         else

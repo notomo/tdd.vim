@@ -9,7 +9,13 @@ function! tdd#model#execution#from_command(command, target) abort
     else
         let args = a:command.args()
     endif
-    let cmd = [a:command.executable()] + args
+
+    let executable = a:command.executable()
+    if !empty(executable)
+        let cmd = [a:command.executable()] + args
+    else
+        let cmd = args
+    endif
 
     if a:target ==# 'file' && has_key(a:command, 'cd_for_file')
         let cd = a:command.cd_for_file()
