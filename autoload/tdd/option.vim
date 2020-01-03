@@ -18,7 +18,7 @@ call tdd#option#clear()
 
 let s:OPTIONS = {
     \ 'type': ['test', 'run'],
-    \ 'output': ['terminal'],
+    \ 'output': ['terminal', 'buffer', 'no'],
     \ 'layout': ['tab', 'nosplit' ,'vertical', 'horizontal'],
     \ 'target': ['project', 'file', 'directory', 'near'],
     \ 'last': [],

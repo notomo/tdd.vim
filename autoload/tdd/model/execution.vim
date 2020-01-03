@@ -21,12 +21,13 @@ function! tdd#model#execution#from_command(command, target) abort
         let cd = a:command.cd()
     endif
 
-    return tdd#model#execution#new(cmd, cd)
+    return tdd#model#execution#new(cmd, cd, a:command.job_type())
 endfunction
 
-function! tdd#model#execution#new(cmd, cd) abort
+function! tdd#model#execution#new(cmd, cd, type) abort
     return {
         \ 'cmd': a:cmd,
         \ 'cd': a:cd,
+        \ 'type': a:type,
     \ }
 endfunction

@@ -8,14 +8,10 @@ call tdd#reset()
 
 function! tdd#main(...) abort
     let [names, options] = tdd#option#parse(a:000)
-
-    let output_presenter = tdd#presenter#output(options.output, options.layout)
-    let presenter = tdd#presenter#new(output_presenter)
-
-    return tdd#test(names, presenter, options)
+    return tdd#test(names, options)
 endfunction
 
-function! tdd#test(names, presenter, options) abort
+function! tdd#test(names, options) abort
     call tdd#logger#new('options').log(a:options)
 
     if a:options['last']
@@ -34,10 +30,10 @@ function! tdd#test(names, presenter, options) abort
 
     let event_service = tdd#model#event#service()
 
-    let test = tdd#model#test#new(execution, a:presenter, event_service)
+    let test = tdd#model#test#new(execution, event_service)
     call s:cycle.apply(test, event_service)
 
-    call test.start()
+    call test.start(a:options.output, a:options.layout)
 
     return test
 endfunction

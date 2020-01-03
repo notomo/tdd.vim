@@ -19,7 +19,7 @@ function! tdd#command#reset() abort
     let s:commands = s:load_commands()
     let s:options = {}
     let s:filetype_commands = {
-        \ 'vim': ['vim/themis'],
+        \ 'vim': ['vim/themis', 'vim/source'],
         \ 'javascript': ['javascript/jest'],
         \ 'typescript': ['javascript/jest'],
         \ 'go': ['go/gotest', 'go/go'],

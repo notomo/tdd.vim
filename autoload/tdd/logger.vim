@@ -43,6 +43,11 @@ function! tdd#logger#new(...) abort
         call self.func(self._label . message)
     endfunction
 
+    function! logger.buffer_log(bufnr) abort
+        let lines = getbufline(a:bufnr, 1, '$')
+        call self.logs(lines)
+    endfunction
+
     return logger
 endfunction
 
@@ -57,6 +62,9 @@ function! s:nop_logger(...) abort
     endfunction
 
     function! logger.log(message) abort
+    endfunction
+
+    function! logger.buffer_log(bufnr) abort
     endfunction
 
     return logger

@@ -58,5 +58,11 @@ function! tdd#command#_alias#new(alias, params) abort
         endfunction
     endif
 
+    if has_key(a:alias, 'job_type')
+        function! command.job_type() abort
+            return self.alias.job_type()
+        endfunction
+    endif
+
     return command
 endfunction

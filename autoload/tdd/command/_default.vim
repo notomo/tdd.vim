@@ -18,5 +18,9 @@ function! tdd#command#_default#new(params) abort
         return a:type ==? 'test'
     endfunction
 
+    function! command.job_type() abort
+        return ''
+    endfunction
+
     return command
 endfunction
