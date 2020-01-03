@@ -6,3 +6,7 @@ mod tests {
         assert_eq!(true, true);
     }
 }
+
+fn main() {
+    println!("test");
+}

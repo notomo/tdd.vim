@@ -1,5 +1,5 @@
 
-function! tdd#command#rust#cargo#new(params) abort
+function! tdd#command#rust#cargotest#new(params) abort
     let command = tdd#command#_default#new(a:params)
 
     let cargo_path = tdd#util#search_parent_recursive('Cargo.toml', './')
@@ -13,15 +13,11 @@ function! tdd#command#rust#cargo#new(params) abort
     endfunction
 
     function! command.args() abort
-        return ['run']
+        return ['test']
     endfunction
 
     function! command.cd() abort
         return fnamemodify(self.cargo_path, ':h')
-    endfunction
-
-    function! command.match_type(type) abort
-        return a:type ==? 'run'
     endfunction
 
     return command

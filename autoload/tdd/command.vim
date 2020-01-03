@@ -24,7 +24,7 @@ function! tdd#command#reset() abort
         \ 'typescript': ['javascript/jest'],
         \ 'go': ['go/gotest', 'go/go'],
         \ 'python': ['python/pytest', 'python/python'],
-        \ 'rust': ['rust/cargo'],
+        \ 'rust': ['rust/cargotest', 'rust/cargo'],
         \ '_': ['make'],
     \ }
 endfunction
