@@ -105,17 +105,24 @@ function! tdd#model#job#new_excmd(execution, event_service) abort
         let cmd = join(self.execution.cmd, ' ')
         call self.logger.label('cmd').log(cmd)
 
-        if a:output_type ==# 'no'
-            execute cmd
-        else
-            call tdd#window_layout#new(a:layout_type).execute()
-            setlocal buftype=nofile noswapfile nonumber
-            let output = execute(cmd)
-            call setline(1, split(output, "\n"))
+        let status = s:STATUS.SUCCESSED
+        try
+            if a:output_type ==# 'no'
+                execute cmd
+            else
+                call tdd#window_layout#new(a:layout_type).execute()
+                setlocal buftype=nofile noswapfile nonumber
+                let output = execute(cmd)
+                call setline(1, split(output, "\n"))
+            endif
+        catch
+            call setline(line('$'), split(v:exception, "\n"))
+            let status = s:STATUS.ERROR
+        finally
             call self.logger.buffer_log(bufnr('%'))
-        endif
+        endtry
 
-        let self.status = s:change_status(0)
+        let self.status = status
         call self.event_service.job_finished(self.id, self.status)
     endfunction
 
