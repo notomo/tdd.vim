@@ -3,6 +3,7 @@ let s:default_options = {
     \ 'output': 'terminal',
     \ 'layout': 'tab',
     \ 'target': 'project',
+    \ 'silent': v:false,
     \ 'last': v:false,
 \ }
 
@@ -21,6 +22,7 @@ let s:OPTIONS = {
     \ 'output': ['terminal', 'buffer', 'no'],
     \ 'layout': ['tab', 'nosplit' ,'vertical', 'horizontal'],
     \ 'target': ['project', 'file', 'directory', 'near'],
+    \ 'silent': [],
     \ 'last': [],
 \ }
 

@@ -15,7 +15,11 @@ function! tdd#messenger#set_func(func) abort
     let s:func = { message -> a:func(message) }
 endfunction
 
-function! tdd#messenger#new() abort
+function! tdd#messenger#new(silent) abort
+    if a:silent
+        return s:nop_messenger()
+    endif
+
     let messenger = {
         \ 'func': s:func,
     \ }
@@ -40,6 +44,21 @@ function! tdd#messenger#new() abort
         endif
         call self.func('[tdd] ' . a:status)
         echohl None
+    endfunction
+
+    return messenger
+endfunction
+
+function! s:nop_messenger() abort
+    let messenger = {}
+
+    function! messenger.warn(message) abort
+    endfunction
+
+    function! messenger.error(message) abort
+    endfunction
+
+    function! messenger.status(status) abort
     endfunction
 
     return messenger

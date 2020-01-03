@@ -14,23 +14,25 @@ endfunction
 function! tdd#test(names, options) abort
     call tdd#logger#new('options').log(a:options)
 
+    let messenger = tdd#messenger#new(a:options.silent)
+
     if a:options['last']
         let test = s:cycle.last_test()
         if empty(test)
-            return tdd#messenger#new().error('last test not found')
+            return messenger.error('last test not found')
         endif
         let execution = test.execution
     else
         let [command, err] = tdd#command#factory(a:names, a:options.type)
         if !empty(err)
-            return tdd#messenger#new().error(err)
+            return messenger.error(err)
         endif
         let execution = tdd#model#execution#from_command(command, a:options.target)
     endif
 
     let event_service = tdd#model#event#service()
 
-    let test = tdd#model#test#new(execution, event_service)
+    let test = tdd#model#test#new(execution, messenger, event_service)
     call s:cycle.apply(test, event_service)
 
     call test.start(a:options.output, a:options.layout)

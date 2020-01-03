@@ -1,12 +1,13 @@
 
 let s:id = 0
 
-function! tdd#model#test#new(execution, event_service) abort
+function! tdd#model#test#new(execution, messenger, event_service) abort
     let s:id += 1
     let test = {
        \ 'id': s:id,
-       \ 'event_service': a:event_service,
        \ 'execution': a:execution,
+       \ 'messenger': a:messenger,
+       \ 'event_service': a:event_service,
        \ 'job': tdd#model#job#factory(a:execution, a:event_service),
     \ }
 
@@ -26,7 +27,7 @@ function! tdd#model#test#new(execution, event_service) abort
     endfunction
 
     function! test.on_job_finished(job_id, status) abort
-        call tdd#messenger#new().status(a:status)
+        call self.messenger.status(a:status)
         call self.event_service.test_finished(self.id, a:status)
     endfunction
 

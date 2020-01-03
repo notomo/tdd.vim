@@ -7,11 +7,14 @@ function! s:suite.commands()
 
     cd ./test/plugin/_test_data/make
 
+    let messenger = s:helper.messenger()
+
     let test = tdd#main()
     call test.wait(500)
 
     call s:assert.status_green()
     call s:assert.tab_count(2)
+    call s:assert.true(messenger.called)
 endfunction
 
 function! s:suite.error()
@@ -115,4 +118,17 @@ function! s:suite.last_test()
     call test.wait()
 
     call s:assert.status_green()
+endfunction
+
+function! s:suite.silent()
+    call tdd#command#filetype('_', ['make'])
+    cd ./test/plugin/_test_data/make
+
+    let messenger = s:helper.messenger()
+
+    let test = tdd#main('-silent')
+    call test.wait()
+
+    call s:assert.status_green()
+    call s:assert.false(messenger.called)
 endfunction

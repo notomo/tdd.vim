@@ -18,6 +18,18 @@ function! TDDTestHelper() abort
         return s:assert()
     endfunction
 
+    function! helper.messenger() abort
+        let f = {'msg': '', 'called': v:false}
+        function! f.echo(msg) abort
+            let self.msg = a:msg
+            let self.called = v:true
+            call themis#log('[messenger] ' . a:msg)
+        endfunction
+
+        call tdd#messenger#set_func({ msg -> f.echo(msg) })
+        return f
+    endfunction
+
     return helper
 endfunction
 
