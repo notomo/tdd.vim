@@ -1,9 +1,9 @@
 
-function! tdd#command#vim#source#new(params) abort
+function! tdd#command#lua#lua#new(params) abort
     let command = tdd#command#_default#new(a:params)
 
     function! command.executable() abort
-        return 'source'
+        return 'lua'
     endfunction
 
     function! command.args() abort
@@ -16,10 +16,6 @@ function! tdd#command#vim#source#new(params) abort
 
     function! command.match_type(type) abort
         return a:type ==? 'run'
-    endfunction
-
-    function! command.job_type() abort
-        return 'excmd'
     endfunction
 
     return command

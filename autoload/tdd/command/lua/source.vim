@@ -1,9 +1,9 @@
 
-function! tdd#command#vim#source#new(params) abort
+function! tdd#command#lua#source#new(params) abort
     let command = tdd#command#_default#new(a:params)
 
     function! command.executable() abort
-        return 'source'
+        return 'luafile'
     endfunction
 
     function! command.args() abort
