@@ -1,16 +1,6 @@
-let s:suite = themis#suite('npm')
-let s:assert = TddTestAssert()
-
-function! s:suite.before_each()
-    call TddTestBeforeEach()
-    filetype on
-endfunction
-
-function! s:suite.after_each()
-    call TddTestAfterEach()
-    filetype off
-endfunction
-
+let s:helper = TDDTestHelper()
+let s:suite = s:helper.suite('npm')
+let s:assert = s:helper.assert()
 
 function! s:suite.npm()
     call tdd#command#filetype('_', ['npm'])

@@ -1,16 +1,6 @@
-let s:suite = themis#suite('go.gotest')
-let s:assert = TddTestAssert()
-
-function! s:suite.before_each()
-    call TddTestBeforeEach()
-    filetype on
-endfunction
-
-function! s:suite.after_each()
-    call TddTestAfterEach()
-    filetype off
-endfunction
-
+let s:helper = TDDTestHelper()
+let s:suite = s:helper.suite('go.gotest')
+let s:assert = s:helper.assert()
 
 function! s:suite.go()
     edit ./test/plugin/_test_data/go/main_test.go

@@ -1,15 +1,6 @@
-let s:suite = themis#suite('plugin.tdd')
-let s:assert = TddTestAssert()
-
-function! s:suite.before_each()
-    call TddTestBeforeEach()
-    filetype on
-endfunction
-
-function! s:suite.after_each()
-    call TddTestAfterEach()
-    filetype off
-endfunction
+let s:helper = TDDTestHelper()
+let s:suite = s:helper.suite('plugin.tdd')
+let s:assert = s:helper.assert()
 
 function! s:suite.commands()
     call tdd#command#filetype('_', ['npm', 'make'])

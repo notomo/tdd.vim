@@ -1,9 +1,29 @@
 
 call themis#option('recursive', 1)
 
+function! TDDTestHelper() abort
+    let helper = {
+        \ 'before_each': function('s:before_each'),
+        \ 'after_each': function('s:after_each'),
+    \ }
+
+    function! helper.suite(name) abort
+        let suite = themis#suite(a:name)
+        let suite.before_each = self.before_each
+        let suite.after_each = self.after_each
+        return suite
+    endfunction
+
+    function! helper.assert() abort
+        return s:assert()
+    endfunction
+
+    return helper
+endfunction
+
 let s:root = getcwd()
 
-function! TddTestAssert() abort
+function! s:assert() abort
     let assert = themis#helper('assert')
 
     function! assert.contains(haystack, needle) abort
@@ -56,7 +76,7 @@ function! TddTestAssert() abort
     return assert
 endfunction
 
-function! TddTestBeforeEach() abort
+function! s:before_each() abort
     execute 'cd' s:root
 
     call tdd#reset()
@@ -66,10 +86,13 @@ function! TddTestBeforeEach() abort
     call tdd#logger#set_func({ msg -> themis#log(msg) })
     call tdd#messenger#set_func({ msg -> themis#log('[test messenger] ' . msg) })
     call themis#log('')
+
+    filetype on
 endfunction
 
-function! TddTestAfterEach() abort
+function! s:after_each() abort
     silent! %bwipeout!
     call tdd#option#clear()
     call tdd#logger#clear()
+    filetype off
 endfunction

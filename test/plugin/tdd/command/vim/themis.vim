@@ -1,15 +1,6 @@
-let s:suite = themis#suite('vim.themis')
-let s:assert = TddTestAssert()
-
-function! s:suite.before_each()
-    call TddTestBeforeEach()
-    filetype on
-endfunction
-
-function! s:suite.after_each()
-    call TddTestAfterEach()
-    filetype off
-endfunction
+let s:helper = TDDTestHelper()
+let s:suite = s:helper.suite('vim.themis')
+let s:assert = s:helper.assert()
 
 function! s:suite.green()
     edit ./test/plugin/_test_data/themis/green.vim

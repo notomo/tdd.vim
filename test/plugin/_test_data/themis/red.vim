@@ -1,4 +1,4 @@
-let s:suite = themis#suite('_test_data.red')
+let s:suite = s:helper.suite('_test_data.red')
 let s:assert = themis#helper('assert')
 
 function! s:suite.test()

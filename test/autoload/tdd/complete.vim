@@ -1,14 +1,6 @@
-
-let s:suite = themis#suite('autoload.tdd.complete')
-let s:assert = TddTestAssert()
-
-function! s:suite.before_each()
-    call TddTestBeforeEach()
-endfunction
-
-function! s:suite.after_each()
-    call TddTestAfterEach()
-endfunction
+let s:helper = TDDTestHelper()
+let s:suite = s:helper.suite('autoload.tdd.complete')
+let s:assert = s:helper.assert()
 
 let s:_cursor_position = 8888
 
