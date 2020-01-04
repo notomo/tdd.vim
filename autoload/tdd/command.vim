@@ -21,7 +21,7 @@ function! tdd#command#reset() abort
     let s:filetype_commands = {
         \ 'vim': ['vim/themis', 'vim/source', 'vim/execute'],
         \ 'lua': ['lua/lua', 'lua/source'],
-        \ 'javascript': ['javascript/jest'],
+        \ 'javascript': ['javascript/jest', 'javascript/node'],
         \ 'typescript': ['javascript/jest'],
         \ 'go': ['go/gotest', 'go/go'],
         \ 'python': ['python/pytest', 'python/python'],
