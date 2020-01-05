@@ -1,1 +1,1 @@
-echomsg 'run'
+put='run'
