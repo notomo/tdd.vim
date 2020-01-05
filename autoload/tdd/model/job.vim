@@ -58,6 +58,8 @@ function! tdd#model#job#new(execution, event_service) abort
         else
             let self.internal_job_id = jobstart(self.execution.cmd, options)
         endif
+        setlocal filetype=tdd-result
+        let b:last_job_cmd = self.execution.cmd
 
         if self.internal_job_id <= 0
             call self.logger.label('error').log('internal_job_id=' . self.internal_job_id)
@@ -111,7 +113,8 @@ function! tdd#model#job#new_excmd(execution, event_service) abort
                 execute cmd
             else
                 call tdd#window_layout#new(a:layout_type).execute()
-                setlocal buftype=nofile noswapfile nonumber
+                setlocal buftype=nofile noswapfile nonumber filetype=tdd-result
+                let b:last_job_cmd = self.execution.cmd
                 let output = execute(cmd)
                 call setline(1, split(output, "\n"))
             endif
