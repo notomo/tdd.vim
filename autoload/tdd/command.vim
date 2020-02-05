@@ -2,7 +2,7 @@
 function! s:load_commands() abort
     let pattern = 'autoload/tdd/command/**/**.vim'
     let paths = globpath(&runtimepath, pattern, v:true, v:true)
-    call map(paths, { _, p -> fnamemodify(p, ':s?^.*\/autoload\/tdd\/command\/??:r')})
+    call map(paths, { _, p -> fnamemodify(p, ':gs?\?/?:s?^.*\/autoload\/tdd\/command\/??:r')})
     call filter(paths, { _, p -> !empty(p) && p[0] !=# '_' })
     let commands = {}
     for path in paths
