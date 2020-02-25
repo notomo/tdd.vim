@@ -26,6 +26,7 @@ function! tdd#command#reset() abort
         \ 'go': ['go/gotest', 'go/go'],
         \ 'python': ['python/pytest', 'python/python'],
         \ 'rust': ['rust/cargotest', 'rust/cargo'],
+        \ 'sh': ['sh/sh'],
         \ '_': ['make'],
     \ }
 endfunction
