@@ -1,5 +1,5 @@
 let s:helper = TDDTestHelper()
-let s:suite = s:helper.suite('python.python')
+let s:suite = s:helper.suite('sh.sh')
 let s:assert = s:helper.assert()
 
 function! s:suite.sh()

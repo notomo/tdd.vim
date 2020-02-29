@@ -3,7 +3,8 @@
         "test": "echo ok"
     },
     "devDependencies": {
-        "jest": "^24.9.0"
+        "jest": "^24.9.0",
+        "tree-sitter-cli": "^0.16.4"
     },
     "jest": {
         "testMatch": [
