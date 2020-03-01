@@ -11,7 +11,7 @@ function! tdd#command#tree_sitter#cli#new(params) abort
     endfunction
 
     function! command.args_for_file() abort
-        return ['parse', expand('%:p'), '--time', '--timeout=200000']
+        return ['parse', expand('%:p'), '--time', '--timeout=200000', '--debug']
     endfunction
 
     function! command.cd() abort
