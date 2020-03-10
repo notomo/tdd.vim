@@ -55,6 +55,7 @@ function! tdd#model#job#new(execution, event_service) abort
         if a:output_type ==# 'terminal'
             call tdd#window_layout#new(a:layout_type).execute()
             let self.internal_job_id = termopen(self.execution.cmd, options)
+            call setpos('.', [0, line('$'), 0, 0])
         else
             let self.internal_job_id = jobstart(self.execution.cmd, options)
         endif
@@ -117,6 +118,7 @@ function! tdd#model#job#new_excmd(execution, event_service) abort
                 let b:last_job_cmd = self.execution.cmd
                 let output = execute(cmd)
                 call setline(1, split(output, "\n"))
+                call setpos('.', [0, line('$'), 0, 0])
             endif
         catch
             call setline(line('$'), split(v:exception, "\n"))

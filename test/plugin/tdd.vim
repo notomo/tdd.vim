@@ -15,6 +15,7 @@ function! s:suite.commands()
     call s:assert.status_green()
     call s:assert.tab_count(2)
     call s:assert.true(messenger.called)
+    call s:assert.line_number(line('$'))
 endfunction
 
 function! s:suite.error()
