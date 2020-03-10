@@ -1,6 +1,6 @@
-let s:helper = TDDTestHelper()
+let s:helper = TestHelper()
 let s:suite = s:helper.suite('autoload.tdd.complete')
-let s:assert = s:helper.assert()
+let s:assert = s:helper.assert
 
 let s:_cursor_position = 8888
 

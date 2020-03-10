@@ -1,6 +1,6 @@
-let s:helper = TDDTestHelper()
+let s:helper = TestHelper()
 let s:suite = s:helper.suite('sh.sh')
-let s:assert = s:helper.assert()
+let s:assert = s:helper.assert
 
 function! s:suite.sh()
     edit ./test/plugin/_test_data/sh/run.sh

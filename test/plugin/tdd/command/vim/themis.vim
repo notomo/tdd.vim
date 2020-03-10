@@ -1,6 +1,6 @@
-let s:helper = TDDTestHelper()
+let s:helper = TestHelper()
 let s:suite = s:helper.suite('vim.themis')
-let s:assert = s:helper.assert()
+let s:assert = s:helper.assert
 
 function! s:suite.green()
     edit ./test/plugin/_test_data/themis/green.vim

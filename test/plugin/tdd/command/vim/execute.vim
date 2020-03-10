@@ -1,6 +1,6 @@
-let s:helper = TDDTestHelper()
+let s:helper = TestHelper()
 let s:suite = s:helper.suite('vim.execute')
-let s:assert = s:helper.assert()
+let s:assert = s:helper.assert
 
 function! s:suite.run()
     call tdd#command#alias('messages', 'vim/execute')

@@ -1,10 +1,9 @@
 
 call themis#option('recursive', 1)
 
-function! TDDTestHelper() abort
+function! TestHelper() abort
     let helper = {
-        \ 'before_each': function('s:before_each'),
-        \ 'after_each': function('s:after_each'),
+        \ 'assert': s:assert(),
     \ }
 
     function! helper.suite(name) abort
@@ -14,8 +13,25 @@ function! TDDTestHelper() abort
         return suite
     endfunction
 
-    function! helper.assert() abort
-        return s:assert()
+    function! helper.before_each() abort
+        execute 'cd' s:root
+
+        call tdd#reset()
+        call tdd#option#clear()
+        call tdd#command#reset()
+
+        call tdd#logger#set_func({ msg -> themis#log(msg) })
+        call tdd#messenger#set_func({ msg -> themis#log('[test messenger] ' . msg) })
+        call themis#log('')
+
+        filetype on
+    endfunction
+
+    function! helper.after_each() abort
+        silent! %bwipeout!
+        call tdd#option#clear()
+        call tdd#logger#clear()
+        filetype off
     endfunction
 
     function! helper.messenger() abort
@@ -92,25 +108,4 @@ function! s:assert() abort
     endfunction
 
     return assert
-endfunction
-
-function! s:before_each() abort
-    execute 'cd' s:root
-
-    call tdd#reset()
-    call tdd#option#clear()
-    call tdd#command#reset()
-
-    call tdd#logger#set_func({ msg -> themis#log(msg) })
-    call tdd#messenger#set_func({ msg -> themis#log('[test messenger] ' . msg) })
-    call themis#log('')
-
-    filetype on
-endfunction
-
-function! s:after_each() abort
-    silent! %bwipeout!
-    call tdd#option#clear()
-    call tdd#logger#clear()
-    filetype off
 endfunction

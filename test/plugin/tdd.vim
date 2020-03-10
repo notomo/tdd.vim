@@ -1,6 +1,6 @@
-let s:helper = TDDTestHelper()
+let s:helper = TestHelper()
 let s:suite = s:helper.suite('plugin.tdd')
-let s:assert = s:helper.assert()
+let s:assert = s:helper.assert
 
 function! s:suite.commands()
     call tdd#command#filetype('_', ['npm', 'make'])
