@@ -133,3 +133,11 @@ function! s:suite.silent()
     call s:assert.status_green()
     call s:assert.false(messenger.called)
 endfunction
+
+function! s:suite.replace_args()
+    let test = tdd#main('vim/execute', '-args=put=100', '-type=run')
+    call test.wait()
+
+    call s:assert.status_green()
+    call s:assert.equals(test.execution.cmd, ['put=100'])
+endfunction

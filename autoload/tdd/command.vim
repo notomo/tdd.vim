@@ -33,7 +33,7 @@ endfunction
 
 call tdd#command#reset()
 
-function! tdd#command#factory(names, type) abort
+function! tdd#command#factory(names, type, args) abort
     let filetype = &filetype
     if !empty(a:names)
         let names = a:names
@@ -55,6 +55,9 @@ function! tdd#command#factory(names, type) abort
         endif
 
         if !empty(command) && command.match_type(a:type)
+            if !empty(a:args)
+                let command = tdd#command#_alias#new(command, {'args': a:args})
+            endif
             return [command, '']
         endif
     endfor

@@ -5,6 +5,7 @@ let s:default_options = {
     \ 'target': 'project',
     \ 'silent': v:false,
     \ 'last': v:false,
+    \ 'args': [],
 \ }
 
 function! tdd#option#default() abort
@@ -24,6 +25,7 @@ let s:OPTIONS = {
     \ 'target': ['project', 'file', 'directory', 'near'],
     \ 'silent': [],
     \ 'last': [],
+    \ 'args': [],
 \ }
 
 function! tdd#option#set(name, value) abort
@@ -35,6 +37,9 @@ function! tdd#option#parse(args) abort
     let options = deepcopy(s:options)
     for arg in a:args
         let [key, value] = tdd#option#parse_one(arg)
+        if empty(value)
+            continue
+        endif
         if empty(key)
             call add(names, value)
             continue
@@ -54,11 +59,21 @@ function! tdd#option#parse_one(factor) abort
     let key_value = split(a:factor[1:], '=', v:true)
     if len(key_value) >= 2
         let key = key_value[0]
+        if !has_key(s:default_options, key)
+            return [v:null, v:null]
+        endif
+
         let value = join(key_value[1:], '=')
+        if type(s:default_options[key]) == v:t_list
+            return [key, split(value, '\v\s+')]
+        endif
         return [key, value]
     endif
 
     let [key] = key_value
+    if !has_key(s:default_options, key)
+        return [v:null, v:null]
+    endif
     return [key, v:true]
 endfunction
 

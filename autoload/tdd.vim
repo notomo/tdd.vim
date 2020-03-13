@@ -23,7 +23,7 @@ function! tdd#test(names, options) abort
         endif
         let execution = test.execution
     else
-        let [command, err] = tdd#command#factory(a:names, a:options.type)
+        let [command, err] = tdd#command#factory(a:names, a:options.type, a:options.args)
         if !empty(err)
             return messenger.error(err)
         endif
