@@ -1,5 +1,5 @@
 
-function! tdd#model#execution#from_command(command, target) abort
+function! tdd#model#execution#from_command(command, target, extra_args) abort
     if a:target ==# 'file' && has_key(a:command, 'args_for_file')
         let args = a:command.args_for_file()
     elseif a:target ==# 'project'  && has_key(a:command, 'args_for_project')
@@ -9,6 +9,7 @@ function! tdd#model#execution#from_command(command, target) abort
     else
         let args = a:command.args()
     endif
+    call extend(args, a:extra_args)
 
     let executable = a:command.executable()
     if !empty(executable)

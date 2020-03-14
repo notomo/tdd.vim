@@ -6,6 +6,7 @@ let s:default_options = {
     \ 'silent': v:false,
     \ 'last': v:false,
     \ 'args': [],
+    \ 'extra-args': [],
 \ }
 
 function! tdd#option#default() abort
@@ -26,6 +27,7 @@ let s:OPTIONS = {
     \ 'silent': [],
     \ 'last': [],
     \ 'args': [],
+    \ 'extra-args': [],
 \ }
 
 function! tdd#option#set(name, value) abort

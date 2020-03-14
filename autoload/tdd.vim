@@ -27,7 +27,7 @@ function! tdd#test(names, options) abort
         if !empty(err)
             return messenger.error(err)
         endif
-        let execution = tdd#model#execution#from_command(command, a:options.target)
+        let execution = tdd#model#execution#from_command(command, a:options.target, a:options['extra-args'])
     endif
 
     let event_service = tdd#model#event#service()

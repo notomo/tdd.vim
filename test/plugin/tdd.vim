@@ -141,3 +141,11 @@ function! s:suite.replace_args()
     call s:assert.status_green()
     call s:assert.equals(test.execution.cmd, ['put=100'])
 endfunction
+
+function! s:suite.extra_args()
+    let test = tdd#main('vim/execute', '-extra-args=echo', '-type=run')
+    call test.wait()
+
+    call s:assert.status_green()
+    call s:assert.equals(test.execution.cmd, ['echo'])
+endfunction
