@@ -22,7 +22,7 @@ function! tdd#command#reset() abort
         \ 'vim': ['vim/themis', 'vim/source', 'vim/execute', 'vim/vim', 'vim/nvim'],
         \ 'lua': ['lua/lua', 'lua/source'],
         \ 'javascript': ['javascript/jest', 'javascript/node'],
-        \ 'typescript': ['javascript/jest'],
+        \ 'typescript': ['javascript/jest', 'typescript/tsnode'],
         \ 'typescript.tsx': ['javascript/jest'],
         \ 'typescriptreact': ['javascript/jest'],
         \ 'go': ['go/gotest', 'go/go'],
