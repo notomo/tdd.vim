@@ -20,7 +20,7 @@ function! tdd#command#reset() abort
     let s:options = {}
     let s:filetype_commands = {
         \ 'vim': ['vim/themis', 'vim/source', 'vim/execute', 'vim/vim', 'vim/nvim'],
-        \ 'lua': ['lua/lua', 'lua/source'],
+        \ 'lua': ['lua/vusted', 'lua/busted', 'lua/lua', 'lua/source'],
         \ 'javascript': ['javascript/jest', 'javascript/node'],
         \ 'typescript': ['javascript/jest', 'typescript/tsnode'],
         \ 'typescript.tsx': ['javascript/jest'],
