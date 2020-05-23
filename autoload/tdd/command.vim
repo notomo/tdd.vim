@@ -45,6 +45,7 @@ function! tdd#command#factory(names, type, args) abort
         let names = s:filetype_commands['_']
     endif
 
+    let exactly_one = len(names) == 1
     for name in names
         if has_key(s:options, name)
             let alias = s:commands[name].get({})
@@ -56,7 +57,7 @@ function! tdd#command#factory(names, type, args) abort
             return [v:null, printf('not found command: %s', name)]
         endif
 
-        if !empty(command) && command.match_type(a:type)
+        if !empty(command) && (exactly_one || command.match_type(a:type))
             if !empty(a:args)
                 let command = tdd#command#_alias#new(command, {'args': a:args})
             endif
