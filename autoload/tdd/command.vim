@@ -27,6 +27,7 @@ function! tdd#command#reset() abort
         \ 'typescriptreact': ['javascript/jest'],
         \ 'go': ['go/gotest', 'go/go'],
         \ 'python': ['python/pytest', 'python/python'],
+        \ 'ruby': ['ruby/ruby'],
         \ 'rust': ['rust/cargotest', 'rust/cargo'],
         \ 'sh': ['sh/sh'],
         \ '_': ['make'],
