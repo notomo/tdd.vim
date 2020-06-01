@@ -6,7 +6,7 @@ function! s:suite.run()
     edit ./test/plugin/_test_data/lua/test.lua
 
     let test = tdd#main('lua/vusted', '-target=file')
-    call test.wait(1000)
+    call test.wait(3000)
 
     call s:assert.status_green()
 endfunction

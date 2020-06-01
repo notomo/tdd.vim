@@ -7,7 +7,7 @@ function! s:suite.with_init()
     edit ./test_main.py
 
     let test = tdd#main()
-    call test.wait(2500)
+    call test.wait(3000)
 
     call s:assert.status_green()
 endfunction
@@ -17,7 +17,7 @@ function! s:suite.without_init()
     edit ./test_hoge.py
 
     let test = tdd#main('-target=file')
-    call test.wait(2500)
+    call test.wait(3000)
 
     call s:assert.status_green()
 endfunction
