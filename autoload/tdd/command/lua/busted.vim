@@ -7,7 +7,13 @@ function! tdd#command#lua#busted#new(params) abort
     endfunction
 
     function! command.args_for_file() abort
-        return [expand('%:p')]
+        let pattern = printf('^%s', expand('%:t:r'))
+        return ['--pattern=' .. pattern, expand('%:p:h')]
+    endfunction
+
+    function! command.cd() abort
+        let git_path = tdd#util#search_parent_recursive('.git', './')
+        return fnamemodify(git_path, ':h:h')
     endfunction
 
     return command
