@@ -6,4 +6,8 @@ describe('test', function ()
   it('bc', function ()
     assert.is_nil(nil)
   end)
+
+  it('near it', function ()
+    assert.is_nil(nil)
+  end)
 end)
