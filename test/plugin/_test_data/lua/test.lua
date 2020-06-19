@@ -10,4 +10,8 @@ describe('test', function ()
   it('near it', function ()
     assert.is_nil(nil)
   end)
+
+  it('near it 2', function ()
+    assert.is_nil(nil)
+  end)
 end)

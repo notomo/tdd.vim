@@ -36,9 +36,9 @@ function! s:search_pattern() abort
 
     let it = s:it()
     if empty(it)
-        return describe
+        return '^' .. describe
     endif
-    return describe .. ' ' .. it
+    return '^' .. describe .. ' ' .. it .. '$'
 endfunction
 
 function! s:it() abort
