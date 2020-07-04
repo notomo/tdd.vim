@@ -20,5 +20,5 @@ function! s:suite.near()
     call test.wait(1000)
 
     call s:assert.status_green()
-    call s:assert.equals(test.execution.cmd, ['busted', '--filter=^test near it$', '--pattern=^test', path])
+    call s:assert.equals(test.execution.cmd, ['busted', '--filter=^test%- near it%-$', '--pattern=^test', path])
 endfunction

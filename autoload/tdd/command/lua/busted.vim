@@ -36,9 +36,13 @@ function! s:search_pattern() abort
 
     let it = s:it()
     if empty(it)
-        return '^' .. describe
+        return '^' .. s:escape(describe)
     endif
-    return '^' .. describe .. ' ' .. it .. '$'
+    return '^' .. s:escape(describe) .. ' ' .. s:escape(it) .. '$'
+endfunction
+
+function! s:escape(str) abort
+    return substitute(a:str, '-', '%-', 'g')
 endfunction
 
 function! s:it() abort

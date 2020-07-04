@@ -1,4 +1,4 @@
-describe('test', function ()
+describe('test-', function ()
   it('ab', function ()
     assert.is_nil(nil)
   end)
@@ -7,7 +7,7 @@ describe('test', function ()
     assert.is_nil(nil)
   end)
 
-  it('near it', function ()
+  it('near it-', function ()
     assert.is_nil(nil)
   end)
 
