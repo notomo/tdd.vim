@@ -1,6 +1,6 @@
 
 let s:ex_commands = {
-    \ 'nosplit': 'edit | enew',
+    \ 'nosplit': 'enew',
     \ 'horizontal': 'botright split | enew',
     \ 'vertical': 'vsplit | enew',
     \ 'tab': 'tabedit',
