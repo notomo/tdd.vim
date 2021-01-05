@@ -30,6 +30,7 @@ function! tdd#command#reset() abort
         \ 'ruby': ['ruby/ruby'],
         \ 'rust': ['rust/cargotest', 'rust/cargo'],
         \ 'sh': ['sh/sh'],
+        \ 'dart': ['dart/dart'],
         \ '_': ['make'],
     \ }
 endfunction
