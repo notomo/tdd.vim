@@ -29,48 +29,51 @@ function! tdd#command#lua#busted#new(params) abort
 endfunction
 
 function! s:search_pattern() abort
-    let describe = s:describe()
+    let [describe, describe_lnum] = s:describe()
     if empty(describe)
         return ''
     endif
 
-    let it = s:it()
-    if empty(it)
+    let [it, it_lnum] = s:it()
+    if empty(it) || describe_lnum > it_lnum
         return '^' .. s:escape(describe)
     endif
     return '^' .. s:escape(describe) .. ' ' .. s:escape(it) .. '$'
 endfunction
 
 function! s:escape(str) abort
-    return substitute(a:str, '-', '%-', 'g')
+    let str = substitute(a:str, '-', '%-', 'g')
+    let str = substitute(str, '(', '%(', 'g')
+    let str = substitute(str, ')', '%)', 'g')
+    return str
 endfunction
 
 function! s:it() abort
     let lnum = search('\v^\s*it\(', 'bnW')
     if lnum == 0
-        return ''
+        return ['', -1]
     endif
 
     let line = getline(lnum)
     let matched = matchstr(line, '\vit\("\zs.*\ze"')
     if !empty(matched)
-        return matched
+        return [matched, lnum]
     endif
 
-    return matchstr(line, '\vit\(''\zs.*\ze''')
+    return [matchstr(line, '\vit\(''\zs.*\ze'''), lnum]
 endfunction
 
 function! s:describe() abort
     let lnum = search('\v^\s*describe\(', 'bnW')
     if lnum == 0
-        return ''
+        return ['', -1]
     endif
 
     let line = getline(lnum)
     let matched = matchstr(line, '\vdescribe\("\zs.*\ze"')
     if !empty(matched)
-        return matched
+        return [matched, lnum]
     endif
 
-    return matchstr(line, '\vdescribe\(''\zs.*\ze''')
+    return [matchstr(line, '\vdescribe\(''\zs.*\ze'''), lnum]
 endfunction
