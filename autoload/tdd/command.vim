@@ -29,7 +29,7 @@ function! tdd#command#reset() abort
         \ 'python': ['python/pytest', 'python/python'],
         \ 'ruby': ['ruby/ruby'],
         \ 'rust': ['rust/cargotest', 'rust/cargo'],
-        \ 'sh': ['sh/sh'],
+        \ 'sh': ['shell/bash', 'shell/sh'],
         \ 'dart': ['dart/dart'],
         \ '_': ['make'],
     \ }

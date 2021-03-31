@@ -1,9 +1,9 @@
 
-function! tdd#command#sh#sh#new(params) abort
+function! tdd#command#shell#bash#new(params) abort
     let command = tdd#command#_default#new(a:params)
 
     function! command.executable() abort
-        return 'sh'
+        return 'bash'
     endfunction
 
     function! command.args_for_file() abort
